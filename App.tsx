@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
@@ -14,10 +14,22 @@ import RandomNumberIcon from './assets/icons/RandomNumberIcon'
 import CoinIcon from './assets/icons/CoinIcon'
 import SettingsIcon from './assets/icons/SettingsIcon'
 import { LanguageProvider } from './src/contexts/LanguageContext';
+import NativeMusicPlayer from './specs/NativeMusicPlayer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Tabs = createBottomTabNavigator();
 
 function App(): React.JSX.Element {
+  useEffect(() => {
+    const fetchMuteMusic = async () => {
+      const isMuteMusic = await AsyncStorage.getItem('isMuteMusic');
+      if (isMuteMusic === 'false') {
+        NativeMusicPlayer.startMusic();
+      }
+    }
+    fetchMuteMusic();
+  }, []);
+
   return (
     <LanguageProvider>
       <View style={{ backgroundColor: 'white', width: '100%', height: '100%', flex: 1 }}>
