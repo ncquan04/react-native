@@ -1,14 +1,61 @@
-import { View, TouchableOpacity, Image } from 'react-native'
+import { View, TouchableOpacity, Image, Text } from 'react-native'
 import React, { useState } from 'react'
 import StartIcon from '../../assets/icons/StartIcon'
 import HistoryIcon from '../../assets/icons/HistoryIcon'
 import CustomIcon from '../../assets/icons/CustomIcon'
 import RestartIcon from '../../assets/icons/RestartIcon'
 import CoinCustomModal from '../modals/CoinCustomModal'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import CoinHistoryModal from '../modals/CoinHistoryModal'
 
 const FlippingCoinScreen = () => {
   const [coinIndex, setCoinIndex] = useState<number>(1);
   const [coinCustomModalVisible, setCoinCustomModalVisible] = useState<boolean>(false);
+  const [coinHistoryModalVisible, setCoinHistoryModalVisible] = useState<boolean>(false);
+  const [coinSide, setCoinSide] = useState<number>(1);
+  const [tempCoinSide, setTempCoinSide] = useState<number>(coinSide);
+  const [history, setHistory] = useState<{ coinSide: number; date: string; time: string }[]>([]);
+  const [headCounter, setHeadCounter] = useState<number>(0);
+  const [tailCounter, setTailCounter] = useState<number>(0);
+  const [isRandoming, setIsRandoming] = useState<boolean>(false);
+
+  const RandomCoinSide = () => {
+    setIsRandoming(true);
+    let randomInterval = setInterval(() => {
+      setTempCoinSide(Math.floor(Math.random() * 2) + 1);
+    }, 50);
+    setTimeout(() => {
+      clearInterval(randomInterval);
+      setCoinSide(tempCoinSide);
+      setIsRandoming(false);
+      SaveData(tempCoinSide);
+    }, 5 * 1000);
+  }
+
+  const SaveData = async (side: number) => {
+    try {
+      const currentDate = new Date();
+      const dataToSave = {
+        coinSide: side === 1 ? 'Heads' : 'Tails',
+        date: currentDate.toLocaleDateString(),
+        time: currentDate.toLocaleTimeString(),
+      };
+
+      const data = await AsyncStorage.getItem('coinSide');
+      const existingData = data ? JSON.parse(data) : [];
+      existingData.unshift(dataToSave);
+      existingData.splice(15);
+      await AsyncStorage.setItem('coinSide', JSON.stringify(existingData));
+      setHistory(existingData);
+      if (side === 1) {
+        setHeadCounter(headCounter + 1);
+      } else {
+        setTailCounter(tailCounter + 1);
+      }
+    } catch (error) {
+      console.error('Lỗi khi lưu dữ liệu:', error);
+    }
+  }
 
   const heads: { [key: number]: any } = {
     1: require('../../assets/coins/heads_1.png'),
@@ -29,13 +76,27 @@ const FlippingCoinScreen = () => {
   return (
     <View style={{ width: '100%', height: '100%', backgroundColor: 'white', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '20%' }}>
       <View style={{width: '70%', height: '10%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginLeft: 'auto', marginRight: 20}}>
-        <View>
-          <Image/>
+        <View style={{ flexDirection: 'row' }}>
+          <Image
+            source={heads[coinIndex]}
+            style={{ width: 30, height: 30 }}
+          />
+          <Text style={{ fontSize: 20, fontWeight: '500', marginLeft: 10 }}>{headCounter}</Text>
         </View>
-        <View>
-          <Image/>
+        <View style={{ flexDirection: 'row' }}>
+          <Image
+            source={tails[coinIndex]}
+            style={{ width: 30, height: 30 }}
+          />
+          <Text style={{ fontSize: 20, fontWeight: '500', marginLeft: 10 }}>{tailCounter}</Text>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setHeadCounter(0);
+            setTailCounter(0);
+            setHistory([]);
+          }}
+        >
           <RestartIcon width={30} height={30} />
         </TouchableOpacity>
       </View>
@@ -43,15 +104,15 @@ const FlippingCoinScreen = () => {
       <View style={{ width: '70%', height: '70%'}}>
         <Image
           style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-          source={heads[coinIndex]}
+          source={ isRandoming ? (tempCoinSide === 1 ? heads[coinIndex] : tails[coinIndex]) : (coinSide === 1 ? heads[coinIndex] : tails[coinIndex]) }
         />
       </View>
       
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '70%', backgroundColor: '#305b69', paddingVertical: 2, borderRadius: 100 }}>
-      <TouchableOpacity style={{ width: '30%', justifyContent: 'center', alignItems: 'center' }} onPress={() => {}}>
+      <TouchableOpacity style={{ width: '30%', justifyContent: 'center', alignItems: 'center' }} onPress={() => setCoinHistoryModalVisible(true)}>
         <HistoryIcon width={40} height={40} fill={'white'} />
       </TouchableOpacity>
-      <TouchableOpacity style={{ width: '40%', justifyContent: 'center', alignItems: 'center' }} onPress={() => {}}>
+      <TouchableOpacity style={{ width: '40%', justifyContent: 'center', alignItems: 'center' }} onPress={RandomCoinSide}>
         <StartIcon width={80} height={80} />
       </TouchableOpacity>
       <TouchableOpacity style={{ width: '30%', justifyContent: 'center', alignItems: 'center' }} onPress={() => setCoinCustomModalVisible(true)}>
@@ -66,6 +127,12 @@ const FlippingCoinScreen = () => {
         setCoinCustomModalVisible={setCoinCustomModalVisible}
         heads={heads}
         tails={tails}
+      />
+
+      <CoinHistoryModal
+        coinHistoryModalVisible={coinHistoryModalVisible}
+        setCoinHistoryModalVisible={setCoinHistoryModalVisible}
+        history={history}
       />
     </View>
   )
