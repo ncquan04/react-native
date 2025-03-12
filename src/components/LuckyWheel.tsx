@@ -12,15 +12,32 @@ interface LuckyWheelProps {
     segments: Segment[];
     radius: number;
     crustOffset?: number;
+    borderWidth?: number;
 }
 
-const LuckyWheel: React.FC<LuckyWheelProps> = ({ segments, radius, crustOffset }) => {
+const LuckyWheel: React.FC<LuckyWheelProps> = ({ segments, radius, crustOffset, borderWidth = 2 }) => {
     const margin = 10;
     const anglePerSegment = 360 / segments.length;
     const outerRadius = radius / Math.cos((anglePerSegment / 2) * (Math.PI / 180));
-    
+
+    const borderSize = 2 * (outerRadius + margin + borderWidth);
+    const totalRadius = outerRadius + borderWidth;
+    const viewBoxSize = 2 * totalRadius;
+
     return (
-        <Svg width={radius * 2 + 20} height={radius * 2 + 20} viewBox={`-${outerRadius + margin} -${outerRadius + margin} ${2 * (outerRadius + margin)} ${2 * (outerRadius + margin)}`}>
+        <Svg 
+            width={radius * 2 + 20} 
+            height={radius * 2 + 20} 
+            viewBox={`-${totalRadius} -${totalRadius} ${viewBoxSize} ${viewBoxSize}`}
+        >
+            <Image
+                    x={-outerRadius - borderWidth/2}
+                    y={-outerRadius - borderWidth/2}
+                    width={outerRadius * 2 + borderWidth}
+                    height={outerRadius * 2 + borderWidth}
+                    href={require('../../assets/images/wheelBg.png')}
+                    preserveAspectRatio="xMidYMid slice"
+            />
             {segments.map((segment, index) => {
                 const startAngle = index * anglePerSegment;
                 const endAngle = index * anglePerSegment + anglePerSegment;

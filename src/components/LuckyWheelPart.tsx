@@ -42,20 +42,22 @@ const LuckyWheelPart: React.FC<LuckyWheelPartProps> = ({
     const control = polarToCartesian(0, 0, radius + finalCrustOffset, midAngle);
 
     const pathData = `M ${tip.x},${tip.y} L ${point1.x},${point1.y} Q ${control.x},${control.y} ${point2.x},${point2.y} L ${tip.x},${tip.y} Z`;
-    const textPosition = polarToCartesian(0, 0, radius / 2, midAngle);
+    const textDistance = radius * 0.9;
+    const textPosition = polarToCartesian(0, 0, textDistance, midAngle);
 
     return (
         <>
-            <Path d={pathData} fill={color} stroke="brown" strokeWidth="2" />
+            <Path d={pathData} fill={color} />
             {content && (
                 <Text
                     x={textPosition.x}
                     y={textPosition.y}
-                    textAnchor="middle"
-                    alignmentBaseline="baseline"
-                    fill="black"
+                    textAnchor="start"
+                    alignmentBaseline="middle"
+                    fill="white"
                     fontSize="16"
-                    transform={`rotate(${midAngle - 90}, ${textPosition.x}, ${textPosition.y})`}
+                    fontWeight={600}
+                    transform={`rotate(${midAngle + 90}, ${textPosition.x}, ${textPosition.y})`}
                 >
                     {content}
                 </Text>
