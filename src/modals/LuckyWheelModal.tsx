@@ -12,10 +12,21 @@ interface LuckyWheelModalProps {
 }
 
 const LuckyWheelModal = ({ LuckyWheelModalVisible, setLuckyWheelModalVisible, luckyWheel }: LuckyWheelModalProps) => {
+    const segmentsCount = luckyWheel.segments.length;
+    const degreePerSegment = 360 / segmentsCount;
+
     const [wheelCustomModalVisible, setWheelCustomModalVisible] = useState<boolean>(false);
     const [duration, setDuration] = useState<number>(3000);
     const [speed, setSpeed] = useState<number>(3);
     const [fontSize, setFontSize] = useState<number>(16);
+    const [randomResult, setRandomResult] = useState<number>(0);
+    const [initDegree, setInitDegree] = useState<number>((randomResult * degreePerSegment - degreePerSegment / 2) / 360);
+    const [isSpinning, setIsSpinning] = useState<boolean>(false);
+    const [removeSelected, setRemoveSelected] = useState<boolean>(false);
+
+    const random = () => {
+        setRandomResult(Math.floor(Math.random() * segmentsCount));
+    }
 
     const spinValue = useRef(new Animated.Value(0)).current;
 
@@ -25,27 +36,30 @@ const LuckyWheelModal = ({ LuckyWheelModalVisible, setLuckyWheelModalVisible, lu
     })
 
     const spinWheel = () => {
-        spinValue.setValue(0);
+        spinValue.setValue(initDegree);
 
         Animated.timing(spinValue, {
-            toValue: 3,
-            duration: 3000,
+            toValue: (randomResult * degreePerSegment - degreePerSegment / 2) / 360 + Math.floor(speed * duration / 3000),
+            duration: duration,
             easing: Easing.inOut(Easing.quad),
             useNativeDriver: true
         }).start();
+
+        setInitDegree((randomResult * degreePerSegment - degreePerSegment / 2) / 360);
     }
 
     return (
         <>
             <Modal
-            animationType="none"
-            transparent={true}
+            animationType="fade"
+            transparent={false}
             visible={LuckyWheelModalVisible}
+            statusBarTranslucent={true}
             onRequestClose={() => {
                 setLuckyWheelModalVisible(!LuckyWheelModalVisible);
             }}
             >
-                <View style={{width: '100%', height: '100%', flexDirection: 'column', backgroundColor: 'white', alignItems: 'center'}}>
+                <View style={{width: '100%', height: '100%', flexDirection: 'column', backgroundColor: 'white', alignItems: 'center', marginTop: 20}}>
                     <View 
                         style={{width: '100%', height: '10%', paddingHorizontal: 20, flexDirection: 'row', 
                         justifyContent: 'space-between', alignItems: 'center'}}
@@ -71,17 +85,27 @@ const LuckyWheelModal = ({ LuckyWheelModalVisible, setLuckyWheelModalVisible, lu
                             <LuckyWheel
                                 segments={luckyWheel.segments}
                                 radius={170}
+                                fontSize={fontSize}
                             />
                         </Animated.View>
                         <TouchableOpacity
-                            style={{width: 50, height: 50, opacity: 0.1, backgroundColor: 'blue', position: 'absolute', top: '43%'}}
-                            onPress={spinWheel}
+                            style={{width: 63, height: 63, opacity: 0.1, borderRadius: 100, backgroundColor: 'black', position: 'absolute', top: '41%'}}
+                            onPress={() => {
+                                if (isSpinning) return;
+                                setIsSpinning(true);
+                                random();
+                                spinWheel();
+                                setTimeout(() => {
+                                    setIsSpinning(false);
+                                }, duration);
+                            }}
+                            disabled={isSpinning}
                         />
                     </View>
                 </View>
             </Modal>
 
-            <WheelCustomModal
+            {wheelCustomModalVisible && <WheelCustomModal
                 wheelCustomModalVisible={wheelCustomModalVisible}
                 setWheelCustomModalVisible={setWheelCustomModalVisible}
                 duration={duration}
@@ -90,7 +114,9 @@ const LuckyWheelModal = ({ LuckyWheelModalVisible, setLuckyWheelModalVisible, lu
                 setSpeed={setSpeed}
                 fontSize={fontSize}
                 setFontSize={setFontSize}
-            />
+                removeSelected={removeSelected}
+                setRemoveSelected={setRemoveSelected}
+            />}
         </>
     )
 }

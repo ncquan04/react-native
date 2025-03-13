@@ -8,6 +8,7 @@ interface LuckyWheelPartProps {
     content: string;
     color: string;
     crustOffset?: number;
+    fontSize?: number;
 }
 
 const polarToCartesian = (
@@ -23,13 +24,7 @@ const polarToCartesian = (
     };
 };
 
-const LuckyWheelPart: React.FC<LuckyWheelPartProps> = ({
-    content,
-    radius,
-    startAngle,
-    endAngle,
-    color,
-    crustOffset,
+const LuckyWheelPart: React.FC<LuckyWheelPartProps> = ({ content, radius, startAngle, endAngle, color, crustOffset, fontSize,
 }) => {
     const delta = endAngle - startAngle;
     const computedCrustOffset = radius * (1 / Math.cos((delta / 2) * (Math.PI / 180)) - 1);
@@ -55,7 +50,7 @@ const LuckyWheelPart: React.FC<LuckyWheelPartProps> = ({
                     textAnchor="start"
                     alignmentBaseline="middle"
                     fill="white"
-                    fontSize="16"
+                    fontSize={fontSize || 16}
                     fontWeight={600}
                     transform={`rotate(${midAngle + 90}, ${textPosition.x}, ${textPosition.y})`}
                 >

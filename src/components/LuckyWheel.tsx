@@ -13,14 +13,12 @@ interface LuckyWheelProps {
     radius: number;
     crustOffset?: number;
     borderWidth?: number;
+    fontSize?: number;
 }
 
-const LuckyWheel: React.FC<LuckyWheelProps> = ({ segments, radius, crustOffset, borderWidth = 2 }) => {
-    const margin = 10;
+const LuckyWheel: React.FC<LuckyWheelProps> = ({ segments, radius, crustOffset, borderWidth = 5, fontSize }) => {
     const anglePerSegment = 360 / segments.length;
-    const outerRadius = radius / Math.cos((anglePerSegment / 2) * (Math.PI / 180));
-
-    const borderSize = 2 * (outerRadius + margin + borderWidth);
+    const outerRadius = radius;
     const totalRadius = outerRadius + borderWidth;
     const viewBoxSize = 2 * totalRadius;
 
@@ -50,6 +48,7 @@ const LuckyWheel: React.FC<LuckyWheelProps> = ({ segments, radius, crustOffset, 
                         startAngle={startAngle}
                         endAngle={endAngle}
                         crustOffset={crustOffset}
+                        fontSize={fontSize}
                     />
                 )
             })}
