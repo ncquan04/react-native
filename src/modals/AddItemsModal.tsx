@@ -7,21 +7,25 @@ import ColorPickerModal from './ColorPickerModal';
 import TrashIcon from '../../assets/icons/TrashIcon';
 import WheelDemoModal from './WheelDemoModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import AddByListModal from './AddByListModal';
 
 interface AddItemsModalProps {
     addItemsModalVisible: boolean;
     setAddItemsModalVisible: (value: boolean) => void;
     setAddWheelModalVisible: (value: boolean) => void;
+    setWheels: any;
     wheelName: string;
+    sampleStyle: any;
     t: any;
 }
 
-const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWheelModalVisible, wheelName, t} : AddItemsModalProps) => {
+const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWheelModalVisible, setWheels, wheelName, sampleStyle, t} : AddItemsModalProps) => {
     const [selectedColor, setSelectedColor] = useState<string>('#ffffff');
     const [colorPickerModalVisible, setColorPickerModalVisible] = useState<boolean>(false);
-    const [items, setItems] = useState<any[]>([]);
+    const [items, setItems] = useState<any[]>(sampleStyle.segments);
     const [itemName, setItemName] = useState<string>('');
     const [wheelDemoModalVisible, setWheelDemoModalVisible] = useState<boolean>(false);
+    const [addByListModalVisible, setAddByListModalVisible] = useState<boolean>(false);
 
     const handleAddItem = () => {
         setItems([...items, {content: itemName, color: selectedColor}])
@@ -39,6 +43,7 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
         let newWheels = wheels ? JSON.parse(wheels) : []
         newWheels.push({name: wheelName, segments: items})
         await AsyncStorage.setItem('wheels', JSON.stringify(newWheels))
+        setWheels(newWheels)
         setAddItemsModalVisible(false)
         setAddWheelModalVisible(false)
     }
@@ -69,6 +74,7 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
                             <Text style={{fontSize: 25, fontWeight: 500}}>{t['Add Item']}</Text>
                             <TouchableOpacity
                                 style={{backgroundColor: '#f2ae41', padding: 10, borderRadius: 15}}
+                                onPress={() => setAddByListModalVisible(true)}
                             >
                                 <Text style={{fontSize: 17, fontWeight: 500, color: 'white'}}>Add by list</Text>
                             </TouchableOpacity>
@@ -106,7 +112,7 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
 
                         <ScrollView
                             contentContainerStyle={{width: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', padding: 10, gap: 8}}
-                            style={{width: '100%', marginTop: 10}}
+                            style={{width: '100%', marginTop: 10, minHeight: 100}}
                         >
                             {items.map((item, index) => {
                                 return (
@@ -159,6 +165,14 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
                 wheelDemoModalVisible={wheelDemoModalVisible}
                 setWheelDemoModalVisible={setWheelDemoModalVisible}
                 items={items}
+                t={t}
+            />
+
+            <AddByListModal
+                addByListModalVisible={addByListModalVisible}
+                setAddByListModalVisible={setAddByListModalVisible}
+                items={items}
+                setItems={setItems}
                 t={t}
             />
         </>

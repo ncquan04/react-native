@@ -9,6 +9,7 @@ import Alert from '../components/Alert';
 interface AddWheelModalProps {
     addWheelModalVisible: boolean;
     setAddWheelModalVisible: (value: boolean) => void;
+    setWheels: any;
     t: any;
 }
 
@@ -84,7 +85,7 @@ const SampleStyles = [
     }
 ]
 
-const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, t }: AddWheelModalProps) => {
+const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, setWheels, t }: AddWheelModalProps) => {
     const [selectedStyle, setSelectedStyle] = useState<number>(0);
     const [wheelName, setWheelName] = useState<string>('');
     const [addItemsModalVisible, setAddItemsModalVisible] = useState<boolean>(false);
@@ -102,13 +103,13 @@ const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, t }: Add
     return (
         <>
             <Modal
-                animationType='slide'
-                transparent={false}
-                visible={addWheelModalVisible}
-                onRequestClose={() => setAddWheelModalVisible(false)}
-                statusBarTranslucent={true}
+            animationType='slide'
+            transparent={false}
+            visible={addWheelModalVisible}
+            onRequestClose={() => setAddWheelModalVisible(false)}
+            statusBarTranslucent={true}
             >
-                <View style={{ flex: 1, flexDirection: 'column', paddingTop: 40, backgroundColor: 'white', position: 'relative' }}>
+            <View style={{ flex: 1, flexDirection: 'column', paddingTop: 40, backgroundColor: 'white', position: 'relative' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
                         <TouchableOpacity onPress={() => setAddWheelModalVisible(false)}>
                             <BackIcon width={40} height={40} />
@@ -162,13 +163,15 @@ const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, t }: Add
                 </View>
             </Modal>
 
-            <AddItemsModal
+            {addItemsModalVisible && <AddItemsModal
                 addItemsModalVisible={addItemsModalVisible}
                 setAddItemsModalVisible={setAddItemsModalVisible}
                 setAddWheelModalVisible={setAddWheelModalVisible}
+                setWheels={setWheels}
                 wheelName={wheelName}
+                sampleStyle={SampleStyles[selectedStyle]}
                 t={t}
-            />
+            />}
 
             {!wheelName && attemptedSubmit ? <Alert alertVisible={attemptedSubmit} setAlertVisible={() => {}} setAttemptedSubmit={setAttemptedSubmit} message={"Please fill wheel's name!"} /> : null}
         </>

@@ -20,9 +20,10 @@ const WheelDemoModal = ({wheelDemoModalVisible, setWheelDemoModalVisible, items,
                 setWheelDemoModalVisible(!wheelDemoModalVisible)
             }}
         >
-            <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)', paddingVertical: 20}}>
+            <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', paddingVertical: 20}}>
                 <TouchableWithoutFeedback
                     onPress={() => setWheelDemoModalVisible(false)}
+                    style={{flex: 0.5}}
                 >
                     <View style={{flex: 0.5}}/>
                 </TouchableWithoutFeedback>
