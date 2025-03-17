@@ -13,6 +13,9 @@ import com.facebook.react.soloader.OpenSourceMergedSoMapping
 import com.facebook.soloader.SoLoader
 import com.nativelocalstorage.NativeLocalStoragePackage
 import com.nativelocalstorage.NativeMusicPlayerPackage
+import com.nativelocalstorage.NativeSplashScreenPackage
+
+//import org.devio.rn.splashscreen.SplashScreenReactPackage
 
 class MainApplication : Application(), ReactApplication {
 
@@ -24,6 +27,8 @@ class MainApplication : Application(), ReactApplication {
               // add(MyReactNativePackage())
               add(NativeLocalStoragePackage())
               add(NativeMusicPlayerPackage())
+              add(NativeSplashScreenPackage())
+            //              add(SplashScreenReactPackage())
             }
 
         override fun getJSMainModuleName(): String = "index"

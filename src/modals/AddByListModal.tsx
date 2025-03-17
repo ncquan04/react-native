@@ -1,5 +1,5 @@
 import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, TextInput } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import XIcon from '../../assets/icons/XIcon';
 
 interface AddByListModalProps {
@@ -11,6 +11,23 @@ interface AddByListModalProps {
 }
 
 const AddByListModal = ({addByListModalVisible, setAddByListModalVisible, items, setItems, t}: AddByListModalProps) => {
+    const [itemList, setItemList] = useState('');
+
+    const handleAddByList = () => {
+        const itemsArray = itemList.split('\n');
+        const newItems = itemsArray.map((item, index) => {
+            return {
+                id: items.length + index,
+                content: item,
+                color: '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0'),
+                checked: false
+            }
+        });
+        setItems([...items, ...newItems]);
+        setItemList('');
+        setAddByListModalVisible(false);
+    }
+
     return (
         <Modal
             animationType='fade'
@@ -42,6 +59,11 @@ const AddByListModal = ({addByListModalVisible, setAddByListModalVisible, items,
                         <TextInput
                             multiline={true}
                             numberOfLines={16}
+                            style={{color: 'white', fontSize: 15, width: '100%'}}
+                            value={itemList}
+                            onChangeText={(text) => setItemList(text)}
+                            placeholder='Enter your list here...'
+                            placeholderTextColor='white'
                         />
                     </View>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, width: '100%', paddingVertical: 20}}>
@@ -53,6 +75,7 @@ const AddByListModal = ({addByListModalVisible, setAddByListModalVisible, items,
                         </TouchableOpacity>
                         <TouchableOpacity 
                             style={{width: '45%', paddingHorizontal: 10, paddingVertical: 20, backgroundColor: '#f2ae41', borderRadius: 30}}
+                            onPress={handleAddByList}
                         >
                             <Text style={{fontSize: 20, fontWeight: 500, color: 'white', textAlign: 'center'}}>Apply</Text>
                         </TouchableOpacity>

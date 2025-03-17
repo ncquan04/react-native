@@ -23,6 +23,7 @@
     "@react-navigation/bottom-tabs": "^7.2.1",
     "@react-navigation/native": "^7.0.15",
     "ansi-styles": "^6.2.1",
+    "lottie-react-native": "^7.2.2",
     "react": "19.0.0",
     "react-native": "0.78.0",
     "react-native-circular-progress": "^1.4.1",

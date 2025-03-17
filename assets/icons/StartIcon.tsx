@@ -1,7 +1,10 @@
 import * as React from "react"
 import Svg, { Circle, SvgProps, Text } from "react-native-svg"
+import { LanguageContext } from "../../src/contexts/LanguageContext"
 
 function StartIcon(props: SvgProps) {
+    const {t} = React.useContext(LanguageContext);
+
     return (
         <Svg
             width={100}
@@ -27,7 +30,7 @@ function StartIcon(props: SvgProps) {
                 textAnchor="middle"
                 fontWeight="bold"
             >
-                {"Start"}
+                {t["Start"]}
             </Text>
         </Svg>
     )

@@ -11,12 +11,7 @@ interface LuckyWheelPartProps {
     fontSize?: number;
 }
 
-const polarToCartesian = (
-    centerX: number,
-    centerY: number,
-    radius: number,
-    angleInDegrees: number
-) => {
+const polarToCartesian = (centerX: number, centerY: number, radius: number, angleInDegrees: number) => {
     const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180;
     return {
         x: centerX + radius * Math.cos(angleInRadians),
@@ -24,20 +19,25 @@ const polarToCartesian = (
     };
 };
 
-const LuckyWheelPart: React.FC<LuckyWheelPartProps> = ({ content, radius, startAngle, endAngle, color, crustOffset, fontSize,
-}) => {
-    const delta = endAngle - startAngle;
-    const computedCrustOffset = radius * (1 / Math.cos((delta / 2) * (Math.PI / 180)) - 1);
-    const finalCrustOffset = crustOffset || computedCrustOffset;
+const LuckyWheelPart: React.FC<LuckyWheelPartProps> = ({ content, radius, startAngle, endAngle, color, crustOffset, fontSize }) => {
+    const deltaAngle = endAngle - startAngle;
+    
+    // Giữ hình tròn bằng cách điều chỉnh đường cong (Arc)
+    const largeArcFlag = deltaAngle > 180 ? 1 : 0;
 
-    const tip = { x: 0, y: 0 };
     const point1 = polarToCartesian(0, 0, radius, startAngle);
     const point2 = polarToCartesian(0, 0, radius, endAngle);
-    const midAngle = (startAngle + endAngle) / 2;
-    const control = polarToCartesian(0, 0, radius + finalCrustOffset, midAngle);
+    const pathData = [
+        `M 0,0`, // Di chuyển đến tâm
+        `L ${point1.x},${point1.y}`, // Đến điểm đầu tiên
+        `A ${radius},${radius} 0 ${largeArcFlag} 1 ${point2.x},${point2.y}`, // Vẽ cung tròn
+        `L 0,0`, // Quay lại tâm
+        `Z`
+    ].join(" ");
 
-    const pathData = `M ${tip.x},${tip.y} L ${point1.x},${point1.y} Q ${control.x},${control.y} ${point2.x},${point2.y} L ${tip.x},${tip.y} Z`;
-    const textDistance = radius * 0.9;
+    // Vị trí văn bản trên vòng tròn
+    const midAngle = (startAngle + endAngle) / 2;
+    const textDistance = radius * 0.7;
     const textPosition = polarToCartesian(0, 0, textDistance, midAngle);
 
     return (
@@ -47,11 +47,11 @@ const LuckyWheelPart: React.FC<LuckyWheelPartProps> = ({ content, radius, startA
                 <Text
                     x={textPosition.x}
                     y={textPosition.y}
-                    textAnchor="start"
+                    textAnchor="middle"
                     alignmentBaseline="middle"
                     fill="white"
                     fontSize={fontSize || 16}
-                    fontWeight={600}
+                    fontWeight="bold"
                     transform={`rotate(${midAngle + 90}, ${textPosition.x}, ${textPosition.y})`}
                 >
                     {content}

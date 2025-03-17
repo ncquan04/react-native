@@ -115,27 +115,27 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                 </View>
             </View>
 
-            <WheelDurationModal
+            {wheelDurationModalVisible && <WheelDurationModal
                 wheelDurationModalVisible={wheelDurationModalVisible}
                 setWheelDurationModalVisible={setWheelDurationModalVisible}
                 duration={duration}
                 setDuration={setDuration}
                 t={t}
-            />
-            <WheelSpeedModal
+            />}
+            {wheelSpeedModalVisible && <WheelSpeedModal
                 wheelSpeedModalVisible={wheelSpeedModalVisible}
                 setWheelSpeedModalVisible={setWheelSpeedModalVisible}
                 speed={speed}
                 setSpeed={setSpeed}
                 t={t}
-            />
-            <WheelFontSizeModal
+            />}
+            {wheelFontSizeModalVisible && <WheelFontSizeModal
                 wheelFontSizeModalVisible={wheelFontSizeModalVisible}
                 setWheelFontSizeModalVisible={setWheelFontSizeModalVisible}
                 fontSize={fontSize}
                 setFontSize={setFontSize}
                 t={t}
-            />
+            />}
         </Modal>
     )
 }

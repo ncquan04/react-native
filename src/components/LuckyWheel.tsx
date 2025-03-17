@@ -5,40 +5,43 @@ import LuckyWheelPart from "./LuckyWheelPart";
 interface Segment {
     content: string;
     color: string;
-    crustOffset?: number;
 }
 
 interface LuckyWheelProps {
     segments: Segment[];
     radius: number;
-    crustOffset?: number;
     borderWidth?: number;
     fontSize?: number;
 }
 
-const LuckyWheel: React.FC<LuckyWheelProps> = ({ segments, radius, crustOffset, borderWidth = 5, fontSize }) => {
-    const anglePerSegment = 360 / segments.length;
-    const outerRadius = radius;
-    const totalRadius = outerRadius + borderWidth;
-    const viewBoxSize = 2 * totalRadius;
+const LuckyWheel: React.FC<LuckyWheelProps> = ({ segments, radius, borderWidth = 5, fontSize }) => {
+    const numSegments = segments.length;
+    const anglePerSegment = 360 / numSegments; // Chia đều 360 độ
+
+    const outerRadius = radius + borderWidth; // Bán kính ngoài cùng (bao gồm viền)
+    const viewBoxSize = outerRadius * 2; // ViewBox phải bao toàn bộ vòng quay
 
     return (
-        <Svg 
-            width={radius * 2 + 20} 
-            height={radius * 2 + 20} 
-            viewBox={`-${totalRadius} -${totalRadius} ${viewBoxSize} ${viewBoxSize}`}
+        <Svg
+            width={viewBoxSize}
+            height={viewBoxSize}
+            viewBox={`-${outerRadius} -${outerRadius} ${viewBoxSize} ${viewBoxSize}`} // Đảm bảo hình tròn luôn nằm giữa
         >
+            {/* Hình nền vòng quay */}
             <Image
-                    x={-outerRadius - borderWidth/2}
-                    y={-outerRadius - borderWidth/2}
-                    width={outerRadius * 2 + borderWidth}
-                    height={outerRadius * 2 + borderWidth}
-                    href={require('../../assets/images/wheelBg.png')}
-                    preserveAspectRatio="xMidYMid slice"
+                x={-outerRadius}
+                y={-outerRadius}
+                width={viewBoxSize}
+                height={viewBoxSize}
+                href={require('../../assets/images/wheelBg.png')}
+                preserveAspectRatio="xMidYMid slice"
             />
+            
+            {/* Các phần của vòng quay */}
             {segments.map((segment, index) => {
                 const startAngle = index * anglePerSegment;
-                const endAngle = index * anglePerSegment + anglePerSegment;
+                const endAngle = startAngle + anglePerSegment;
+
                 return (
                     <LuckyWheelPart
                         key={index}
@@ -47,11 +50,12 @@ const LuckyWheel: React.FC<LuckyWheelProps> = ({ segments, radius, crustOffset, 
                         radius={radius}
                         startAngle={startAngle}
                         endAngle={endAngle}
-                        crustOffset={crustOffset}
                         fontSize={fontSize}
                     />
-                )
+                );
             })}
+            
+            {/* Hình nút quay ở trung tâm */}
             <Image
                 x={-radius / 4}
                 y={-radius / 4}
@@ -60,7 +64,7 @@ const LuckyWheel: React.FC<LuckyWheelProps> = ({ segments, radius, crustOffset, 
                 href={require('../../assets/images/spin.png')}
             />
         </Svg>
-    )
-}
+    );
+};
 
 export default LuckyWheel;

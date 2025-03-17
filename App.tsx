@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
@@ -16,23 +16,98 @@ import SettingsIcon from './assets/icons/SettingsIcon'
 import { LanguageProvider } from './src/contexts/LanguageContext';
 import NativeMusicPlayer from './specs/NativeMusicPlayer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import NativeSplashScreen from './specs/NativeSplashScreen';
 
 const Tabs = createBottomTabNavigator();
 
+const InitWheels = [
+  {
+    name: 'Yes or No',
+    segments: [
+      { content: 'Yes', color: '#dbdbdb' },
+      { content: 'No', color: '#5e5e5e'},
+      { content: 'Yes', color: '#dbdbdb' },
+      { content: 'No', color: '#5e5e5e'},
+      { content: 'Yes', color: '#dbdbdb' },
+      { content: 'No', color: '#5e5e5e'},
+      { content: 'Yes', color: '#dbdbdb' },
+      { content: 'No', color: '#5e5e5e'},
+      { content: 'Yes', color: '#dbdbdb' },
+      { content: 'No', color: '#5e5e5e'},
+      { content: 'Yes', color: '#dbdbdb' },
+      { content: 'No', color: '#5e5e5e'},
+      { content: 'Yes', color: '#dbdbdb' },
+      { content: 'No', color: '#5e5e5e'},
+      { content: 'Yes', color: '#dbdbdb' },
+      { content: 'No', color: '#5e5e5e'},
+    ]
+  },
+  {
+    name: 'What to Eat',
+    segments: [
+      { content: 'Pizza', color: '#FF6B6B' },
+      { content: 'Burger', color: '#4ECDC4'},
+      { content: 'Pasta', color: '#FFE66D' },
+      { content: 'Sushi', color: '#1A535C' },
+      { content: 'Salad', color: '#7FB069' },
+      { content: 'Tacos', color: '#F7B267' },
+      { content: 'Sandwich', color: '#D8A47F' },
+      { content: 'Curry', color: '#FFA69E' },
+      { content: 'Ramen', color: '#6D6875' },
+      { content: 'BBQ', color: '#E63946' },
+      { content: 'Steak', color: '#457B9D' },
+      { content: 'Seafood', color: '#1D3557' }
+    ]
+  }
+]
+
 function App(): React.JSX.Element {
+  const [Wheels, setWheels] = useState<any[]>([]);
+
+  // // Function to clear all AsyncStorage data
+  // const clearAllData = async () => {
+  //   try {
+  //     await AsyncStorage.clear();
+  //     console.log('All AsyncStorage data cleared successfully');
+  //     // Reset wheels to initial state after clearing
+  //     setWheels(InitWheels);
+  //   } catch (error) {
+  //     console.error('Error clearing AsyncStorage data:', error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   clearAllData();
+  // }, [])
+
   useEffect(() => {
-    const fetchMuteMusic = async () => {
-      const isMuteMusic = await AsyncStorage.getItem('isMuteMusic');
-      if (isMuteMusic === 'false') {
-        NativeMusicPlayer.startMusic();
+    const fetchData = async () => {
+      try {
+        const isMuteMusic = await AsyncStorage.getItem('isMuteMusic');
+        if (isMuteMusic === 'false') {
+          NativeMusicPlayer.startMusic();
+        }
+        const fetchWheels = async () => {
+          const wheels = await AsyncStorage.getItem('wheels');
+          if (wheels) {
+            setWheels(JSON.parse(wheels));
+          } else {
+            setWheels(InitWheels);
+            await AsyncStorage.setItem('wheels', JSON.stringify(InitWheels));
+          }
+        }
+        await fetchWheels();
+        NativeSplashScreen.hide();
+      } catch (error) {
+        console.log(error);
       }
-    }
-    fetchMuteMusic();
+    };
+    fetchData();
   }, []);
 
   return (
     <LanguageProvider>
-      <View style={{ backgroundColor: 'white', width: '100%', height: '100%', flex: 1 }}>
+      <View style={{ backgroundColor: 'white', width: '100%', height: '100%', flex: 1, paddingTop: StatusBar.currentHeight }}>
         <StatusBar
           backgroundColor={'white'}
           barStyle={'dark-content'}
@@ -51,7 +126,6 @@ function App(): React.JSX.Element {
               tabBarActiveTintColor: '#ffffff',
               tabBarInactiveTintColor: '#white',
               tabBarIcon: ({ focused, color, size }) => {
-                let iconName;
                 if (route.name === "App") {
                   return <LuckyWheelIcon width={25} height={25} fill={focused ? '#f2ae41' : 'white'} />
                 } else if (route.name === "Lucky Draw") {
@@ -66,7 +140,7 @@ function App(): React.JSX.Element {
               },
             })}
           >
-            <Tabs.Screen name="App" component={AppScreen} />
+            <Tabs.Screen name="App">{() => <AppScreen Wheels={Wheels} />}</Tabs.Screen>
             <Tabs.Screen name="Lucky Draw" component={LuckyDrawScreen} />
             <Tabs.Screen name="Random Number" component={RandomNumberScreen} />
             <Tabs.Screen name="Flipping Coin" component={FlippingCoinScreen} />

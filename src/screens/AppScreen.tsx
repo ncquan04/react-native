@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, StatusBar } from 'react-native'
 import React, { use, useContext, useEffect, useMemo, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LanguageContext } from '../contexts/LanguageContext';
@@ -8,14 +8,16 @@ import TrashIcon from '../../assets/icons/TrashIcon';
 import LuckyWheel from '../components/LuckyWheel';
 import LuckyWheelModal from '../modals/LuckyWheelModal';
 import AddWheelModal from '../modals/AddWheelModal';
+import WheelHistorySelectModal from '../modals/WheelHistorySelectModal';
 
-const AppScreen = () => {
+const AppScreen = ({ Wheels }: { Wheels: any[] }) => {
   const {t} = useContext(LanguageContext);
   const [LuckyWheelModalVisible, setLuckyWheelModalVisible] = useState<boolean>(false);
   const [wheelIndex, setWheelIndex] = useState<number>(0);
   const [addWheelModalVisible, setAddWheelModalVisible] = useState<boolean>(false);
-  const [wheels, setWheels] = useState<any[]>([]);
-  const selectedWheel = useMemo(() => wheels[wheelIndex], [wheelIndex, wheels])
+  const [WheelHistorySelectModalVisible, setWheelHistorySelectModalVisible] = useState<boolean>(false);
+  const [wheels, setWheels] = useState<any[]>(Wheels);
+  const selectedWheel = useMemo(() => wheels[wheelIndex], [wheelIndex, wheels]);
   
   useEffect(() => {
     const fetchWheels = async () => {
@@ -27,6 +29,7 @@ const AppScreen = () => {
     }
     fetchWheels();
   }, [])
+
 
   const handleDeleteWheel = async (index: number) => {
     let newWheels = [...wheels]
@@ -44,11 +47,14 @@ const AppScreen = () => {
           onPress={() => setAddWheelModalVisible(true)}  
         >
           <AddIcon width={30} height={30} fill={'white'} />
-          <Text style={{fontSize: 17, fontWeight: 500, color: 'white', marginLeft: 10}}>Wheel</Text>
+          <Text style={{fontSize: 17, fontWeight: 500, color: 'white', marginLeft: 10}}>{t['Wheel']}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#f2ae41', padding: 10, borderRadius: 15}}>
-        <HistoryIcon width={30} height={30} fill={'white'} />
-          <Text style={{fontSize: 17, fontWeight: 500, color: 'white', marginLeft: 10}}>History</Text>
+        <TouchableOpacity 
+          style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#f2ae41', padding: 10, borderRadius: 15}}
+          onPress={() => setWheelHistorySelectModalVisible(true)}
+        >
+          <HistoryIcon width={30} height={30} fill={'white'} />
+          <Text style={{fontSize: 17, fontWeight: 500, color: 'white', marginLeft: 10}}>{t['History']}</Text>
         </TouchableOpacity>
       </View>
       <ScrollView style={{width: '100%', marginTop: 20}}>
@@ -71,7 +77,7 @@ const AppScreen = () => {
               >
                 <TrashIcon width={30} height={30} fill={'white'} />
               </TouchableOpacity>
-              <View style={{position: 'absolute', top: -10, right: -50}}>
+              <View style={{position: 'absolute', top: -5, right: -50}}>
                 <LuckyWheel 
                   segments={wheel.segments.map((segment: any) => ({ ...segment, content: "" }))}
                   radius={75}
@@ -86,12 +92,20 @@ const AppScreen = () => {
         LuckyWheelModalVisible={LuckyWheelModalVisible}
         setLuckyWheelModalVisible={setLuckyWheelModalVisible}
         luckyWheel={selectedWheel}
+        wheelIndex={wheelIndex}
       />}
 
       {addWheelModalVisible && <AddWheelModal
         addWheelModalVisible={addWheelModalVisible}
         setAddWheelModalVisible={setAddWheelModalVisible}
         setWheels={setWheels}
+        t={t}
+      />}
+
+      {WheelHistorySelectModalVisible && <WheelHistorySelectModal
+        wheelHistorySelectModalVisible={WheelHistorySelectModalVisible}
+        setWheelHistorySelectModalVisible={setWheelHistorySelectModalVisible}
+        wheels={wheels}
         t={t}
       />}
     </View>

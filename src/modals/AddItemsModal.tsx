@@ -1,6 +1,5 @@
 import { View, Text, Modal, TouchableOpacity, TextInput, ScrollView } from 'react-native'
 import React, { useState } from 'react'
-import Alert from '../components/Alert';
 import BackIcon from '../../assets/icons/BackIcon';
 import AddIcon from '../../assets/icons/AddIcon';
 import ColorPickerModal from './ColorPickerModal';
@@ -8,6 +7,7 @@ import TrashIcon from '../../assets/icons/TrashIcon';
 import WheelDemoModal from './WheelDemoModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddByListModal from './AddByListModal';
+import Alert from '../components/Alert';
 
 interface AddItemsModalProps {
     addItemsModalVisible: boolean;
@@ -26,10 +26,19 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
     const [itemName, setItemName] = useState<string>('');
     const [wheelDemoModalVisible, setWheelDemoModalVisible] = useState<boolean>(false);
     const [addByListModalVisible, setAddByListModalVisible] = useState<boolean>(false);
+    const [attemptedSubmit, setAttemptedSubmit] = useState<boolean>(false);
+    const [missingItem, setMissingItem] = useState<boolean>(false);
 
     const handleAddItem = () => {
-        setItems([...items, {content: itemName, color: selectedColor}])
-        setItemName('')
+        if (itemName) {
+            let newItems = [...items]
+            newItems.push({content: itemName, color: selectedColor})
+            setItems(newItems)
+            setItemName('')
+            setSelectedColor('#ffffff')
+        } else {
+            setAttemptedSubmit(true)
+        }
     }
 
     const handleDeleteItem = (index: number) => {
@@ -39,13 +48,18 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
     }
 
     const handleSaveWheel = async () => {
-        const wheels = await AsyncStorage.getItem('wheels')
+        if (items.length >= 2){
+            const wheels = await AsyncStorage.getItem('wheels')
         let newWheels = wheels ? JSON.parse(wheels) : []
         newWheels.push({name: wheelName, segments: items})
         await AsyncStorage.setItem('wheels', JSON.stringify(newWheels))
         setWheels(newWheels)
         setAddItemsModalVisible(false)
         setAddWheelModalVisible(false)
+        } else {
+            setMissingItem(true)
+            setAttemptedSubmit(true)
+        }
     }
 
     return (
@@ -122,7 +136,7 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
                                     >
                                         <View style={{width: '70%', flexDirection: 'row', alignItems: 'center'}}>
                                             <View style={{width: '30%', height: 50, backgroundColor: `${item.color}`}}/>
-                                            <Text style={{fontSize: 20, fontWeight: 500, color: 'white', marginLeft: 20}}>{item.name}</Text>
+                                            <Text style={{fontSize: 20, fontWeight: 500, color: 'white', marginLeft: 20}}>{item.content}</Text>
                                         </View>
                                         <TouchableOpacity
                                             style={{marginRight: 20}}
@@ -153,28 +167,31 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
                     </View>
             </Modal>
 
-            <ColorPickerModal
+            {colorPickerModalVisible && <ColorPickerModal
                 colorPickerModalVisible={colorPickerModalVisible}
                 setColorPickerModalVisible={setColorPickerModalVisible}
                 selectedColor={selectedColor}
                 setSelectedColor={setSelectedColor}
                 t={t}
-            />
+            />}
 
-            <WheelDemoModal
+            {wheelDemoModalVisible && <WheelDemoModal
                 wheelDemoModalVisible={wheelDemoModalVisible}
                 setWheelDemoModalVisible={setWheelDemoModalVisible}
                 items={items}
                 t={t}
-            />
+            />}
 
-            <AddByListModal
+            {addByListModalVisible && <AddByListModal
                 addByListModalVisible={addByListModalVisible}
                 setAddByListModalVisible={setAddByListModalVisible}
                 items={items}
                 setItems={setItems}
                 t={t}
-            />
+            />}
+
+        {attemptedSubmit && !itemName && <Alert alertVisible={attemptedSubmit} setAlertVisible={() => setAttemptedSubmit(false)} setAttemptedSubmit={setAttemptedSubmit} message="Please fill Item's name" />}
+        {attemptedSubmit && missingItem && <Alert alertVisible={attemptedSubmit} setAlertVisible={() => setAttemptedSubmit(false)} setAttemptedSubmit={setAttemptedSubmit} message="There must be at least 2 items!" />}
         </>
     )
 }

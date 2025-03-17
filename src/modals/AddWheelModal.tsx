@@ -115,14 +115,14 @@ const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, setWheel
                             <BackIcon width={40} height={40} />
                         </TouchableOpacity>
                         <Text style={{ fontSize: 30, fontWeight: 600 }}>Add Wheel</Text>
-                        <View />
+                        <View style={{width: 40}}/>
                     </View>
 
                     <View style={{ flexDirection: 'column', alignItems: 'flex-start', marginTop: 20, paddingHorizontal: 20 }}>
                         <Text style={{ fontSize: 25, fontWeight: 500 }}>{t['Name']}</Text>
                         <TextInput
                             style={{ width: '100%', backgroundColor: '#305b69', color: 'white', borderRadius: 15, paddingHorizontal: 10, paddingVertical: 20, marginTop: 10 }}
-                            placeholder="Add wheel's name"
+                            placeholder={t["Add wheel's name"]}
                             placeholderTextColor={'white'}
                             value={wheelName}
                             onChangeText={(text) => setWheelName(text)}
@@ -130,7 +130,7 @@ const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, setWheel
                     </View>
 
                     <View style={{ flexDirection: 'column', alignItems: 'flex-start', marginTop: 20, paddingHorizontal: 20 }}>
-                        <Text style={{ fontSize: 25, fontWeight: 500 }}>Style</Text>
+                        <Text style={{ fontSize: 25, fontWeight: 500 }}>{t['Style']}</Text>
                         <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', marginTop: 10}}>
                             {SampleStyles.map((style, index) => {
                                 return (
@@ -144,7 +144,7 @@ const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, setWheel
                                                 radius={index === selectedStyle ? 40 : 30}
                                             />
                                             <View style={{width: '100%'}}>
-                                                <Text style={{fontSize: 15, fontWeight: 500, flexWrap: 'wrap', textAlign: 'center'}}>{style.name}</Text>
+                                                <Text style={{fontSize: 15, fontWeight: 500, flexWrap: 'wrap', textAlign: 'center'}}>{t[style.name]}</Text>
                                             </View>
                                         </TouchableOpacity>
                                     </View>
