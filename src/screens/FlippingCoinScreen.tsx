@@ -10,6 +10,7 @@ import CoinHistoryModal from '../modals/CoinHistoryModal'
 import LottieView from 'lottie-react-native'
 
 const AnimatedLottieView = Animated.createAnimatedComponent(LottieView);
+const AnimatedCoin = Animated.createAnimatedComponent(LottieView);
 
 const FlippingCoinScreen = () => {
   const [coinIndex, setCoinIndex] = useState<number>(1);
@@ -23,11 +24,14 @@ const FlippingCoinScreen = () => {
   const [isRandoming, setIsRandoming] = useState<boolean>(false);
   const [showLottie, setShowLottie] = useState<boolean>(false);
 
-  const animationProgress = useRef(new Animated.Value(0));
+  //44 frame / round, 3 rounds / 5s , 1 frame / 37.87ms,
+
+  const confettiAnimationProgress = useRef(new Animated.Value(0));
+  // const flippingCoinAnimationProgress = useRef(new Animated.Value(1/12));
 
   useEffect(() => {
     Animated.loop(
-      Animated.timing(animationProgress.current, {
+      Animated.timing(confettiAnimationProgress.current, {
         toValue: 1,
         duration: 5000,
         easing: Easing.linear,
@@ -50,6 +54,24 @@ const FlippingCoinScreen = () => {
       SaveData(tempCoinSide);
     }, 5 * 1000);
   }
+
+  // const RandomCoinSide = () => {
+  //   setIsRandoming(true);
+  //   setShowLottie(false);
+  //   const randomSide = Math.floor(Math.random() * 2) + 1;
+  //   Animated.timing(flippingCoinAnimationProgress.current, {
+  //     toValue: randomSide === 2 ? (1/12) : (7/12),
+  //     duration: 5000,
+  //     easing: Easing.linear,
+  //     useNativeDriver: false,
+  //   }).start(() => {
+  //     setCoinSide(randomSide);
+  //     flippingCoinAnimationProgress.current.setValue(randomSide === 2 ? (1/12) : (7/12));
+  //     setIsRandoming(false);
+  //     setShowLottie(true);
+  //     SaveData(randomSide);
+  //   });
+  // }
 
   const SaveData = async (side: number) => {
     try {
@@ -97,7 +119,7 @@ const FlippingCoinScreen = () => {
       {showLottie && <View pointerEvents='none' style={{ width: '100%', height: '100%', position: 'absolute', zIndex: 11, justifyContent: 'center', alignItems: 'center' }}>
         <AnimatedLottieView
           source={require('../../assets/lotties/confetti.json')}
-          progress={animationProgress.current}
+          progress={confettiAnimationProgress.current}
           style={{ width: "100%", height: "100%", position: 'absolute', zIndex: 11 }}
           resizeMode='cover'
         />
@@ -136,6 +158,13 @@ const FlippingCoinScreen = () => {
             source={ isRandoming ? (tempCoinSide === 1 ? heads[coinIndex] : tails[coinIndex]) : (coinSide === 1 ? heads[coinIndex] : tails[coinIndex]) }
           />
         </View>
+
+        {/* <AnimatedCoin
+          source={require('../../assets/lotties/flippingCoin1.json')}
+          progress={flippingCoinAnimationProgress.current}
+          style={{ width: '70%', height: '70%' }}
+          resizeMode='cover'
+        /> */}
         
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '70%', backgroundColor: '#305b69', paddingVertical: 2, borderRadius: 100 }}>
         <TouchableOpacity style={{ width: '30%', justifyContent: 'center', alignItems: 'center' }} onPress={() => setCoinHistoryModalVisible(true)}>
