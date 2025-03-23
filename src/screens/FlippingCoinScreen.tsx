@@ -8,6 +8,7 @@ import CoinCustomModal from '../modals/CoinCustomModal'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import CoinHistoryModal from '../modals/CoinHistoryModal'
 import LottieView from 'lottie-react-native'
+import colors from '../constants/colors'
 
 const AnimatedLottieView = Animated.createAnimatedComponent(LottieView);
 const AnimatedCoin = Animated.createAnimatedComponent(LottieView);
@@ -27,7 +28,7 @@ const FlippingCoinScreen = () => {
   //44 frame / round, 3 rounds / 5s , 1 frame / 37.87ms,
 
   const confettiAnimationProgress = useRef(new Animated.Value(0));
-  // const flippingCoinAnimationProgress = useRef(new Animated.Value(1/12));
+  const flippingCoinAnimationProgress = useRef(new Animated.Value(1/12));
 
   useEffect(() => {
     Animated.loop(
@@ -36,42 +37,71 @@ const FlippingCoinScreen = () => {
         duration: 5000,
         easing: Easing.linear,
         useNativeDriver: false,
-      })
+      }),
+      { iterations: 3}
     ).start();
   }, [showLottie])
-
-  const RandomCoinSide = () => {
-    setIsRandoming(true);
-    setShowLottie(false);
-    let randomInterval = setInterval(() => {
-      setTempCoinSide(Math.floor(Math.random() * 2) + 1);
-    }, 50);
-    setTimeout(() => {
-      clearInterval(randomInterval);
-      setCoinSide(tempCoinSide);
-      setIsRandoming(false);
-      setShowLottie(true);
-      SaveData(tempCoinSide);
-    }, 5 * 1000);
-  }
 
   // const RandomCoinSide = () => {
   //   setIsRandoming(true);
   //   setShowLottie(false);
-  //   const randomSide = Math.floor(Math.random() * 2) + 1;
-  //   Animated.timing(flippingCoinAnimationProgress.current, {
-  //     toValue: randomSide === 2 ? (1/12) : (7/12),
-  //     duration: 5000,
-  //     easing: Easing.linear,
-  //     useNativeDriver: false,
-  //   }).start(() => {
-  //     setCoinSide(randomSide);
-  //     flippingCoinAnimationProgress.current.setValue(randomSide === 2 ? (1/12) : (7/12));
+  //   let randomInterval = setInterval(() => {
+  //     setTempCoinSide(Math.floor(Math.random() * 2) + 1);
+  //   }, 50);
+  //   setTimeout(() => {
+  //     clearInterval(randomInterval);
+  //     setCoinSide(tempCoinSide);
   //     setIsRandoming(false);
   //     setShowLottie(true);
-  //     SaveData(randomSide);
-  //   });
+  //     SaveData(tempCoinSide);
+  //   }, 5 * 1000);
   // }
+
+  const RandomCoinSide = () => {
+    if (isRandoming) return;
+  
+    setIsRandoming(true);
+    setShowLottie(false);
+    const randomSide = Math.floor(Math.random() * 2) + 1;
+    
+    const startValue = randomSide === 2 ? (1/12) : (7/12);
+    
+    Animated.sequence([
+      Animated.timing(flippingCoinAnimationProgress.current, {
+        toValue: 1,
+        duration: 1750,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      }),
+      Animated.timing(flippingCoinAnimationProgress.current, {
+        toValue: 0,
+        duration: 0,
+        useNativeDriver: false,
+      }),
+      Animated.timing(flippingCoinAnimationProgress.current, {
+        toValue: 1,
+        duration: 1750,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      }),
+      Animated.timing(flippingCoinAnimationProgress.current, {
+        toValue: 0,
+        duration: 0,
+        useNativeDriver: false,
+      }),
+      Animated.timing(flippingCoinAnimationProgress.current, {
+        toValue: randomSide === 2 ? (1/12) : (7/12),
+        duration: 1500,
+        easing: Easing.out(Easing.circle),
+        useNativeDriver: false,
+      }),
+    ]).start(() => {
+      setCoinSide(randomSide);
+      setIsRandoming(false);
+      setShowLottie(true);
+      SaveData(randomSide);
+    });
+  }
 
   const SaveData = async (side: number) => {
     try {
@@ -114,6 +144,14 @@ const FlippingCoinScreen = () => {
     5: require('../../assets/coins/tails_5.png')
   }
 
+  const animations: { [key: number]: any } = {
+    1: require('../../assets/lotties/flippingCoin1.json'),
+    2: require('../../assets/lotties/flippingCoin2.json'),
+    3: require('../../assets/lotties/flippingCoin3.json'),
+    4: require('../../assets/lotties/flippingCoin4.json'),
+    5: require('../../assets/lotties/flippingCoin5.json')
+  }
+
   return (
     <>
       {showLottie && <View pointerEvents='none' style={{ width: '100%', height: '100%', position: 'absolute', zIndex: 11, justifyContent: 'center', alignItems: 'center' }}>
@@ -126,20 +164,21 @@ const FlippingCoinScreen = () => {
       </View>}
 
       <View style={{ width: '100%', height: '100%', backgroundColor: 'white', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '20%' }}>
-        <View style={{width: '70%', height: '10%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginLeft: 'auto', marginRight: 20}}>
-          <View style={{ flexDirection: 'row' }}>
+        <View style={{width: '100%', height: '10%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20}}>
+          <View style={{width: 30}}/>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Image
               source={heads[coinIndex]}
-              style={{ width: 30, height: 30 }}
+              style={{ width: 80, height: 80 }}
             />
-            <Text style={{ fontSize: 20, fontWeight: '500', marginLeft: 10 }}>{headCounter}</Text>
+            <Text style={{ fontSize: 20, fontWeight: '500' }}>{headCounter}</Text>
           </View>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Image
               source={tails[coinIndex]}
-              style={{ width: 30, height: 30 }}
+              style={{ width: 80, height: 80 }}
             />
-            <Text style={{ fontSize: 20, fontWeight: '500', marginLeft: 10 }}>{tailCounter}</Text>
+            <Text style={{ fontSize: 20, fontWeight: '500' }}>{tailCounter}</Text>
           </View>
           <TouchableOpacity
             onPress={() => {
@@ -152,21 +191,21 @@ const FlippingCoinScreen = () => {
           </TouchableOpacity>
         </View>
         
-        <View style={{ width: '70%', height: '70%'}}>
+        {/* <View style={{ width: '70%', height: '70%'}}>
           <Image
             style={{ width: '100%', height: '100%', objectFit: 'contain' }}
             source={ isRandoming ? (tempCoinSide === 1 ? heads[coinIndex] : tails[coinIndex]) : (coinSide === 1 ? heads[coinIndex] : tails[coinIndex]) }
           />
-        </View>
+        </View> */}
 
-        {/* <AnimatedCoin
-          source={require('../../assets/lotties/flippingCoin1.json')}
+        <AnimatedCoin
+          source={animations[coinIndex]}
           progress={flippingCoinAnimationProgress.current}
           style={{ width: '70%', height: '70%' }}
           resizeMode='cover'
-        /> */}
+        />
         
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '70%', backgroundColor: '#305b69', paddingVertical: 2, borderRadius: 100 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '70%', backgroundColor: colors.primary, paddingVertical: 2, borderRadius: 100 }}>
         <TouchableOpacity style={{ width: '30%', justifyContent: 'center', alignItems: 'center' }} onPress={() => setCoinHistoryModalVisible(true)}>
           <HistoryIcon width={40} height={40} fill={'white'} />
         </TouchableOpacity>

@@ -6,6 +6,7 @@ import UKFlag from '../../assets/images/UKFlag';
 import VietnamFlag from '../../assets/images/VietNamFlag';
 import { LanguageContext } from '../contexts/LanguageContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import colors from '../constants/colors';
 
 interface LanguageModalProps {
     LanguageModalVisible: boolean;
@@ -64,7 +65,7 @@ const LanguageModal = ({ LanguageModalVisible, setLanguageModalVisible }: Langua
                         paddingHorizontal: 10,
                         paddingVertical: 15,
                         flexDirection: 'row',
-                        backgroundColor: '#305b69',
+                        backgroundColor: colors.primary,
                         borderRadius: 20,
                         alignItems: 'center',
                         justifyContent: 'space-between',
@@ -98,7 +99,7 @@ const LanguageModal = ({ LanguageModalVisible, setLanguageModalVisible }: Langua
                         paddingHorizontal: 10,
                         paddingVertical: 15,
                         flexDirection: 'row',
-                        backgroundColor: '#305b69',
+                        backgroundColor: colors.primary,
                         borderRadius: 20,
                         alignItems: 'center',
                         justifyContent: 'space-between',

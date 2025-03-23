@@ -5,6 +5,7 @@ import LuckyWheel from '../components/LuckyWheel';
 import NextIcon from '../../assets/icons/NextIcon';
 import AddItemsModal from './AddItemsModal';
 import Alert from '../components/Alert';
+import colors from '../constants/colors';
 
 interface AddWheelModalProps {
     addWheelModalVisible: boolean;
@@ -121,7 +122,7 @@ const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, setWheel
                     <View style={{ flexDirection: 'column', alignItems: 'flex-start', marginTop: 20, paddingHorizontal: 20 }}>
                         <Text style={{ fontSize: 25, fontWeight: 500 }}>{t['Name']}</Text>
                         <TextInput
-                            style={{ width: '100%', backgroundColor: '#305b69', color: 'white', borderRadius: 15, paddingHorizontal: 10, paddingVertical: 20, marginTop: 10 }}
+                            style={{ width: '100%', backgroundColor: colors.primary, color: 'white', borderRadius: 15, paddingHorizontal: 10, paddingVertical: 20, marginTop: 10 }}
                             placeholder={t["Add wheel's name"]}
                             placeholderTextColor={'white'}
                             value={wheelName}

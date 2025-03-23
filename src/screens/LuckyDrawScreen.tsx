@@ -6,6 +6,7 @@ import usePrevious from '../hooks/usePrevious';
 import RestartIcon from '../../assets/icons/RestartIcon';
 import { LanguageContext } from '../contexts/LanguageContext';
 import LottieView from 'lottie-react-native';
+import colors from '../constants/colors';
 
 interface Finger {
   identifier: number;
@@ -49,7 +50,8 @@ const LuckyDrawScreen: React.FC = ({navigation}: any) => {
           duration: 5000,
           easing: Easing.linear,
           useNativeDriver: false,
-        })
+        }),
+        { iterations: 3 }
       ).start();
     }, [showLottie])
 
@@ -252,7 +254,7 @@ const LuckyDrawScreen: React.FC = ({navigation}: any) => {
             <RestartIcon
               width={50}
               height={50}
-              fill={'#305b69'}
+              fill={colors.primary}
               style={{marginBottom: 50, zIndex: 10}}
             />
           </TouchableOpacity>

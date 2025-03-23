@@ -7,6 +7,7 @@ import RandomCustomModal from '../modals/RandomCustomModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RandomHistoryModal from '../modals/RandomHistoryModal';
 import LottieView from 'lottie-react-native';
+import colors from '../constants/colors';
 
 const AnimatedLottieView = Animated.createAnimatedComponent(LottieView);
 
@@ -31,7 +32,8 @@ const RandomNumberScreen = () => {
         duration: 5000,
         easing: Easing.linear,
         useNativeDriver: false,
-      })
+      }),
+      { iterations: 3 }
     ).start();
   }, [showLottie])
 
@@ -43,13 +45,15 @@ const RandomNumberScreen = () => {
       setTempNumber(Math.floor(Math.random() * (endNumber - startNumber + 1)) + startNumber);
     }, 50);
     setTimeout(() => {
-      clearInterval(randomInterval);
-      setRandomNumber(tempNumber);
-      setIsRandoming(false);
-      animationProgress.current.setValue(0);
-      setShowLottie(true);
-      SaveData(tempNumber);
-    }, duration * 1000);
+        clearInterval(randomInterval);
+        const finalRandomNumber = Math.floor(Math.random() * (endNumber - startNumber + 1)) + startNumber;
+        setRandomNumber(finalRandomNumber);
+        setTempNumber(finalRandomNumber);
+        setIsRandoming(false);
+        animationProgress.current.setValue(0);
+        setShowLottie(true);
+        SaveData(finalRandomNumber);
+      }, duration * 1000);
   };
 
   const SaveData = async (number: number) => {
@@ -86,7 +90,7 @@ const RandomNumberScreen = () => {
 
       <View style={{ width: '100%', height: '100%', backgroundColor: 'white', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', paddingTop: '60%', paddingBottom: '20%' }}>
         <Text style={{ fontSize: 120, fontWeight: '600' }}>{isRandoming ? tempNumber : randomNumber}</Text>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '70%', backgroundColor: '#305b69', paddingVertical: 2, borderRadius: 100 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '70%', backgroundColor: colors.primary, paddingVertical: 2, borderRadius: 100 }}>
           <TouchableOpacity style={{ width: '30%', justifyContent: 'center', alignItems: 'center' }} onPress={() => setRandomHistoryModalVisible(true)}>
             <HistoryIcon width={40} height={40} fill={'white'} />
           </TouchableOpacity>

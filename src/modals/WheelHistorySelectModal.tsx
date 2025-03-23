@@ -4,6 +4,7 @@ import BackIcon from '../../assets/icons/BackIcon';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LuckyWheel from '../components/LuckyWheel';
 import WheelHistoryDetailModal from './WheelHistoryDetailModal';
+import colors from '../constants/colors';
 
 interface LuckyWheelHistoryModalProps {
     wheelHistorySelectModalVisible: boolean;
@@ -35,7 +36,7 @@ const WheelHistorySelectModal = ({ wheelHistorySelectModalVisible, setWheelHisto
                     {wheels.map((wheel, index) => {
                         return (
                             <TouchableOpacity 
-                                key={index} style={{ width: '90%', flexDirection: 'row', height: 100, marginTop: 20, backgroundColor: '#305b69', borderRadius: 30, alignItems: 'center', paddingHorizontal: 10 }}
+                                key={index} style={{ width: '90%', flexDirection: 'row', height: 100, marginTop: 20, backgroundColor: colors.primary, borderRadius: 30, alignItems: 'center', paddingHorizontal: 10 }}
                                 onPress={() => {
                                     setSelectedWheelIndex(index);
                                     setWheelHistoryDetailModalVisible(true);

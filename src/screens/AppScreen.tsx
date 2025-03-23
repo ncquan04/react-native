@@ -9,6 +9,7 @@ import LuckyWheel from '../components/LuckyWheel';
 import LuckyWheelModal from '../modals/LuckyWheelModal';
 import AddWheelModal from '../modals/AddWheelModal';
 import WheelHistorySelectModal from '../modals/WheelHistorySelectModal';
+import colors from '../constants/colors';
 
 const AppScreen = ({ Wheels }: { Wheels: any[] }) => {
   const {t} = useContext(LanguageContext);
@@ -22,7 +23,6 @@ const AppScreen = ({ Wheels }: { Wheels: any[] }) => {
   useEffect(() => {
     const fetchWheels = async () => {
       const wheels = await AsyncStorage.getItem('wheels');
-      console.log(wheels);
       if (wheels) {
         setWheels(JSON.parse(wheels));
       }
@@ -62,7 +62,7 @@ const AppScreen = ({ Wheels }: { Wheels: any[] }) => {
           return (
             <TouchableOpacity 
               key={index}
-              style={{flexDirection: 'column', justifyContent: 'space-between', width: '78%', padding: 15, height: 150, backgroundColor: '#305b69', borderRadius: 30, marginLeft: 20, marginTop: 20, position: 'relative'}}
+              style={{flexDirection: 'column', justifyContent: 'space-between', width: '78%', padding: 15, height: 150, backgroundColor: colors.primary, borderRadius: 30, marginLeft: 20, marginTop: 20, position: 'relative'}}
               onPress={() => {
                 setWheelIndex(index)
                 setLuckyWheelModalVisible(true)

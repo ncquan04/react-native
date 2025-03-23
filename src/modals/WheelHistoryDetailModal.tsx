@@ -2,6 +2,7 @@ import { View, Text, Modal, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import BackIcon from '../../assets/icons/BackIcon';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import colors from '../constants/colors';
 
 interface WheelHistoryDetailModalProps {
     wheelHistoryDetailModalVisible: boolean;
@@ -51,7 +52,7 @@ const WheelHistoryDetailModal = ({ wheelHistoryDetailModalVisible, setWheelHisto
                     {history
                         .filter(item => item.wheelIndex === index)
                         .map((item, i) => (
-                            <View key={i} style={{ width: '90%', flexDirection: 'column', justifyContent: 'center', height: 100, marginTop: 20, backgroundColor: '#305b69', borderRadius: 30, paddingHorizontal: 10 }}>
+                            <View key={i} style={{ width: '90%', flexDirection: 'column', justifyContent: 'center', height: 100, marginTop: 20, backgroundColor: colors.primary, borderRadius: 30, paddingHorizontal: 10 }}>
                                 <Text style={{ color: 'white', fontSize: 15, fontWeight: '600', marginLeft: 10, fontStyle: 'italic' }}>{t['Time: ']}{formatISODate(item.date)}</Text>
                                 <Text style={{ color: 'white', fontSize: 20, fontWeight: '600', marginLeft: 10, marginTop: 10 }}>{t['Reward: ']}{item.result}</Text>
                             </View>

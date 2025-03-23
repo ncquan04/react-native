@@ -1,6 +1,7 @@
 import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, TextInput } from 'react-native'
 import React, { useState } from 'react'
 import XIcon from '../../assets/icons/XIcon';
+import colors from '../constants/colors';
 
 interface AddByListModalProps {
     addByListModalVisible: boolean;
@@ -55,7 +56,7 @@ const AddByListModal = ({addByListModalVisible, setAddByListModalVisible, items,
                             <XIcon width={20} height={20}/>
                         </TouchableOpacity>
                     </View>
-                    <View style={{height: '65%', width: '90%', padding: 20, backgroundColor: '#305b69', borderRadius: 30, borderWidth: 2, borderColor: 'black'}}>
+                    <View style={{height: '65%', width: '90%', padding: 20, backgroundColor: colors.primary, borderRadius: 30, borderWidth: 2, borderColor: 'black'}}>
                         <TextInput
                             multiline={true}
                             numberOfLines={16}

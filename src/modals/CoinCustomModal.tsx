@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, Modal, ScrollView, Image } from 'react-na
 import React, { useContext } from 'react'
 import BackIcon from '../../assets/icons/BackIcon';
 import { LanguageContext } from '../contexts/LanguageContext';
+import colors from '../constants/colors';
 
 interface CoinCustomModalProps {
     coinIndex: number;
@@ -46,22 +47,25 @@ const CoinCustomModal = ({ coinIndex, setCoinIndex, coinCustomModalVisible, setC
                         t['Coins']}
                     </Text>
                 </View>
-                <ScrollView style={{width: '80%', flexDirection: 'column', marginTop: 20}}>
+                <ScrollView 
+                    style={{width: '80%', flexDirection: 'column', marginTop: 20}}
+                    showsVerticalScrollIndicator={false}
+                >
                     {Object.keys(heads).map(((key: string, index) => {
                         return (
                             <TouchableOpacity 
                                 key={index}
                                 style={{width: '100%', height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
-                                marginTop: 30, backgroundColor: '#305b69', borderRadius: 10, paddingHorizontal: '25%'}}
+                                marginTop: 30, backgroundColor: colors.primary, borderRadius: 10, paddingHorizontal: '5%'}}
                                 onPress={() => handleChangeCoins(index)}
                             >
                                 <Image
                                     source={heads[index + 1]}
-                                    style={{width: '80%', height: '80%', objectFit: 'contain'}}
+                                    style={{width: 150, height: 150, objectFit: 'contain'}}
                                 />
                                 <Image
                                     source={tails[index + 1]}
-                                    style={{width: '80%', height: '80%', objectFit: 'contain'}}
+                                    style={{width: 150, height: 150, objectFit: 'contain'}}
                                 />
                             </TouchableOpacity>
                         )

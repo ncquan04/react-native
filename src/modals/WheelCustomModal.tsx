@@ -9,6 +9,7 @@ import ReplaceIcon from '../../assets/icons/ReplaceIcon';
 import WheelSpeedModal from './WheelSpeedModal';
 import WheelDurationModal from './WheelDurationModal';
 import WheelFontSizeModal from './WheelFontSizeModal';
+import colors from '../constants/colors';
 
 interface WheelCustomModalProps {
     wheelCustomModalVisible: boolean;
@@ -61,7 +62,7 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
 
                         <View style={{ flexDirection: 'column', alignItems: 'center' }}>
                             <TouchableOpacity
-                                style={{ width: '90%', height: '15%', backgroundColor: '#305b69', borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
+                                style={{ width: '90%', height: '15%', backgroundColor: colors.primary, borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
                                 onPress={() => setWheelDurationModalVisible(true)}
                             >
                                 <View style={{ flexDirection: 'row', width: '70%', alignItems: 'center', paddingHorizontal: 10 }}>
@@ -71,7 +72,7 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                                 <Text style={{ fontSize: 20, fontWeight: 600, color: 'white', marginRight: 10 }}>{duration / 1000}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={{ width: '90%', height: '15%', backgroundColor: '#305b69', borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
+                                style={{ width: '90%', height: '15%', backgroundColor: colors.primary, borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
                                 onPress={() => setWheelSpeedModalVisible(true)}
                             >
                                 <View style={{ flexDirection: 'row', width: '70%', alignItems: 'center', paddingHorizontal: 10 }}>
@@ -85,7 +86,7 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                                 </View>
                             </TouchableOpacity>
                             <TouchableOpacity 
-                                style={{ width: '90%', height: '15%', backgroundColor: '#305b69', borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
+                                style={{ width: '90%', height: '15%', backgroundColor: colors.primary, borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
                                 onPress={() => setWheelFontSizeModalVisible(true)}    
                             >
                                 <View style={{ flexDirection: 'row', width: '70%', alignItems: 'center', paddingHorizontal: 10 }}>
@@ -95,7 +96,7 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                                 <Text style={{ fontSize: 20, fontWeight: 600, color: 'white', marginRight: 10 }}>{fontSize}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity 
-                                style={{ width: '90%', height: '15%', backgroundColor: '#305b69', borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
+                                style={{ width: '90%', height: '15%', backgroundColor: colors.primary, borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
                                 onPress={() => setRemoveSelected(!removeSelected)}
                             >
                                 <View style={{ flexDirection: 'row', width: '70%', alignItems: 'center', paddingHorizontal: 10 }}>

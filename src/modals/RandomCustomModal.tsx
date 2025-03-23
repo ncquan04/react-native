@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import BackIcon from '../../assets/icons/BackIcon';
 import { LanguageContext } from '../contexts/LanguageContext';
 import Alert from '../components/Alert';
+import colors from '../constants/colors';
 
 interface RandomCustomModalProps {
     RandomCustomModalVisible: boolean;
@@ -70,12 +71,12 @@ const RandomCustomModal = ({ RandomCustomModalVisible, setRandomCustomModalVisib
                             style={{flexDirection: 'row', height: 60,
                             justifyContent: 'space-between', alignItems: 'center', marginTop: 20}}
                         >
-                            <View style={{width: '35%', height: '100%', backgroundColor: '#305b69', padding: 5, borderRadius: 10, justifyContent: 'center', alignItems: 'center'}}>
+                            <View style={{width: '35%', height: '100%', backgroundColor: colors.primary, padding: 5, borderRadius: 10, justifyContent: 'center', alignItems: 'center'}}>
                                 <Text style={{fontSize: 20, fontWeight: 400, color: 'white', textAlign: 'center'}}>
                                     {t['Start']}
                                 </Text>
                             </View>
-                            <View style={{width: '60%', height: '100%', backgroundColor: '#305b69', padding: 5, borderRadius: 10}}>
+                            <View style={{width: '60%', height: '100%', backgroundColor: colors.primary, padding: 5, borderRadius: 10}}>
                                 <TextInput 
                                     style={{fontSize: 20, fontWeight: 400, color: 'white'}}
                                     keyboardType='number-pad'
@@ -88,12 +89,12 @@ const RandomCustomModal = ({ RandomCustomModalVisible, setRandomCustomModalVisib
                             style={{flexDirection: 'row', height: 60, 
                             justifyContent: 'space-between', alignItems: 'center', marginTop: 20}}
                         >
-                            <View style={{width: '35%', height: '100%', backgroundColor: '#305b69', padding: 5, borderRadius: 10, justifyContent: 'center', alignItems: 'center'}}>
+                            <View style={{width: '35%', height: '100%', backgroundColor: colors.primary, padding: 5, borderRadius: 10, justifyContent: 'center', alignItems: 'center'}}>
                                 <Text style={{fontSize: 20, fontWeight: 400, color: 'white', textAlign: 'center'}}>
                                     {t['End']}
                                 </Text>
                             </View>
-                            <View style={{width: '60%', backgroundColor: '#305b69', padding: 5, borderRadius: 10, justifyContent: 'center'}}>
+                            <View style={{width: '60%', backgroundColor: colors.primary, padding: 5, borderRadius: 10, justifyContent: 'center'}}>
                                 <TextInput 
                                     style={{fontSize: 20, fontWeight: 400, color: 'white'}}
                                     keyboardType='number-pad'
@@ -106,12 +107,12 @@ const RandomCustomModal = ({ RandomCustomModalVisible, setRandomCustomModalVisib
                             style={{flexDirection: 'row', height: 60, 
                             justifyContent: 'space-between', alignItems: 'center', marginTop: 80}}
                         >
-                            <View style={{width: '35%', height: '100%',backgroundColor: '#305b69', padding: 5, borderRadius: 10, justifyContent: 'center', alignItems: 'center'}}>
+                            <View style={{width: '35%', height: '100%',backgroundColor: colors.primary, padding: 5, borderRadius: 10, justifyContent: 'center', alignItems: 'center'}}>
                                 <Text style={{fontSize: 20, fontWeight: 400, color: 'white', textAlign: 'center'}}>
                                     {t['Duration']}
                                 </Text>
                             </View>
-                            <View style={{width: '60%', backgroundColor: '#305b69', padding: 5, borderRadius: 10}}>
+                            <View style={{width: '60%', backgroundColor: colors.primary, padding: 5, borderRadius: 10}}>
                                 <TextInput 
                                     style={{fontSize: 20, fontWeight: 400, color: 'white'}}
                                     keyboardType='number-pad'

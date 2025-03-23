@@ -8,6 +8,7 @@ import WheelDemoModal from './WheelDemoModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddByListModal from './AddByListModal';
 import Alert from '../components/Alert';
+import colors from '../constants/colors';
 
 interface AddItemsModalProps {
     addItemsModalVisible: boolean;
@@ -97,7 +98,7 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
                         <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20}}>
                             <View style={{width: '60%', alignItems: 'center'}}>
                                 <TextInput
-                                    style={{width: '100%', backgroundColor: '#305b69', color: 'white', borderRadius: 15, paddingHorizontal: 15, paddingVertical: 25}}
+                                    style={{width: '100%', backgroundColor: colors.primary, color: 'white', borderRadius: 15, paddingHorizontal: 15, paddingVertical: 25}}
                                     placeholder={t["Item's name"]}
                                     placeholderTextColor={'white'}
                                     value={itemName}
@@ -105,7 +106,7 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
                                 />
                             </View>
                             <TouchableOpacity
-                                style={{width: '37%', height: '100%', backgroundColor: '#305b69', padding: 10, borderRadius: 15, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}
+                                style={{width: '37%', height: '100%', backgroundColor: colors.primary, padding: 10, borderRadius: 15, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}
                                 onPress={() => setColorPickerModalVisible(true)}
                             >
                                 <Text style={{fontSize: 15, fontWeight: 500, color: 'white'}}>{t['Color']}</Text>
@@ -132,7 +133,7 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
                                 return (
                                     <View 
                                         key={index}
-                                        style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#305b69', borderRadius: 15, marginTop: 10, borderWidth: 2, borderColor: 'black', overflow: 'hidden'}}
+                                        style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: colors.primary, borderRadius: 15, marginTop: 10, borderWidth: 2, borderColor: 'black', overflow: 'hidden'}}
                                     >
                                         <View style={{width: '70%', flexDirection: 'row', alignItems: 'center'}}>
                                             <View style={{width: '30%', height: 50, backgroundColor: `${item.color}`}}/>

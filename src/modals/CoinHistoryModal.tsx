@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, ScrollView, Modal } from 'react-native'
 import React, { useContext } from 'react'
 import BackIcon from '../../assets/icons/BackIcon';
 import { LanguageContext } from '../contexts/LanguageContext';
+import colors from '../constants/colors';
 
 interface CoinHistoryModalProps {
     coinHistoryModalVisible: boolean;
@@ -26,7 +27,7 @@ const CoinHistoryModal = ({ coinHistoryModalVisible, setCoinHistoryModalVisible,
                     {history.length > 0 ? (
                         history.map((item, index) => (
                             <View key={index} style={{
-                                width: '90%', backgroundColor: '#305b69', borderRadius: 20,
+                                width: '90%', backgroundColor: colors.primary, borderRadius: 20,
                                 marginTop: 20, padding: 15, flexDirection: 'column',
                                 shadowColor: '#000', shadowOffset: { width: 0, height: 4 },
                                 shadowOpacity: 0.3, shadowRadius: 5, elevation: 6

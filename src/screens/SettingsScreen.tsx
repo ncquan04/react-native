@@ -8,6 +8,7 @@ import MuteMusicIcon from '../../assets/icons/MuteMusicIcon'
 import MuteSoundIcon from '../../assets/icons/MuteSoundIcon'
 import NativeMusicPlayer from '../../specs/NativeMusicPlayer'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import colors from '../constants/colors'
 
 const SettingsScreen: React.FC = () => {
   const { t } = useContext(LanguageContext);
@@ -46,7 +47,7 @@ const SettingsScreen: React.FC = () => {
           <Text style={{fontSize: 25, fontWeight: 600}}>{t['General']}</Text>
 
           <TouchableOpacity
-            style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#305b69', 
+            style={{flexDirection: 'row', alignItems: 'center', backgroundColor: colors.primary, 
             padding: 10, borderRadius: 20, marginTop: 20, paddingHorizontal: 10, paddingVertical: 20}}
             onPress={() => setLanguageModalVisible(true)}
           >
@@ -55,7 +56,7 @@ const SettingsScreen: React.FC = () => {
             <NextIcon width={20} height={20} fill={'white'} style={{marginLeft: 'auto'}}/>
           </TouchableOpacity>
           <TouchableOpacity
-            style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#305b69', 
+            style={{flexDirection: 'row', alignItems: 'center', backgroundColor: colors.primary, 
             padding: 10, borderRadius: 20, marginTop: 10, paddingHorizontal: 10, paddingVertical: 20}}
             onPress={() => toggleMuteMusic()}
           >
@@ -70,7 +71,7 @@ const SettingsScreen: React.FC = () => {
             />
           </TouchableOpacity>
           <TouchableOpacity
-            style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#305b69', 
+            style={{flexDirection: 'row', alignItems: 'center', backgroundColor: colors.primary, 
             padding: 10, borderRadius: 20, marginTop: 10, paddingHorizontal: 10, paddingVertical: 20}}
           >
             <MuteSoundIcon width={30} height={30} fill={'white'}/>

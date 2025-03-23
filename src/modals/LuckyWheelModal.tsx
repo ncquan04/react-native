@@ -6,6 +6,7 @@ import LuckyWheel from '../components/LuckyWheel';
 import WheelCustomModal from './WheelCustomModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LottieView from 'lottie-react-native';
+import colors from '../constants/colors';
 
 interface LuckyWheelModalProps {
     LuckyWheelModalVisible: boolean;
@@ -45,7 +46,8 @@ const LuckyWheelModal = ({ LuckyWheelModalVisible, setLuckyWheelModalVisible, lu
                 duration: 5000,
                 easing: Easing.linear,
                 useNativeDriver: false,
-            })
+            }),
+            { iterations: 3 }
         ).start();
     }, [showLottie])
 
@@ -144,7 +146,7 @@ const LuckyWheelModal = ({ LuckyWheelModalVisible, setLuckyWheelModalVisible, lu
                             <EqualizerIcon width={30} height={30} fill={'#f2ae41'}/>
                         </TouchableOpacity>
                     </View>
-                    <View style={{width: '80%', height: '5%', marginTop: 20, backgroundColor: '#305b69', borderRadius: 30, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10}}>
+                    <View style={{width: '80%', height: '5%', marginTop: 20, backgroundColor: colors.primary, borderRadius: 30, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10}}>
                         <Text numberOfLines={1} ellipsizeMode='tail' style={{color: 'white', fontSize: 20, fontWeight: 600}}>{luckyWheel.name}</Text>
                     </View>
                     <View style={{marginTop: '20%', zIndex: 10, alignItems: 'center', position: 'relative'}}>
