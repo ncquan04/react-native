@@ -1,4 +1,4 @@
-import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, TextInput } from 'react-native'
+import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, TextInput, Vibration } from 'react-native'
 import React, { useState } from 'react'
 import XIcon from '../../assets/icons/XIcon';
 import colors from '../constants/colors';
@@ -51,7 +51,10 @@ const AddByListModal = ({addByListModalVisible, setAddByListModalVisible, items,
                         <View style={{width: 20}}/>
                         <Text style={{fontSize: 30, fontWeight: 600}}>Item List</Text>
                         <TouchableOpacity
-                            onPress={() => setAddByListModalVisible(false)}
+                            onPress={() => {
+                                Vibration.vibrate(50);
+                                setAddByListModalVisible(false);
+                            }}
                         >
                             <XIcon width={20} height={20}/>
                         </TouchableOpacity>
@@ -70,13 +73,19 @@ const AddByListModal = ({addByListModalVisible, setAddByListModalVisible, items,
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, width: '100%', paddingVertical: 20}}>
                         <TouchableOpacity 
                             style={{width: '45%', paddingHorizontal: 10, paddingVertical: 20, backgroundColor: '#fc6f6f', borderRadius: 30}}
-                            onPress={() => setAddByListModalVisible(false)}
+                            onPress={() => {
+                                Vibration.vibrate(50);
+                                setAddByListModalVisible(false);
+                            }}
                         >
                             <Text style={{fontSize: 20, fontWeight: 500, color: 'white', textAlign: 'center'}}>Cancel</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                             style={{width: '45%', paddingHorizontal: 10, paddingVertical: 20, backgroundColor: '#f2ae41', borderRadius: 30}}
-                            onPress={handleAddByList}
+                            onPress={() => {
+                                Vibration.vibrate(50);
+                                handleAddByList();
+                            }}
                         >
                             <Text style={{fontSize: 20, fontWeight: 500, color: 'white', textAlign: 'center'}}>Apply</Text>
                         </TouchableOpacity>

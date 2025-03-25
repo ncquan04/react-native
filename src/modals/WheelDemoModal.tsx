@@ -1,4 +1,4 @@
-import { View, Text, Modal, TouchableWithoutFeedback } from 'react-native'
+import { View, Text, Modal, TouchableWithoutFeedback, Vibration } from 'react-native'
 import React from 'react'
 import LuckyWheel from '../components/LuckyWheel';
 
@@ -22,7 +22,10 @@ const WheelDemoModal = ({wheelDemoModalVisible, setWheelDemoModalVisible, items,
         >
             <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', paddingVertical: 20}}>
                 <TouchableWithoutFeedback
-                    onPress={() => setWheelDemoModalVisible(false)}
+                    onPress={() => {
+                        Vibration.vibrate(50);
+                        setWheelDemoModalVisible(false);
+                    }}
                     style={{flex: 0.5}}
                 >
                     <View style={{flex: 0.5}}/>

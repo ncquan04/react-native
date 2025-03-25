@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Modal, ScrollView, Image } from 'react-native'
+import { View, Text, TouchableOpacity, Modal, ScrollView, Image, Vibration } from 'react-native'
 import React, { useContext } from 'react'
 import BackIcon from '../../assets/icons/BackIcon';
 import { LanguageContext } from '../contexts/LanguageContext';
@@ -37,7 +37,10 @@ const CoinCustomModal = ({ coinIndex, setCoinIndex, coinCustomModalVisible, setC
                 >
                     <TouchableOpacity
                         style={{zIndex: 10}}
-                        onPress={() => setCoinCustomModalVisible(false)}
+                        onPress={() => {
+                            Vibration.vibrate(50);
+                            setCoinCustomModalVisible(false);
+                        }}
                     >
                         <BackIcon width={40} height={40}/>
                     </TouchableOpacity>
@@ -57,7 +60,10 @@ const CoinCustomModal = ({ coinIndex, setCoinIndex, coinCustomModalVisible, setC
                                 key={index}
                                 style={{width: '100%', height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
                                 marginTop: 30, backgroundColor: colors.primary, borderRadius: 10, paddingHorizontal: '5%'}}
-                                onPress={() => handleChangeCoins(index)}
+                                onPress={() => {
+                                    Vibration.vibrate(50);
+                                    handleChangeCoins(index);
+                                }}
                             >
                                 <Image
                                     source={heads[index + 1]}

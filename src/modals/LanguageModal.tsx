@@ -1,4 +1,4 @@
-import { View, Text, Modal, TouchableOpacity } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, Vibration } from 'react-native';
 import React, { useContext, useState } from 'react';
 import BackIcon from '../../assets/icons/BackIcon';
 import CheckIcon from '../../assets/icons/CheckIcon';
@@ -49,17 +49,26 @@ const LanguageModal = ({ LanguageModalVisible, setLanguageModalVisible }: Langua
                         alignItems: 'center',
                     }}
                 >
-                    <TouchableOpacity onPress={() => setLanguageModalVisible(false)}>
+                    <TouchableOpacity onPress={() => {
+                        Vibration.vibrate(50);
+                        setLanguageModalVisible(false);
+                    }}>
                         <BackIcon width={40} height={40} />
                     </TouchableOpacity>
                     <Text style={{ fontSize: 30, fontWeight: '500' }}>{t['Language']}</Text>
-                    <TouchableOpacity onPress={handleChangeLanguage}>
+                    <TouchableOpacity onPress={() => {
+                        Vibration.vibrate(50);
+                        handleChangeLanguage();
+                    }}>
                         <CheckIcon width={25} height={25} fill={'#f2ae41'} />
                     </TouchableOpacity>
                 </View>
 
                 <TouchableOpacity
-                    onPress={() => setSelectedLanguage('en')}
+                    onPress={() => {
+                        Vibration.vibrate(50);
+                        setSelectedLanguage('en');
+                    }}
                     style={{
                         width: '90%',
                         paddingHorizontal: 10,
@@ -93,7 +102,10 @@ const LanguageModal = ({ LanguageModalVisible, setLanguageModalVisible }: Langua
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => setSelectedLanguage('vi')}
+                    onPress={() => {
+                        Vibration.vibrate(50);
+                        setSelectedLanguage('vi');
+                    }}
                     style={{
                         width: '90%',
                         paddingHorizontal: 10,

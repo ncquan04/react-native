@@ -11,6 +11,7 @@ import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.react.soloader.OpenSourceMergedSoMapping
 import com.facebook.soloader.SoLoader
+import com.nativelocalstorage.NativeAccelerometerPackage
 import com.nativelocalstorage.NativeLocalStoragePackage
 import com.nativelocalstorage.NativeMusicPlayerPackage
 import com.nativelocalstorage.NativeSplashScreenPackage
@@ -28,6 +29,7 @@ class MainApplication : Application(), ReactApplication {
               add(NativeLocalStoragePackage())
               add(NativeMusicPlayerPackage())
               add(NativeSplashScreenPackage())
+              add(NativeAccelerometerPackage())
             //              add(SplashScreenReactPackage())
             }
 

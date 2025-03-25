@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, Image, Text, Animated, Easing } from 'react-native'
+import { View, TouchableOpacity, Image, Text, Animated, Easing, NativeEventEmitter, NativeModules, Button, StyleSheet, Vibration } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import StartIcon from '../../assets/icons/StartIcon'
 import HistoryIcon from '../../assets/icons/HistoryIcon'
@@ -58,6 +58,7 @@ const FlippingCoinScreen = () => {
   // }
 
   const RandomCoinSide = () => {
+    Vibration.vibrate(75);
     if (isRandoming) return;
   
     setIsRandoming(true);
@@ -182,6 +183,7 @@ const FlippingCoinScreen = () => {
           </View>
           <TouchableOpacity
             onPress={() => {
+              Vibration.vibrate(50);
               setHeadCounter(0);
               setTailCounter(0);
               setHistory([]);
@@ -206,13 +208,25 @@ const FlippingCoinScreen = () => {
         />
         
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '70%', backgroundColor: colors.primary, paddingVertical: 2, borderRadius: 100 }}>
-        <TouchableOpacity style={{ width: '30%', justifyContent: 'center', alignItems: 'center' }} onPress={() => setCoinHistoryModalVisible(true)}>
+        <TouchableOpacity 
+          style={{ width: '30%', justifyContent: 'center', alignItems: 'center' }} 
+          onPress={() => {
+            setCoinHistoryModalVisible(true);
+            Vibration.vibrate(50);
+          }}
+        >
           <HistoryIcon width={40} height={40} fill={'white'} />
         </TouchableOpacity>
         <TouchableOpacity style={{ width: '40%', justifyContent: 'center', alignItems: 'center' }} onPress={RandomCoinSide}>
           <StartIcon width={80} height={80} />
         </TouchableOpacity>
-        <TouchableOpacity style={{ width: '30%', justifyContent: 'center', alignItems: 'center' }} onPress={() => setCoinCustomModalVisible(true)}>
+        <TouchableOpacity 
+          style={{ width: '30%', justifyContent: 'center', alignItems: 'center' }} 
+          onPress={() => {
+            setCoinCustomModalVisible(true);
+            Vibration.vibrate(50);
+          }}
+        >          
           <CustomIcon width={40} height={40} fill={'white'} />
         </TouchableOpacity>
         </View>

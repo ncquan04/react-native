@@ -1,4 +1,4 @@
-import { View, Text, Modal, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, Modal, TouchableOpacity, ScrollView, Vibration } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import BackIcon from '../../assets/icons/BackIcon';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -39,7 +39,10 @@ const WheelHistoryDetailModal = ({ wheelHistoryDetailModalVisible, setWheelHisto
         >
             <View style={{ width: '100%', height: '100%', flexDirection: 'column', backgroundColor: 'white', alignItems: 'center' }}>
                 <View style={{ width: '100%', height: '10%', paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <TouchableOpacity onPress={() => setWheelHistoryDetailModalVisible(false)}>
+                    <TouchableOpacity onPress={() => {
+                        Vibration.vibrate(50);
+                        setWheelHistoryDetailModalVisible(false);
+                    }}>
                         <BackIcon width={40} height={40} />
                     </TouchableOpacity>
                     <Text style={{ fontSize: 30, fontWeight: '500' }}>{wheel.name}</Text>

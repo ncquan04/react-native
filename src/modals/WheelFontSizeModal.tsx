@@ -1,4 +1,4 @@
-import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity } from 'react-native'
+import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, Vibration } from 'react-native'
 import React, { useState } from 'react'
 import XIcon from '../../assets/icons/XIcon';
 import Slider from '@react-native-community/slider';
@@ -36,9 +36,15 @@ const WheelFontSizeModal = ({ wheelFontSizeModalVisible, setWheelFontSizeModalVi
                         <Text style={{fontSize: 30, fontWeight: 600}}>{t['Font size']}</Text>
                         <TouchableOpacity
                             style={{marginRight: 20}}
-                            onPress={() => setWheelFontSizeModalVisible(false)}
+                            onPress={() => {
+                                Vibration.vibrate(50);
+                                setWheelFontSizeModalVisible(false);
+                            }}
                         >
-                            <XIcon width={15} height={15} fill={'black'} onPress={() => setWheelFontSizeModalVisible(false)}/>
+                            <XIcon width={15} height={15} fill={'black'} onPress={() => {
+                                Vibration.vibrate(50);
+                                setWheelFontSizeModalVisible(false);
+                            }}/>
                         </TouchableOpacity>
                     </View>
                     <Text style={{fontSize: 25, fontWeight: 500, alignSelf: 'center'}}>
@@ -62,8 +68,9 @@ const WheelFontSizeModal = ({ wheelFontSizeModalVisible, setWheelFontSizeModalVi
                     <TouchableOpacity 
                         style={{alignSelf: 'flex-end', marginRight: 40}}
                         onPress={() => {
-                            setFontSize(tempFontSize)
-                            setWheelFontSizeModalVisible(false)
+                            Vibration.vibrate(50);
+                            setFontSize(tempFontSize);
+                            setWheelFontSizeModalVisible(false);
                         }}
                     >
                         <Text style={{fontSize: 20, fontWeight: 500, color: '#f2ae41'}}>{t['Apply']}</Text>

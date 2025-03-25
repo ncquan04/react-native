@@ -1,4 +1,4 @@
-import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, Switch } from 'react-native'
+import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, Switch, Vibration } from 'react-native'
 import React, { useContext, useState } from 'react'
 import XIcon from '../../assets/icons/XIcon';
 import { LanguageContext } from '../contexts/LanguageContext';
@@ -51,7 +51,10 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                         <View style={{ width: '100%', height: '10%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
                             <TouchableOpacity
                                 style={{ marginLeft: 20 }}
-                                onPress={() => setWheelCustomModalVisible(false)}
+                                onPress={() => {
+                                    Vibration.vibrate(50);
+                                    setWheelCustomModalVisible(false);
+                                }}
                             >
                                 <XIcon width={25} height={25} fill={'black'} />
                             </TouchableOpacity>
@@ -63,7 +66,10 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                         <View style={{ flexDirection: 'column', alignItems: 'center' }}>
                             <TouchableOpacity
                                 style={{ width: '90%', height: '15%', backgroundColor: colors.primary, borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
-                                onPress={() => setWheelDurationModalVisible(true)}
+                                onPress={() => {
+                                    Vibration.vibrate(50);
+                                    setWheelDurationModalVisible(true);
+                                }}
                             >
                                 <View style={{ flexDirection: 'row', width: '70%', alignItems: 'center', paddingHorizontal: 10 }}>
                                     <HistoryIcon width={30} height={30} fill={'white'} />
@@ -73,7 +79,10 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={{ width: '90%', height: '15%', backgroundColor: colors.primary, borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
-                                onPress={() => setWheelSpeedModalVisible(true)}
+                                onPress={() => {
+                                    Vibration.vibrate(50);
+                                    setWheelSpeedModalVisible(true);
+                                }}
                             >
                                 <View style={{ flexDirection: 'row', width: '70%', alignItems: 'center', paddingHorizontal: 10 }}>
                                     <SpeedIcon width={30} height={30} fill={'white'} />
@@ -87,7 +96,10 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                             </TouchableOpacity>
                             <TouchableOpacity 
                                 style={{ width: '90%', height: '15%', backgroundColor: colors.primary, borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
-                                onPress={() => setWheelFontSizeModalVisible(true)}    
+                                onPress={() => {
+                                    Vibration.vibrate(50);
+                                    setWheelFontSizeModalVisible(true);
+                                }}    
                             >
                                 <View style={{ flexDirection: 'row', width: '70%', alignItems: 'center', paddingHorizontal: 10 }}>
                                     <FontSizeIcon width={30} height={30} fill={'white'} />
@@ -97,7 +109,10 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                             </TouchableOpacity>
                             <TouchableOpacity 
                                 style={{ width: '90%', height: '15%', backgroundColor: colors.primary, borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
-                                onPress={() => setRemoveSelected(!removeSelected)}
+                                onPress={() => {
+                                    Vibration.vibrate(50);
+                                    setRemoveSelected(!removeSelected);
+                                }}
                             >
                                 <View style={{ flexDirection: 'row', width: '70%', alignItems: 'center', paddingHorizontal: 10 }}>
                                     <ReplaceIcon width={30} height={30} fill={'white'} />
@@ -107,7 +122,10 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                                     trackColor={{ false: 'white', true: '#f2ae41' }}
                                     thumbColor={'white'}
                                     ios_backgroundColor={'white'}
-                                    onValueChange={() => setRemoveSelected(!removeSelected)}
+                                    onValueChange={() => {
+                                        Vibration.vibrate(50);
+                                        setRemoveSelected(!removeSelected);
+                                    }}
                                     value={removeSelected}
                                 />
                             </TouchableOpacity>

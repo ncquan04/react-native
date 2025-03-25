@@ -24,6 +24,8 @@ import messaging from '@react-native-firebase/messaging';
 import crashlytics from '@react-native-firebase/crashlytics';
 import notifee from '@notifee/react-native';
 import colors from './src/constants/colors';
+import RollDiceScreen from './src/screens/RollDiceScreen';
+import DiceIcon from './assets/icons/DiceIcon';
 
 const Tabs = createBottomTabNavigator();
 
@@ -92,18 +94,16 @@ function App(): React.JSX.Element {
   //Fetch Remote Config
   async function fetchRemoteConfig() {
     try {
-      remoteConfig()
-        .setDefaults({
-          primary_color: colors.primary,
-        })
-        .then(() => remoteConfig().fetchAndActivate())
-        .then(() => {
-          const primaryColor = remoteConfig().getValue('primary_color').asString();
-          colors.primary = primaryColor;
-          setPrimaryColor(primaryColor);
-        })
+      await remoteConfig().setDefaults({
+        primary_color: colors.primary,
+      });
+      await remoteConfig().fetchAndActivate();
+      const primaryColor = remoteConfig().getValue('primary_color').asString();
+      colors.primary = primaryColor;
+      setPrimaryColor(primaryColor);
     } catch (error) {
       console.log(error);
+      NativeSplashScreen.hide();
     }
   }
 
@@ -163,6 +163,8 @@ function App(): React.JSX.Element {
                   return <RandomNumberIcon width={25} height={25} fill={focused ? '#f2ae41' : 'white'} />
                 } else if (route.name === "Flipping Coin") {
                   return <CoinIcon width={25} height={25} fill={focused ? '#f2ae41' : 'white'} />
+                } else if (route.name === "Rolling Dice") {
+                  return <DiceIcon width={25} height={25} fill={focused ? '#f2ae41' : 'white'} />
                 } else if (route.name === "Settings") {
                   return <SettingsIcon width={25} height={25} fill={focused ? '#f2ae41' : 'white'} />
                 }
@@ -173,6 +175,7 @@ function App(): React.JSX.Element {
             <Tabs.Screen name="Lucky Draw" component={LuckyDrawScreen} />
             <Tabs.Screen name="Random Number" component={RandomNumberScreen} />
             <Tabs.Screen name="Flipping Coin" component={FlippingCoinScreen} />
+            <Tabs.Screen name="Rolling Dice" component={RollDiceScreen} />
             <Tabs.Screen name="Settings" component={SettingsScreen} />
           </Tabs.Navigator>
         </NavigationContainer>
@@ -184,6 +187,8 @@ function App(): React.JSX.Element {
 // const App = () => {
 //   useEffect(() => {
 //     const startApp = async () => {
+//     await crashlytics().setCrashlyticsCollectionEnabled(true);
+//     crashlytics().crash();
 
 //     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
 
@@ -260,13 +265,10 @@ function App(): React.JSX.Element {
 //           //     price: 100,
 //           //   }]
 //           // })
-//           try {
-//             crashlytics().log('Testing crashlytics');
-//             crashlytics().crash();
-//           }
-//           catch (error) {
-//             console.log(error);
-//           }}
+//           crashlytics().log('Button pressed');
+//           crashlytics().recordError(new Error('Error button pressed'));  
+//           crashlytics().crash();
+//         }
 //         }
 //       />
 //       <Text style={{marginTop: 10, color: 'white'}}>{awesomeNewFeature}</Text>

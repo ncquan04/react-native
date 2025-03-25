@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView, Modal } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, Modal, Vibration } from 'react-native'
 import React, { useContext } from 'react'
 import BackIcon from '../../assets/icons/BackIcon';
 import { LanguageContext } from '../contexts/LanguageContext';
@@ -17,7 +17,10 @@ const CoinHistoryModal = ({ coinHistoryModalVisible, setCoinHistoryModalVisible,
         <Modal animationType="slide" transparent={true} visible={coinHistoryModalVisible} onRequestClose={() => setCoinHistoryModalVisible(!coinHistoryModalVisible)}>
             <View style={{ width: '100%', height: '100%', flexDirection: 'column', backgroundColor: 'white', alignItems: 'center' }}>
                 <View style={{ width: '100%', height: '10%', paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', paddingRight: '37%', alignItems: 'center' }}>
-                    <TouchableOpacity onPress={() => setCoinHistoryModalVisible(false)}>
+                    <TouchableOpacity onPress={() => {
+                        Vibration.vibrate(50);
+                        setCoinHistoryModalVisible(false);
+                    }}>
                         <BackIcon width={40} height={40} />
                     </TouchableOpacity>
                     <Text style={{ fontSize: 30, fontWeight: '500' }}>{t['History']}</Text>

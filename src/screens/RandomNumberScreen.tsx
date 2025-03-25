@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Animated, Easing } from 'react-native';
+import { View, Text, TouchableOpacity, Animated, Easing, Vibration } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import HistoryIcon from '../../assets/icons/HistoryIcon';
 import StartIcon from '../../assets/icons/StartIcon';
@@ -38,11 +38,13 @@ const RandomNumberScreen = () => {
   }, [showLottie])
 
   const StartRandom = () => {
+    Vibration.vibrate(75);
     setIsRandoming(true);
     setShowLottie(false);
     animationProgress.current.setValue(0);
     let randomInterval = setInterval(() => {
       setTempNumber(Math.floor(Math.random() * (endNumber - startNumber + 1)) + startNumber);
+      Vibration.vibrate(7);
     }, 50);
     setTimeout(() => {
         clearInterval(randomInterval);
@@ -91,13 +93,25 @@ const RandomNumberScreen = () => {
       <View style={{ width: '100%', height: '100%', backgroundColor: 'white', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', paddingTop: '60%', paddingBottom: '20%' }}>
         <Text style={{ fontSize: 120, fontWeight: '600' }}>{isRandoming ? tempNumber : randomNumber}</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '70%', backgroundColor: colors.primary, paddingVertical: 2, borderRadius: 100 }}>
-          <TouchableOpacity style={{ width: '30%', justifyContent: 'center', alignItems: 'center' }} onPress={() => setRandomHistoryModalVisible(true)}>
+          <TouchableOpacity 
+            style={{ width: '30%', justifyContent: 'center', alignItems: 'center' }} 
+            onPress={() => {
+              Vibration.vibrate(50);
+              setRandomHistoryModalVisible(true)
+            }}
+          >
             <HistoryIcon width={40} height={40} fill={'white'} />
           </TouchableOpacity>
           <TouchableOpacity style={{ width: '40%', justifyContent: 'center', alignItems: 'center' }} onPress={StartRandom}>
             <StartIcon width={80} height={80} />
           </TouchableOpacity>
-          <TouchableOpacity style={{ width: '30%', justifyContent: 'center', alignItems: 'center' }} onPress={() => setRandomCustomModalVisible(true)}>
+          <TouchableOpacity 
+            style={{ width: '30%', justifyContent: 'center', alignItems: 'center' }} 
+            onPress={() => {
+              Vibration.vibrate(50);
+              setRandomCustomModalVisible(true)
+            }}
+          >
             <CustomIcon width={40} height={40} fill={'white'} />
           </TouchableOpacity>
         </View>

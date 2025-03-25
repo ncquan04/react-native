@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView, StatusBar } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, StatusBar, Vibration } from 'react-native'
 import React, { use, useContext, useEffect, useMemo, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LanguageContext } from '../contexts/LanguageContext';
@@ -44,14 +44,20 @@ const AppScreen = ({ Wheels }: { Wheels: any[] }) => {
       <View style={{flexDirection: 'row', marginTop: 20, width: '90%', justifyContent: 'space-between'}}>
         <TouchableOpacity 
           style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#f2ae41', padding: 10, borderRadius: 15}}
-          onPress={() => setAddWheelModalVisible(true)}  
+          onPress={() => {
+            Vibration.vibrate(50);
+            setAddWheelModalVisible(true);
+          }}  
         >
           <AddIcon width={30} height={30} fill={'white'} />
           <Text style={{fontSize: 17, fontWeight: 500, color: 'white', marginLeft: 10}}>{t['Wheel']}</Text>
         </TouchableOpacity>
         <TouchableOpacity 
           style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#f2ae41', padding: 10, borderRadius: 15}}
-          onPress={() => setWheelHistorySelectModalVisible(true)}
+          onPress={() => {
+            Vibration.vibrate(50);
+            setWheelHistorySelectModalVisible(true);
+          }}
         >
           <HistoryIcon width={30} height={30} fill={'white'} />
           <Text style={{fontSize: 17, fontWeight: 500, color: 'white', marginLeft: 10}}>{t['History']}</Text>
@@ -64,8 +70,9 @@ const AppScreen = ({ Wheels }: { Wheels: any[] }) => {
               key={index}
               style={{flexDirection: 'column', justifyContent: 'space-between', width: '78%', padding: 15, height: 150, backgroundColor: colors.primary, borderRadius: 30, marginLeft: 20, marginTop: 20, position: 'relative'}}
               onPress={() => {
-                setWheelIndex(index)
-                setLuckyWheelModalVisible(true)
+                Vibration.vibrate(50);
+                setWheelIndex(index);
+                setLuckyWheelModalVisible(true);
               }}
             >
               <View style={{width: '95%'}}>
@@ -73,7 +80,10 @@ const AppScreen = ({ Wheels }: { Wheels: any[] }) => {
               </View>
               <TouchableOpacity 
                 style={{ width: '11%'}}
-                onPress={() => handleDeleteWheel(index)}
+                onPress={() => {
+                  Vibration.vibrate(50);
+                  handleDeleteWheel(index);
+                }}
               >
                 <TrashIcon width={30} height={30} fill={'white'} />
               </TouchableOpacity>

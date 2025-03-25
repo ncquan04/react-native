@@ -1,4 +1,4 @@
-import { View, Text, Modal, TouchableOpacity } from 'react-native'
+import { View, Text, Modal, TouchableOpacity, Vibration } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import BackIcon from '../../assets/icons/BackIcon';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -27,7 +27,10 @@ const WheelHistorySelectModal = ({ wheelHistorySelectModalVisible, setWheelHisto
             >
                 <View style={{ width: '100%', height: '100%', flexDirection: 'column', backgroundColor: 'white', alignItems: 'center' }}>
                     <View style={{ width: '100%', height: '10%', paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <TouchableOpacity onPress={() => setWheelHistorySelectModalVisible(false)}>
+                        <TouchableOpacity onPress={() => {
+                            Vibration.vibrate(50);
+                            setWheelHistorySelectModalVisible(false);
+                        }}>
                             <BackIcon width={40} height={40} />
                         </TouchableOpacity>
                         <Text style={{ fontSize: 30, fontWeight: '500' }}>{t['History']}</Text>
@@ -38,6 +41,7 @@ const WheelHistorySelectModal = ({ wheelHistorySelectModalVisible, setWheelHisto
                             <TouchableOpacity 
                                 key={index} style={{ width: '90%', flexDirection: 'row', height: 100, marginTop: 20, backgroundColor: colors.primary, borderRadius: 30, alignItems: 'center', paddingHorizontal: 10 }}
                                 onPress={() => {
+                                    Vibration.vibrate(50);
                                     setSelectedWheelIndex(index);
                                     setWheelHistoryDetailModalVisible(true);
                                 }}

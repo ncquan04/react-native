@@ -1,4 +1,4 @@
-import { View, Text, Modal, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, Modal, TextInput, TouchableOpacity, Vibration } from 'react-native'
 import React, { useState } from 'react'
 import BackIcon from '../../assets/icons/BackIcon';
 import LuckyWheel from '../components/LuckyWheel';
@@ -91,8 +91,9 @@ const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, setWheel
     const [wheelName, setWheelName] = useState<string>('');
     const [addItemsModalVisible, setAddItemsModalVisible] = useState<boolean>(false);
     const [attemptedSubmit, setAttemptedSubmit] = useState<boolean>(false);
-
+    
     const handleItemsPress = () => {
+        Vibration.vibrate(50);
         if (wheelName) {
             setAddItemsModalVisible(true);
             setAttemptedSubmit(false);
@@ -112,7 +113,10 @@ const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, setWheel
             >
             <View style={{ flex: 1, flexDirection: 'column', paddingTop: 40, backgroundColor: 'white', position: 'relative' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
-                        <TouchableOpacity onPress={() => setAddWheelModalVisible(false)}>
+                        <TouchableOpacity onPress={() => {
+                            Vibration.vibrate(50);
+                            setAddWheelModalVisible(false);
+                        }}>
                             <BackIcon width={40} height={40} />
                         </TouchableOpacity>
                         <Text style={{ fontSize: 30, fontWeight: 600 }}>Add Wheel</Text>
@@ -137,7 +141,10 @@ const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, setWheel
                                 return (
                                     <View key={index} style={{width: '20%', flexDirection: 'column', alignItems: 'center'}}>
                                         <TouchableOpacity
-                                            onPress={() => setSelectedStyle(index)}
+                                            onPress={() => {
+                                                Vibration.vibrate(50);
+                                                setSelectedStyle(index);
+                                            }}
                                             style={{flexDirection: 'column', alignItems: 'center'}}
                                         >
                                             <LuckyWheel

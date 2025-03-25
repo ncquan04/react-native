@@ -1,4 +1,4 @@
-import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity } from 'react-native'
+import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, Vibration } from 'react-native'
 import React, { useState } from 'react'
 import XIcon from '../../assets/icons/XIcon';
 import Slider from '@react-native-community/slider';
@@ -35,9 +35,15 @@ const WheelSpeedModal = ({ wheelSpeedModalVisible, setWheelSpeedModalVisible, sp
                         <Text style={{fontSize: 30, fontWeight: 600}}>{t['Speed']}</Text>
                         <TouchableOpacity
                             style={{marginRight: 20}}
-                            onPress={() => setWheelSpeedModalVisible(false)}
+                            onPress={() => {
+                                Vibration.vibrate(50);
+                                setWheelSpeedModalVisible(false);
+                            }}
                         >
-                            <XIcon width={15} height={15} fill={'black'} onPress={() => setWheelSpeedModalVisible(false)}/>
+                            <XIcon width={15} height={15} fill={'black'} onPress={() => {
+                                Vibration.vibrate(50);
+                                setWheelSpeedModalVisible(false);
+                            }}/>
                         </TouchableOpacity>
                     </View>
                     <Text style={{fontSize: 20, fontWeight: 500, alignSelf: 'center'}}>
@@ -61,8 +67,9 @@ const WheelSpeedModal = ({ wheelSpeedModalVisible, setWheelSpeedModalVisible, sp
                     <TouchableOpacity 
                         style={{alignSelf: 'flex-end', marginRight: 40}}
                         onPress={() => {
-                            setSpeed(tempSpeed)
-                            setWheelSpeedModalVisible(false)
+                            Vibration.vibrate(50);
+                            setSpeed(tempSpeed);
+                            setWheelSpeedModalVisible(false);
                         }}
                     >
                         <Text style={{fontSize: 20, fontWeight: 500, color: '#f2ae41'}}>Apply</Text>

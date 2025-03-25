@@ -1,4 +1,4 @@
-import { View, Text, Modal, TouchableOpacity, TextInput } from 'react-native'
+import { View, Text, Modal, TouchableOpacity, TextInput, Vibration } from 'react-native'
 import React, { useContext } from 'react'
 import BackIcon from '../../assets/icons/BackIcon';
 import { LanguageContext } from '../contexts/LanguageContext';
@@ -56,12 +56,18 @@ const RandomCustomModal = ({ RandomCustomModalVisible, setRandomCustomModalVisib
                         style={{width: '100%', height: '10%', paddingHorizontal: 20, flexDirection: 'row', 
                         justifyContent: 'space-between', alignItems: 'center'}}
                     >
-                        <TouchableOpacity onPress={() => setRandomCustomModalVisible(false)}>
+                        <TouchableOpacity onPress={() => {
+                            Vibration.vibrate(50);
+                            setRandomCustomModalVisible(false);
+                        }}>
                             <BackIcon width={40} height={40}/>
                         </TouchableOpacity>
                         <Text style={{fontSize: 30, fontWeight: 500}}>{t['Custom']}</Text>
                         <TouchableOpacity
-                            onPress={handleSave}
+                            onPress={() => {
+                                Vibration.vibrate(50);
+                                handleSave();
+                            }}
                         >
                             <Text style={{fontSize: 20, fontWeight: 400}}>{t['Save']}</Text>
                         </TouchableOpacity>

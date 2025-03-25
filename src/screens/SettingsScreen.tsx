@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Switch } from 'react-native'
+import { View, Text, TouchableOpacity, Switch, Vibration } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import EarthIcon from '../../assets/icons/EarthIcon'
 import NextIcon from '../../assets/icons/NextIcon'
@@ -49,7 +49,10 @@ const SettingsScreen: React.FC = () => {
           <TouchableOpacity
             style={{flexDirection: 'row', alignItems: 'center', backgroundColor: colors.primary, 
             padding: 10, borderRadius: 20, marginTop: 20, paddingHorizontal: 10, paddingVertical: 20}}
-            onPress={() => setLanguageModalVisible(true)}
+            onPress={() => {
+              Vibration.vibrate(50);
+              setLanguageModalVisible(true);
+            }}
           >
             <EarthIcon width={30} height={30} fill={'white'}/>
             <Text style={{fontSize: 20, fontWeight: 500, color: 'white', marginLeft: 20}}>{t['Language']}</Text>
@@ -58,7 +61,10 @@ const SettingsScreen: React.FC = () => {
           <TouchableOpacity
             style={{flexDirection: 'row', alignItems: 'center', backgroundColor: colors.primary, 
             padding: 10, borderRadius: 20, marginTop: 10, paddingHorizontal: 10, paddingVertical: 20}}
-            onPress={() => toggleMuteMusic()}
+            onPress={() => {
+              Vibration.vibrate(50);
+              toggleMuteMusic();
+            }}
           >
             <MuteMusicIcon width={30} height={30} fill={'white'}/>
             <Text style={{fontSize: 20, fontWeight: 500, color: 'white', marginLeft: 20}}>{t['Mute music']}</Text>
@@ -73,12 +79,21 @@ const SettingsScreen: React.FC = () => {
           <TouchableOpacity
             style={{flexDirection: 'row', alignItems: 'center', backgroundColor: colors.primary, 
             padding: 10, borderRadius: 20, marginTop: 10, paddingHorizontal: 10, paddingVertical: 20}}
+            onPress={() => {
+              Vibration.vibrate(50);
+              toggleMuteSound();
+            }}
           >
             <MuteSoundIcon width={30} height={30} fill={'white'}/>
-          <Text style={{fontSize: 20, fontWeight: 500, color: 'white', marginLeft: 20}}>{t['Mute sound']}</Text>
-            
+            <Text style={{fontSize: 20, fontWeight: 500, color: 'white', marginLeft: 20}}>{t['Mute sound']}</Text>
+            <Switch
+              trackColor={{false: 'white', true: '#f2ae41'}}
+              thumbColor={'white'}
+              onValueChange={toggleMuteSound}
+              value={isMuteSound}
+              style={{marginLeft: 'auto'}}
+            />
           </TouchableOpacity>
-
       </View>
 
       <LanguageModal

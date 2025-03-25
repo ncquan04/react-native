@@ -1,4 +1,4 @@
-import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, ScrollView, Vibration } from 'react-native'
 import React from 'react'
 import CheckIcon from '../../assets/icons/CheckIcon';
 
@@ -65,6 +65,7 @@ const ColorPickerModal = ({colorPickerModalVisible, setColorPickerModalVisible, 
                                         key={index}
                                         style={{width: 35, height: 35, backgroundColor: color, borderRadius: 20, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: 'black'}}
                                         onPress={() => {
+                                            Vibration.vibrate(50);
                                             setSelectedColorIndex(index)
                                         }}
                                     >
@@ -77,6 +78,7 @@ const ColorPickerModal = ({colorPickerModalVisible, setColorPickerModalVisible, 
                     <TouchableOpacity 
                         style={{flex: 0.1, alignSelf: 'flex-end', paddingRight: 20, marginTop: 10}}
                         onPress={() => {
+                            Vibration.vibrate(50);
                             setSelectedColor(sampleColors[selectedColorIndex])
                             setColorPickerModalVisible(false)
                         }}
