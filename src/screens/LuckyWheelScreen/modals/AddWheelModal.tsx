@@ -1,11 +1,11 @@
 import { View, Text, Modal, TextInput, TouchableOpacity, Vibration } from 'react-native'
 import React, { useState } from 'react'
-import BackIcon from '../../assets/icons/BackIcon';
-import LuckyWheel from '../components/LuckyWheel';
-import NextIcon from '../../assets/icons/NextIcon';
+import BackIcon from '../../../../assets/icons/BackIcon';
+import Alert from '../../../components/Alert';
+import colors from '../../../constants/colors';
+import LuckyWheel from '../../../components/LuckyWheel';
+import NextIcon from '../../../../assets/icons/NextIcon';
 import AddItemsModal from './AddItemsModal';
-import Alert from '../components/Alert';
-import colors from '../constants/colors';
 
 interface AddWheelModalProps {
     addWheelModalVisible: boolean;

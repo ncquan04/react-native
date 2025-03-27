@@ -1,14 +1,14 @@
 import { View, Text, TouchableOpacity, Switch, Vibration } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
-import EarthIcon from '../../assets/icons/EarthIcon'
-import NextIcon from '../../assets/icons/NextIcon'
-import LanguageModal from '../modals/LanguageModal'
-import { LanguageContext } from '../contexts/LanguageContext'
-import MuteMusicIcon from '../../assets/icons/MuteMusicIcon'
-import MuteSoundIcon from '../../assets/icons/MuteSoundIcon'
-import NativeMusicPlayer from '../../specs/NativeMusicPlayer'
+import EarthIcon from '../../../assets/icons/EarthIcon'
+import NextIcon from '../../../assets/icons/NextIcon'
+import LanguageModal from './modals/LanguageModal'
+import { LanguageContext } from '../../contexts/LanguageContext'
+import MuteMusicIcon from '../../../assets/icons/MuteMusicIcon'
+import MuteSoundIcon from '../../../assets/icons/MuteSoundIcon'
+import NativeMusicPlayer from '../../../specs/NativeMusicPlayer'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import colors from '../constants/colors'
+import colors from '../../constants/colors'
 
 const SettingsScreen: React.FC = () => {
   const { t } = useContext(LanguageContext);

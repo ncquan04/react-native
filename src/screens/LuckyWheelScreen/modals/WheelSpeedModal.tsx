@@ -1,80 +1,79 @@
 import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, Vibration } from 'react-native'
 import React, { useState } from 'react'
-import XIcon from '../../assets/icons/XIcon';
+import XIcon from '../../../../assets/icons/XIcon';
 import Slider from '@react-native-community/slider';
-import colors from '../constants/colors';
+import colors from '../../../constants/colors';
 
-interface WheelFontSizeModalProps {
-    wheelFontSizeModalVisible: boolean;
-    setWheelFontSizeModalVisible: (visible: boolean) => void;
-    fontSize: number;
-    setFontSize: (FontSize: number) => void;
+interface WheelSpeedModalProps {
+    wheelSpeedModalVisible: boolean;
+    setWheelSpeedModalVisible: (visible: boolean) => void;
+    speed: number;
+    setSpeed: (speed: number) => void;
     t: any;
 }
 
-const WheelFontSizeModal = ({ wheelFontSizeModalVisible, setWheelFontSizeModalVisible, fontSize, setFontSize, t}: WheelFontSizeModalProps) => {
-    const [tempFontSize, setTempFontSize] = useState<number>(fontSize);
+const WheelSpeedModal = ({ wheelSpeedModalVisible, setWheelSpeedModalVisible, speed, setSpeed, t}: WheelSpeedModalProps) => {
+    const [tempSpeed, setTempSpeed] = useState<number>(speed);
 
     return (
         <Modal
             animationType='fade'
             transparent={true}
-            visible={wheelFontSizeModalVisible}
+            visible={wheelSpeedModalVisible}
             statusBarTranslucent={true}
             onRequestClose={() => {
-                setWheelFontSizeModalVisible(!wheelFontSizeModalVisible)
+                setWheelSpeedModalVisible(!wheelSpeedModalVisible)
             }}
         >
             <View style={{flex: 1, flexDirection: 'column', backgroundColor: 'rgba(0,0,0,0.5)'}}>
                 <TouchableWithoutFeedback
-                    onPress={() => setWheelFontSizeModalVisible(false)}
+                    onPress={() => setWheelSpeedModalVisible(false)}
                 >
                     <View style={{flex: 0.7, backgroundColor: 'rgba(0,0,0,0)'}}/>
                 </TouchableWithoutFeedback>
                 <View style={{flex: 0.3, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'white', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingBottom: 30, paddingTop: 10}}>
-                    <View style={{width: '100%', height: '30%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                        <View style={{marginLeft: 20}}/>
-                        <Text style={{fontSize: 30, fontWeight: 600}}>{t['Font size']}</Text>
+                    <View style={{width: '100%', height: '30%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingLeft: '38%'}}>
+                        <Text style={{fontSize: 30, fontWeight: 600}}>{t['Speed']}</Text>
                         <TouchableOpacity
                             style={{marginRight: 20}}
                             onPress={() => {
                                 Vibration.vibrate(50);
-                                setWheelFontSizeModalVisible(false);
+                                setWheelSpeedModalVisible(false);
                             }}
                         >
                             <XIcon width={15} height={15} fill={'black'} onPress={() => {
                                 Vibration.vibrate(50);
-                                setWheelFontSizeModalVisible(false);
+                                setWheelSpeedModalVisible(false);
                             }}/>
                         </TouchableOpacity>
                     </View>
-                    <Text style={{fontSize: 25, fontWeight: 500, alignSelf: 'center'}}>
-                        {tempFontSize}
+                    <Text style={{fontSize: 20, fontWeight: 500, alignSelf: 'center'}}>
+                        {tempSpeed === 1 ? t['Slow'] : tempSpeed === 3 ? t['Normal'] : t['Fast']}
                     </Text>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20}}>
-                        <Text style={{fontSize: 20, fontWeight: 500}}>1</Text>
+                        <Text style={{fontSize: 15, fontWeight: 500}}>{t['Slow']}</Text>
                         <Slider
                             style={{width: '60%', height: 40, alignSelf: 'center'}}
-                            step={1}
+                            step={2}
                             minimumValue={1}
-                            maximumValue={40}
+                            maximumValue={5}
                             minimumTrackTintColor={colors.secondary}
                             maximumTrackTintColor="#000000"
                             thumbTintColor={colors.secondary}
-                            value={fontSize}
-                            onValueChange={value => setTempFontSize(value)}
+                            value={speed}
+                            onValueChange={value => setTempSpeed(value)}
                         />
-                        <Text style={{fontSize: 20, fontWeight: 500}}>40</Text>
+                        <Text style={{fontSize: 15, fontWeight: 500}}>{t['Fast']}</Text>
                     </View>
                     <TouchableOpacity 
                         style={{alignSelf: 'flex-end', marginRight: 40}}
                         onPress={() => {
                             Vibration.vibrate(50);
-                            setFontSize(tempFontSize);
-                            setWheelFontSizeModalVisible(false);
+                            setSpeed(tempSpeed);
+                            setWheelSpeedModalVisible(false);
                         }}
                     >
-                        <Text style={{fontSize: 20, fontWeight: 500, color: colors.secondary}}>{t['Apply']}</Text>
+                        <Text style={{fontSize: 20, fontWeight: 500, color: colors.secondary}}>Apply</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -82,4 +81,4 @@ const WheelFontSizeModal = ({ wheelFontSizeModalVisible, setWheelFontSizeModalVi
     )
 }
 
-export default WheelFontSizeModal
+export default WheelSpeedModal

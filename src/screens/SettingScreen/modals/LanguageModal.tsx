@@ -1,12 +1,12 @@
 import { View, Text, Modal, TouchableOpacity, Vibration } from 'react-native';
 import React, { useContext, useState } from 'react';
-import BackIcon from '../../assets/icons/BackIcon';
-import CheckIcon from '../../assets/icons/CheckIcon';
-import UKFlag from '../../assets/images/UKFlag';
-import VietnamFlag from '../../assets/images/VietNamFlag';
-import { LanguageContext } from '../contexts/LanguageContext';
+import BackIcon from '../../../../assets/icons/BackIcon';
+import CheckIcon from '../../../../assets/icons/CheckIcon';
+import UKFlag from '../../../../assets/images/UKFlag';
+import VietnamFlag from '../../../../assets/images/VietNamFlag';
+import { LanguageContext } from '../../../contexts/LanguageContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import colors from '../constants/colors';
+import colors from '../../../constants/colors';
 
 interface LanguageModalProps {
     LanguageModalVisible: boolean;

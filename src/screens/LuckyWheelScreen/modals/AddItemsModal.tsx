@@ -1,14 +1,14 @@
 import { View, Text, Modal, TouchableOpacity, TextInput, ScrollView, Vibration } from 'react-native'
 import React, { useState } from 'react'
-import BackIcon from '../../assets/icons/BackIcon';
-import AddIcon from '../../assets/icons/AddIcon';
+import BackIcon from '../../../../assets/icons/BackIcon';
+import AddIcon from '../../../../assets/icons/AddIcon';
 import ColorPickerModal from './ColorPickerModal';
-import TrashIcon from '../../assets/icons/TrashIcon';
+import TrashIcon from '../../../../assets/icons/TrashIcon';
 import WheelDemoModal from './WheelDemoModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import AddByListModal from './AddByListModal';
-import Alert from '../components/Alert';
-import colors from '../constants/colors';
+import AddByListModal from '../../LuckyWheelScreen/modals/AddByListModal';
+import Alert from '../../../components/Alert';
+import colors from '../../../constants/colors';
 
 interface AddItemsModalProps {
     addItemsModalVisible: boolean;

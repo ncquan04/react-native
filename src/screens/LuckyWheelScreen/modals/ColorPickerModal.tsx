@@ -1,7 +1,7 @@
 import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, ScrollView, Vibration } from 'react-native'
 import React from 'react'
-import CheckIcon from '../../assets/icons/CheckIcon';
-import colors from '../constants/colors';
+import CheckIcon from '../../../../assets/icons/CheckIcon';
+import colors from '../../../constants/colors';
 
 interface ColorPickerModalProps {
     colorPickerModalVisible: boolean;

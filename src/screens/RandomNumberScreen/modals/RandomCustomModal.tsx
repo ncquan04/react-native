@@ -1,9 +1,9 @@
 import { View, Text, Modal, TouchableOpacity, TextInput, Vibration } from 'react-native'
 import React, { useContext } from 'react'
-import BackIcon from '../../assets/icons/BackIcon';
-import { LanguageContext } from '../contexts/LanguageContext';
-import Alert from '../components/Alert';
-import colors from '../constants/colors';
+import BackIcon from '../../../../assets/icons/BackIcon';
+import { LanguageContext } from '../../../contexts/LanguageContext';
+import Alert from '../../../components/Alert';
+import colors from '../../../constants/colors';
 
 interface RandomCustomModalProps {
     RandomCustomModalVisible: boolean;

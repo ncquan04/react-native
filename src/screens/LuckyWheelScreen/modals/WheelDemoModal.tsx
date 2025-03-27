@@ -1,6 +1,6 @@
 import { View, Text, Modal, TouchableWithoutFeedback, Vibration } from 'react-native'
 import React from 'react'
-import LuckyWheel from '../components/LuckyWheel';
+import LuckyWheel from '../../../components/LuckyWheel';
 
 interface WheelDemoModalProps {
     wheelDemoModalVisible: boolean;

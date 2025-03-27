@@ -1,10 +1,10 @@
 import { View, Text, Image, PanResponder, Animated, Easing, TouchableOpacity } from 'react-native';
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { LanguageContext } from '../contexts/LanguageContext';
-import TouchElement from '../components/TouchElement';
+import { LanguageContext } from '../../contexts/LanguageContext';
+import TouchElement from '../../components/TouchElement';
 import LottieView from 'lottie-react-native';
-import RestartIcon from '../../assets/icons/RestartIcon';
-import colors from '../constants/colors';
+import RestartIcon from '../../../assets/icons/RestartIcon';
+import colors from '../../constants/colors';
 
 interface Finger {
     identifier: number;
@@ -154,7 +154,7 @@ const LuckyDrawScreen = () => {
                     style={{ width: '100%', height: '100%', position: 'absolute', zIndex: 11, justifyContent: 'center', alignItems: 'center' }}
                 >
                     <AnimatedLottieView
-                        source={require('../../assets/lotties/confetti.json')}
+                        source={require('../../../assets/lotties/confetti.json')}
                         progress={animationProgress.current}
                         style={{ width: "100%", height: "100%", position: 'absolute', zIndex: 11 }}
                         resizeMode='cover'
@@ -188,7 +188,7 @@ const LuckyDrawScreen = () => {
                             {t['3. The winner will be highlighted on the screen']}
                         </Text>
                         <View style={{ width: 100, height: 100, marginTop: 20, alignSelf: 'center' }}>
-                            <Image source={require('../../assets/images/randomHandTouch.png')} style={{ width: '100%', height: '100%' }} resizeMode='cover' />
+                            <Image source={require('../../../assets/images/randomHandTouch.png')} style={{ width: '100%', height: '100%' }} resizeMode='cover' />
                         </View>
                     </View>
                 </View>}

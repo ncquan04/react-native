@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState, useCallback } from 'react'
 import { View, Text, NativeModules, NativeEventEmitter, Animated, Easing, AppState, StyleSheet, Vibration } from 'react-native'
 import LottieView from 'lottie-react-native';
-import { LanguageContext } from '../contexts/LanguageContext';
+import { LanguageContext } from '../../contexts/LanguageContext';
 import crashlytics from '@react-native-firebase/crashlytics';
 
 const { NativeAccelerometer } = NativeModules;
@@ -249,7 +249,7 @@ const RollDiceScreen = () => {
         <>
             {showConfetti && (
                 <LottieView
-                    source={require('../../assets/lotties/confetti.json')}
+                    source={require('../../../assets/lotties/confetti.json')}
                     autoPlay
                     loop={false}
                     style={styles.confetti}
@@ -262,7 +262,7 @@ const RollDiceScreen = () => {
                 <View style={{height: '20%'}}/>
                 <Animated.View style={[styles.diceContainer, diceAnimatedStyle]}>
                     <AnimatedLottieView
-                        source={require('../../assets/lotties/rollingDice.json')}
+                        source={require('../../../assets/lotties/rollingDice.json')}
                         progress={rollingDiceAnimationProgress.current}
                         style={styles.diceAnimation}
                     />

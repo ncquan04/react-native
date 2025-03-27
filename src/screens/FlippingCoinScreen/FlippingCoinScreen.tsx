@@ -1,14 +1,14 @@
 import { View, TouchableOpacity, Image, Text, Animated, Easing, NativeEventEmitter, NativeModules, Button, StyleSheet, Vibration } from 'react-native'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import StartIcon from '../../assets/icons/StartIcon'
-import HistoryIcon from '../../assets/icons/HistoryIcon'
-import CustomIcon from '../../assets/icons/CustomIcon'
-import RestartIcon from '../../assets/icons/RestartIcon'
-import CoinCustomModal from '../modals/CoinCustomModal'
+import StartIcon from '../../../assets/icons/StartIcon'
+import HistoryIcon from '../../../assets/icons/HistoryIcon'
+import CustomIcon from '../../../assets/icons/CustomIcon'
+import RestartIcon from '../../../assets/icons/RestartIcon'
+import CoinCustomModal from './modals/CoinCustomModal'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import CoinHistoryModal from '../modals/CoinHistoryModal'
+import CoinHistoryModal from './modals/CoinHistoryModal'
 import LottieView from 'lottie-react-native'
-import colors from '../constants/colors'
+import colors from '../../constants/colors'
 
 const AnimatedLottieView = Animated.createAnimatedComponent(LottieView);
 const AnimatedCoin = Animated.createAnimatedComponent(LottieView);
@@ -133,34 +133,34 @@ const FlippingCoinScreen = () => {
   }, []);
 
   const heads = useMemo(() => ({
-    1: require('../../assets/coins/heads_1.png'),
-    2: require('../../assets/coins/heads_2.png'),
-    3: require('../../assets/coins/heads_3.png'),
-    4: require('../../assets/coins/heads_4.png'),
-    5: require('../../assets/coins/heads_5.png')
+    1: require('../../../assets/coins/heads_1.png'),
+    2: require('../../../assets/coins/heads_2.png'),
+    3: require('../../../assets/coins/heads_3.png'),
+    4: require('../../../assets/coins/heads_4.png'),
+    5: require('../../../assets/coins/heads_5.png')
   } as Record<number, any>), []);
 
   const tails = useMemo(() => ({
-    1: require('../../assets/coins/tails_1.png'),
-    2: require('../../assets/coins/tails_2.png'),
-    3: require('../../assets/coins/tails_3.png'),
-    4: require('../../assets/coins/tails_4.png'),
-    5: require('../../assets/coins/tails_5.png')
+    1: require('../../../assets/coins/tails_1.png'),
+    2: require('../../../assets/coins/tails_2.png'),
+    3: require('../../../assets/coins/tails_3.png'),
+    4: require('../../../assets/coins/tails_4.png'),
+    5: require('../../../assets/coins/tails_5.png')
   } as Record<number, any>), []);
 
   const animations = useMemo(() => ({
-    1: require('../../assets/lotties/flippingCoin1.json'),
-    2: require('../../assets/lotties/flippingCoin2.json'),
-    3: require('../../assets/lotties/flippingCoin3.json'),
-    4: require('../../assets/lotties/flippingCoin4.json'),
-    5: require('../../assets/lotties/flippingCoin5.json')
+    1: require('../../../assets/lotties/flippingCoin1.json'),
+    2: require('../../../assets/lotties/flippingCoin2.json'),
+    3: require('../../../assets/lotties/flippingCoin3.json'),
+    4: require('../../../assets/lotties/flippingCoin4.json'),
+    5: require('../../../assets/lotties/flippingCoin5.json')
   } as Record<number, any>), []);
 
   return (
     <>
       {showLottie && <View pointerEvents='none' style={{ width: '100%', height: '100%', position: 'absolute', zIndex: 11, justifyContent: 'center', alignItems: 'center' }}>
         <AnimatedLottieView
-          source={require('../../assets/lotties/confetti.json')}
+          source={require('../../../assets/lotties/confetti.json')}
           progress={confettiAnimationProgress.current}
           style={{ width: "100%", height: "100%", position: 'absolute', zIndex: 11 }}
           resizeMode='cover'

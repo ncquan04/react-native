@@ -2,11 +2,11 @@ import React, { use, useEffect, useState } from 'react';
 import { Alert, AppRegistry, Button, PermissionsAndroid, StatusBar, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import AppScreen from './src/screens/AppScreen';
-import LuckyDrawScreen from './src/screens/LuckyDrawScreen';
-import FlippingCoinScreen from './src/screens/FlippingCoinScreen';
-import RandomNumberScreen from './src/screens/RandomNumberScreen';
-import SettingsScreen from './src/screens/SettingsScreen';
+import AppScreen from './src/screens/LuckyWheelScreen/AppScreen';
+import LuckyDrawScreen from './src/screens/LuckyDrawScreen/LuckyDrawScreen';
+import FlippingCoinScreen from './src/screens/FlippingCoinScreen/FlippingCoinScreen';
+import RandomNumberScreen from './src/screens/RandomNumberScreen/RandomNumberScreen';
+import SettingsScreen from './src/screens/SettingScreen/SettingsScreen';
 
 import LuckyWheelIcon from './assets/icons/LuckyWheelIcon'
 import TouchIcon from './assets/icons/TouchIcon'
@@ -24,7 +24,7 @@ import messaging from '@react-native-firebase/messaging';
 import crashlytics from '@react-native-firebase/crashlytics';
 import notifee from '@notifee/react-native';
 import colors from './src/constants/colors';
-import RollDiceScreen from './src/screens/RollDiceScreen';
+import RollDiceScreen from './src/screens/RollDiceScreen/RollDiceScreen';
 import DiceIcon from './assets/icons/DiceIcon';
 
 const Tabs = createBottomTabNavigator();

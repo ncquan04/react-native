@@ -1,15 +1,15 @@
 import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, Switch, Vibration } from 'react-native'
 import React, { useContext, useState } from 'react'
-import XIcon from '../../assets/icons/XIcon';
-import { LanguageContext } from '../contexts/LanguageContext';
-import HistoryIcon from '../../assets/icons/HistoryIcon';
-import SpeedIcon from '../../assets/icons/SpeedIcon';
-import FontSizeIcon from '../../assets/icons/FontSizeIcon';
-import ReplaceIcon from '../../assets/icons/ReplaceIcon';
+import XIcon from '../../../../assets/icons/XIcon';
+import { LanguageContext } from '../../../contexts/LanguageContext';
+import HistoryIcon from '../../../../assets/icons/HistoryIcon';
+import SpeedIcon from '../../../../assets/icons/SpeedIcon';
+import FontSizeIcon from '../../../../assets/icons/FontSizeIcon';
+import ReplaceIcon from '../../../../assets/icons/ReplaceIcon';
 import WheelSpeedModal from './WheelSpeedModal';
 import WheelDurationModal from './WheelDurationModal';
 import WheelFontSizeModal from './WheelFontSizeModal';
-import colors from '../constants/colors';
+import colors from '../../../constants/colors';
 
 interface WheelCustomModalProps {
     wheelCustomModalVisible: boolean;

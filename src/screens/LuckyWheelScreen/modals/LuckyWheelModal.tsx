@@ -1,12 +1,12 @@
 import { View, Text, Modal, TouchableOpacity, Image, Animated, Easing, Vibration, StyleSheet } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import BackIcon from '../../assets/icons/BackIcon';
-import EqualizerIcon from '../../assets/icons/EqualizerIcon';
-import LuckyWheel from '../components/LuckyWheel';
+import BackIcon from '../../../../assets/icons/BackIcon';
+import EqualizerIcon from '../../../../assets/icons/EqualizerIcon';
+import LuckyWheel from '../../../components/LuckyWheel';
 import WheelCustomModal from './WheelCustomModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LottieView from 'lottie-react-native';
-import colors from '../constants/colors';
+import colors from '../../../constants/colors';
 
 interface LuckyWheelModalProps {
     LuckyWheelModalVisible: boolean;
@@ -259,7 +259,7 @@ const LuckyWheelModal = ({ LuckyWheelModalVisible, setLuckyWheelModalVisible, lu
                     {showLottie && (
                         <View pointerEvents='none' style={styles.lottieContainer}>
                             <AnimatedLottieView
-                                source={require('../../assets/lotties/confetti.json')}
+                                source={require('../../../../assets/lotties/confetti.json')}
                                 progress={animationProgress.current}
                                 style={styles.lottieView}
                                 resizeMode='cover'
@@ -311,7 +311,7 @@ const LuckyWheelModal = ({ LuckyWheelModalVisible, setLuckyWheelModalVisible, lu
                     
                     <View style={styles.wheelContainer}>
                         <Image
-                            source={require('../../assets/images/selector.png')}
+                            source={require('../../../../assets/images/selector.png')}
                             style={styles.selector}
                         />
                         <Animated.View 

@@ -1,7 +1,7 @@
 import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, TextInput, Vibration } from 'react-native'
 import React, { useState } from 'react'
-import XIcon from '../../assets/icons/XIcon';
-import colors from '../constants/colors';
+import XIcon from '../../../../assets/icons/XIcon';
+import colors from '../../../constants/colors';
 
 interface AddByListModalProps {
     addByListModalVisible: boolean;

@@ -1,10 +1,10 @@
 import { View, Text, Modal, TouchableOpacity, Vibration } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import BackIcon from '../../assets/icons/BackIcon';
+import BackIcon from '../../../../assets/icons/BackIcon';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import LuckyWheel from '../components/LuckyWheel';
+import LuckyWheel from '../../../components/LuckyWheel';
 import WheelHistoryDetailModal from './WheelHistoryDetailModal';
-import colors from '../constants/colors';
+import colors from '../../../constants/colors';
 
 interface LuckyWheelHistoryModalProps {
     wheelHistorySelectModalVisible: boolean;

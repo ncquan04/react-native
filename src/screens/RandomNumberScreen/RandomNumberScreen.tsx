@@ -1,13 +1,13 @@
 import { View, Text, TouchableOpacity, Animated, Easing, Vibration } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import HistoryIcon from '../../assets/icons/HistoryIcon';
-import StartIcon from '../../assets/icons/StartIcon';
-import CustomIcon from '../../assets/icons/CustomIcon';
-import RandomCustomModal from '../modals/RandomCustomModal';
+import HistoryIcon from '../../../assets/icons/HistoryIcon';
+import StartIcon from '../../../assets/icons/StartIcon';
+import CustomIcon from '../../../assets/icons/CustomIcon';
+import RandomCustomModal from './modals/RandomCustomModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import RandomHistoryModal from '../modals/RandomHistoryModal';
+import RandomHistoryModal from './modals/RandomHistoryModal';
 import LottieView from 'lottie-react-native';
-import colors from '../constants/colors';
+import colors from '../../constants/colors';
 
 const AnimatedLottieView = Animated.createAnimatedComponent(LottieView);
 const AnimatedText = Animated.createAnimatedComponent(Text);
@@ -162,7 +162,7 @@ const RandomNumberScreen = () => {
 
       {showLottie && <View pointerEvents='none' style={{ width: '100%', height: '100%', position: 'absolute', zIndex: 11, justifyContent: 'center', alignItems: 'center' }}>
         <AnimatedLottieView
-          source={require('../../assets/lotties/confetti.json')}
+          source={require('../../../assets/lotties/confetti.json')}
           progress={animationProgress.current}
           style={{ width: "100%", height: "100%", position: 'absolute', zIndex: 11 }}
           resizeMode='cover'

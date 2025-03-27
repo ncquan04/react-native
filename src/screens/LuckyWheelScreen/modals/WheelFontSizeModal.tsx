@@ -1,55 +1,55 @@
 import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, Vibration } from 'react-native'
 import React, { useState } from 'react'
-import XIcon from '../../assets/icons/XIcon';
+import XIcon from '../../../../assets/icons/XIcon';
 import Slider from '@react-native-community/slider';
-import colors from '../constants/colors';
+import colors from '../../../constants/colors';
 
-interface WheelDurationModalProps {
-    wheelDurationModalVisible: boolean;
-    setWheelDurationModalVisible: (visible: boolean) => void;
-    duration: number;
-    setDuration: (Duration: number) => void;
+interface WheelFontSizeModalProps {
+    wheelFontSizeModalVisible: boolean;
+    setWheelFontSizeModalVisible: (visible: boolean) => void;
+    fontSize: number;
+    setFontSize: (FontSize: number) => void;
     t: any;
 }
 
-const WheelDurationModal = ({ wheelDurationModalVisible, setWheelDurationModalVisible, duration, setDuration, t}: WheelDurationModalProps) => {
-    const [tempDuration, setTempDuration] = useState<number>(duration/1000);
-    
+const WheelFontSizeModal = ({ wheelFontSizeModalVisible, setWheelFontSizeModalVisible, fontSize, setFontSize, t}: WheelFontSizeModalProps) => {
+    const [tempFontSize, setTempFontSize] = useState<number>(fontSize);
+
     return (
         <Modal
             animationType='fade'
             transparent={true}
-            visible={wheelDurationModalVisible}
+            visible={wheelFontSizeModalVisible}
             statusBarTranslucent={true}
             onRequestClose={() => {
-                setWheelDurationModalVisible(!wheelDurationModalVisible)
+                setWheelFontSizeModalVisible(!wheelFontSizeModalVisible)
             }}
         >
             <View style={{flex: 1, flexDirection: 'column', backgroundColor: 'rgba(0,0,0,0.5)'}}>
                 <TouchableWithoutFeedback
-                    onPress={() => setWheelDurationModalVisible(false)}
+                    onPress={() => setWheelFontSizeModalVisible(false)}
                 >
                     <View style={{flex: 0.7, backgroundColor: 'rgba(0,0,0,0)'}}/>
                 </TouchableWithoutFeedback>
                 <View style={{flex: 0.3, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'white', borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingBottom: 30, paddingTop: 10}}>
                     <View style={{width: '100%', height: '30%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                         <View style={{marginLeft: 20}}/>
-                        <Text style={{fontSize: 30, fontWeight: 600}}>{t['Duration']}</Text>
+                        <Text style={{fontSize: 30, fontWeight: 600}}>{t['Font size']}</Text>
                         <TouchableOpacity
                             style={{marginRight: 20}}
                             onPress={() => {
                                 Vibration.vibrate(50);
-                                setWheelDurationModalVisible(false);
+                                setWheelFontSizeModalVisible(false);
                             }}
                         >
                             <XIcon width={15} height={15} fill={'black'} onPress={() => {
                                 Vibration.vibrate(50);
-                                setWheelDurationModalVisible(false);
+                                setWheelFontSizeModalVisible(false);
                             }}/>
                         </TouchableOpacity>
                     </View>
                     <Text style={{fontSize: 25, fontWeight: 500, alignSelf: 'center'}}>
-                        {tempDuration}
+                        {tempFontSize}
                     </Text>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20}}>
                         <Text style={{fontSize: 20, fontWeight: 500}}>1</Text>
@@ -57,21 +57,21 @@ const WheelDurationModal = ({ wheelDurationModalVisible, setWheelDurationModalVi
                             style={{width: '60%', height: 40, alignSelf: 'center'}}
                             step={1}
                             minimumValue={1}
-                            maximumValue={20}
+                            maximumValue={40}
                             minimumTrackTintColor={colors.secondary}
                             maximumTrackTintColor="#000000"
                             thumbTintColor={colors.secondary}
-                            value={duration / 1000}
-                            onValueChange={value => setTempDuration(value)}
+                            value={fontSize}
+                            onValueChange={value => setTempFontSize(value)}
                         />
-                        <Text style={{fontSize: 20, fontWeight: 500}}>20</Text>
+                        <Text style={{fontSize: 20, fontWeight: 500}}>40</Text>
                     </View>
                     <TouchableOpacity 
                         style={{alignSelf: 'flex-end', marginRight: 40}}
                         onPress={() => {
                             Vibration.vibrate(50);
-                            setDuration(tempDuration * 1000);
-                            setWheelDurationModalVisible(false);
+                            setFontSize(tempFontSize);
+                            setWheelFontSizeModalVisible(false);
                         }}
                     >
                         <Text style={{fontSize: 20, fontWeight: 500, color: colors.secondary}}>{t['Apply']}</Text>
@@ -82,4 +82,4 @@ const WheelDurationModal = ({ wheelDurationModalVisible, setWheelDurationModalVi
     )
 }
 
-export default WheelDurationModal
+export default WheelFontSizeModal

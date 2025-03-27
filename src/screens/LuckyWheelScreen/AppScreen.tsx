@@ -1,15 +1,15 @@
 import { View, Text, TouchableOpacity, ScrollView, StatusBar, Vibration } from 'react-native'
 import React, { use, useContext, useEffect, useMemo, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { LanguageContext } from '../contexts/LanguageContext';
-import HistoryIcon from '../../assets/icons/HistoryIcon';
-import AddIcon from '../../assets/icons/AddIcon';
-import TrashIcon from '../../assets/icons/TrashIcon';
-import LuckyWheel from '../components/LuckyWheel';
-import LuckyWheelModal from '../modals/LuckyWheelModal';
-import AddWheelModal from '../modals/AddWheelModal';
-import WheelHistorySelectModal from '../modals/WheelHistorySelectModal';
-import colors from '../constants/colors';
+import { LanguageContext } from '../../contexts/LanguageContext';
+import HistoryIcon from '../../../assets/icons/HistoryIcon';
+import AddIcon from '../../../assets/icons/AddIcon';
+import TrashIcon from '../../../assets/icons/TrashIcon';
+import LuckyWheel from '../../components/LuckyWheel';
+import LuckyWheelModal from './modals/LuckyWheelModal';
+import AddWheelModal from './modals/AddWheelModal';
+import WheelHistorySelectModal from './modals/WheelHistorySelectModal';
+import colors from '../../constants/colors';
 
 const AppScreen = ({ Wheels }: { Wheels: any[] }) => {
   const {t} = useContext(LanguageContext);
