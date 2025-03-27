@@ -160,7 +160,7 @@ const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, setWheel
                             })}
                         </View>
                         <TouchableOpacity 
-                            style={{width: '80%', flexDirection: 'row', backgroundColor: '#f2ae41', borderRadius: 100, justifyContent: 'space-between', alignItems: 'center', marginTop: 80, alignSelf: 'center', paddingHorizontal: 20, paddingVertical: 20}}
+                            style={{width: '80%', flexDirection: 'row', backgroundColor: colors.secondary, borderRadius: 100, justifyContent: 'space-between', alignItems: 'center', marginTop: 80, alignSelf: 'center', paddingHorizontal: 20, paddingVertical: 20}}
                             onPress={handleItemsPress}
                         >
                             <View/>

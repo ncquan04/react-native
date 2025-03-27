@@ -1,6 +1,7 @@
 import { View, Text, Modal, TouchableOpacity } from 'react-native'
 import React, { useContext } from 'react'
 import { LanguageContext } from '../contexts/LanguageContext';
+import colors from '../constants/colors';
 
 interface AlertProps {
     alertVisible: boolean;
@@ -27,7 +28,7 @@ const Alert = ({ alertVisible, setAlertVisible, message, setAttemptedSubmit}: Al
                 <View style={{width: '80%', flexDirection: 'column', backgroundColor: 'white', borderRadius: 30, padding: 20, alignItems: 'center'}}>
                     <Text style={{fontSize: 20, fontWeight: 500, flexWrap: 'wrap', color: 'black', textAlign: 'center'}}>{t[`${message}`]}</Text>
                     <TouchableOpacity
-                        style={{width: '50%', backgroundColor: '#f2ae41', borderRadius: 15, padding: 10, marginTop: 20}}
+                        style={{width: '50%', backgroundColor: colors.secondary, borderRadius: 15, padding: 10, marginTop: 20}}
                         onPress={() => setAttemptedSubmit(false)}
                     >
                         <Text style={{fontSize: 20, fontWeight: 500, textAlign: 'center', color: 'white'}}>{t['OK']}</Text>

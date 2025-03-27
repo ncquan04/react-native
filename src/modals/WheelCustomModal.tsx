@@ -119,7 +119,7 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                                     <Text style={{ color: 'white', fontSize: 20, fontWeight: 600, marginLeft: 10, flexWrap: 'wrap' }}>{t['Remove winning item']}</Text>
                                 </View>
                                 <Switch
-                                    trackColor={{ false: 'white', true: '#f2ae41' }}
+                                    trackColor={{ false: 'white', true: colors.secondary }}
                                     thumbColor={'white'}
                                     ios_backgroundColor={'white'}
                                     onValueChange={() => {

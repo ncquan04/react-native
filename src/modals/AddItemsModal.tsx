@@ -101,7 +101,7 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
                         <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20}}>
                             <Text style={{fontSize: 25, fontWeight: 500}}>{t['Add Item']}</Text>
                             <TouchableOpacity
-                                style={{backgroundColor: '#f2ae41', padding: 10, borderRadius: 15}}
+                                style={{backgroundColor: colors.secondary, padding: 10, borderRadius: 15}}
                                 onPress={() => {
                                     Vibration.vibrate(50);
                                     setAddByListModalVisible(true);
@@ -134,7 +134,7 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
                         </View>
 
                         <TouchableOpacity 
-                            style={{width: '100%', marginTop: 20, padding: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#f2ae41', borderRadius: 50}}
+                            style={{width: '100%', marginTop: 20, padding: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: colors.secondary, borderRadius: 50}}
                             onPress={() => {
                                 Vibration.vibrate(50);
                                 handleAddItem();
@@ -177,7 +177,7 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
 
                         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20, width: '100%'}}>
                             <TouchableOpacity 
-                                style={{width: '47%', backgroundColor: '#f2ae41', paddingHorizontal: 10, paddingVertical: 20, borderRadius: 20}} 
+                                style={{width: '47%', backgroundColor: colors.secondary, paddingHorizontal: 10, paddingVertical: 20, borderRadius: 20}} 
                                 onPress={() => {
                                     Vibration.vibrate(50);
                                     setWheelDemoModalVisible(true);
@@ -186,7 +186,7 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
                                 <Text style={{fontSize: 20, fontWeight: 500, color: 'white', textAlign: 'center'}}>{t['Demo']}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity 
-                                style={{width: '47%', backgroundColor: '#f2ae41', paddingHorizontal: 10, paddingVertical: 20, borderRadius: 20}}
+                                style={{width: '47%', backgroundColor: colors.secondary, paddingHorizontal: 10, paddingVertical: 20, borderRadius: 20}}
                                 onPress={() => {
                                     Vibration.vibrate(50);
                                     handleSaveWheel();

@@ -69,7 +69,7 @@ const SettingsScreen: React.FC = () => {
             <MuteMusicIcon width={30} height={30} fill={'white'}/>
             <Text style={{fontSize: 20, fontWeight: 500, color: 'white', marginLeft: 20}}>{t['Mute music']}</Text>
             <Switch
-              trackColor={{false: 'white', true: '#f2ae41'}}
+              trackColor={{false: 'white', true: colors.secondary}}
               thumbColor={'white'}
               onValueChange={toggleMuteMusic}
               value={isMuteMusic}
@@ -87,7 +87,7 @@ const SettingsScreen: React.FC = () => {
             <MuteSoundIcon width={30} height={30} fill={'white'}/>
             <Text style={{fontSize: 20, fontWeight: 500, color: 'white', marginLeft: 20}}>{t['Mute sound']}</Text>
             <Switch
-              trackColor={{false: 'white', true: '#f2ae41'}}
+              trackColor={{false: 'white', true: colors.secondary}}
               thumbColor={'white'}
               onValueChange={toggleMuteSound}
               value={isMuteSound}

@@ -1,5 +1,5 @@
 import { View, TouchableOpacity, Image, Text, Animated, Easing, NativeEventEmitter, NativeModules, Button, StyleSheet, Vibration } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import StartIcon from '../../assets/icons/StartIcon'
 import HistoryIcon from '../../assets/icons/HistoryIcon'
 import CustomIcon from '../../assets/icons/CustomIcon'
@@ -57,7 +57,7 @@ const FlippingCoinScreen = () => {
   //   }, 5 * 1000);
   // }
 
-  const RandomCoinSide = () => {
+  const RandomCoinSide = useCallback(() => {
     Vibration.vibrate(75);
     if (isRandoming) return;
   
@@ -97,14 +97,17 @@ const FlippingCoinScreen = () => {
         useNativeDriver: false,
       }),
     ]).start(() => {
+      setTimeout(() => {
+        Vibration.vibrate(500);
+      }, 150)
       setCoinSide(randomSide);
       setIsRandoming(false);
       setShowLottie(true);
       SaveData(randomSide);
     });
-  }
+  }, []);
 
-  const SaveData = async (side: number) => {
+  const SaveData = useCallback(async (side: number) => {
     try {
       const currentDate = new Date();
       const dataToSave = {
@@ -127,31 +130,31 @@ const FlippingCoinScreen = () => {
     } catch (error) {
       console.error('Lỗi khi lưu dữ liệu:', error);
     }
-  }
+  }, []);
 
-  const heads: { [key: number]: any } = {
+  const heads = useMemo(() => ({
     1: require('../../assets/coins/heads_1.png'),
     2: require('../../assets/coins/heads_2.png'),
     3: require('../../assets/coins/heads_3.png'),
     4: require('../../assets/coins/heads_4.png'),
     5: require('../../assets/coins/heads_5.png')
-  }
+  } as Record<number, any>), []);
 
-  const tails: { [key: number]: any } = {
+  const tails = useMemo(() => ({
     1: require('../../assets/coins/tails_1.png'),
     2: require('../../assets/coins/tails_2.png'),
     3: require('../../assets/coins/tails_3.png'),
     4: require('../../assets/coins/tails_4.png'),
     5: require('../../assets/coins/tails_5.png')
-  }
+  } as Record<number, any>), []);
 
-  const animations: { [key: number]: any } = {
+  const animations = useMemo(() => ({
     1: require('../../assets/lotties/flippingCoin1.json'),
     2: require('../../assets/lotties/flippingCoin2.json'),
     3: require('../../assets/lotties/flippingCoin3.json'),
     4: require('../../assets/lotties/flippingCoin4.json'),
     5: require('../../assets/lotties/flippingCoin5.json')
-  }
+  } as Record<number, any>), []);
 
   return (
     <>
@@ -186,7 +189,6 @@ const FlippingCoinScreen = () => {
               Vibration.vibrate(50);
               setHeadCounter(0);
               setTailCounter(0);
-              setHistory([]);
             }}
           >
             <RestartIcon width={30} height={30} />
@@ -217,7 +219,7 @@ const FlippingCoinScreen = () => {
         >
           <HistoryIcon width={40} height={40} fill={'white'} />
         </TouchableOpacity>
-        <TouchableOpacity style={{ width: '40%', justifyContent: 'center', alignItems: 'center' }} onPress={RandomCoinSide}>
+        <TouchableOpacity style={{ width: '40%', justifyContent: 'center', alignItems: 'center' }} onPress={!isRandoming ? RandomCoinSide : undefined}>
           <StartIcon width={80} height={80} />
         </TouchableOpacity>
         <TouchableOpacity 

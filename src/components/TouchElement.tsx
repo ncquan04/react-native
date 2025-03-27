@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { Animated, View } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 interface TouchElementProps {
@@ -8,21 +8,25 @@ interface TouchElementProps {
     color?: string;
     top?: number;
     left?: number;
-    fill?: number;
+    fill?: number | Animated.Value;
     highlighted?: boolean;
     resultDisplayed?: boolean;
+    x?: Animated.Value;
+    y?: Animated.Value;
 }
 
-const TouchElement: React.FC<TouchElementProps> = ({
-    size = 100,
-    color = '#ffff',
-    top = 0,
-    left = 0,
-    fill = 0,
-    highlighted = false,
-    resultDisplayed = false,
-}) => {
+const TouchElement: React.FC<TouchElementProps> = ({ size = 100, color = '#fff', top = 0, left = 0, fill = 0, highlighted = false, resultDisplayed = false, x = 0, y = 0 }) => {
     const [flashingState, setFlashingState] = useState<boolean>(false);
+
+    const animatedFill = useMemo(() => {
+        if (fill instanceof Animated.Value) {
+            return fill.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 100]
+            });
+        }
+        return fill;
+    }, [fill]);
 
     useEffect(() => {
         if (resultDisplayed) {
@@ -40,11 +44,6 @@ const TouchElement: React.FC<TouchElementProps> = ({
 
     const oRingSize: number = size + 30;
 
-    const position = {
-        top: top - oRingSize / 2,
-        left: left - oRingSize / 2,
-    };
-
     const ballColor = highlighted ? color : color; // Use the provided color or default
     const ringColor = highlighted ? color : color; // Use the same color for both elements
 
@@ -56,32 +55,30 @@ const TouchElement: React.FC<TouchElementProps> = ({
         padding: 5,
         opacity: opacity,
     };
-
+    
     return (
-        <View style={{ position: 'absolute', ...position }}>
-            <AnimatedCircularProgress
-                size={oRingSize}
-                width={10}
-                fill={fill}
-                prefill={0}
-                tintColor={ringColor}
-                duration={100}
-                style={{ opacity }}
-            >
-                {() => <View style={ballStyle} />}
-            </AnimatedCircularProgress>
-        </View>
+        <Animated.View 
+            style={{ 
+                position: 'absolute', 
+                transform: [
+                    {translateX: Animated.subtract(x, oRingSize / 2)},
+                    {translateY: Animated.subtract(y, oRingSize / 2)}
+                ]
+            }}
+        >
+                <AnimatedCircularProgress
+                    size={oRingSize}
+                    width={10}
+                    fill={animatedFill as number}
+                    prefill={0}
+                    tintColor={ringColor}
+                    duration={0}
+                    style={{ opacity }}
+                >
+                    {() => <View style={ballStyle} />}
+                </AnimatedCircularProgress>
+        </Animated.View>
     );
-};
-
-TouchElement.propTypes = {
-    size: PropTypes.number,
-    color: PropTypes.string,
-    top: PropTypes.number,
-    left: PropTypes.number,
-    fill: PropTypes.number,
-    highlighted: PropTypes.bool,
-    resultDisplayed: PropTypes.bool,
 };
 
 export default TouchElement;

@@ -1,6 +1,7 @@
 import * as React from "react"
 import Svg, { Circle, SvgProps, Text } from "react-native-svg"
 import { LanguageContext } from "../../src/contexts/LanguageContext"
+import colors from "../../src/constants/colors";
 
 function StartIcon(props: SvgProps) {
     const {t} = React.useContext(LanguageContext);
@@ -17,7 +18,7 @@ function StartIcon(props: SvgProps) {
                 cx={50}
                 cy={50}
                 r={45}
-                fill="#f2ae41"
+                fill={colors.secondary}
                 stroke="silver"
                 strokeWidth={2}
             />

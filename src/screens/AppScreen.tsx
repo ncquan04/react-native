@@ -43,7 +43,7 @@ const AppScreen = ({ Wheels }: { Wheels: any[] }) => {
       <Text style={{fontSize: 30, fontWeight: 500, marginTop: 10}}>{t['Wheels']}</Text>
       <View style={{flexDirection: 'row', marginTop: 20, width: '90%', justifyContent: 'space-between'}}>
         <TouchableOpacity 
-          style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#f2ae41', padding: 10, borderRadius: 15}}
+          style={{flexDirection: 'row', alignItems: 'center', backgroundColor: colors.secondary, padding: 10, borderRadius: 15}}
           onPress={() => {
             Vibration.vibrate(50);
             setAddWheelModalVisible(true);
@@ -53,7 +53,7 @@ const AppScreen = ({ Wheels }: { Wheels: any[] }) => {
           <Text style={{fontSize: 17, fontWeight: 500, color: 'white', marginLeft: 10}}>{t['Wheel']}</Text>
         </TouchableOpacity>
         <TouchableOpacity 
-          style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#f2ae41', padding: 10, borderRadius: 15}}
+          style={{flexDirection: 'row', alignItems: 'center', backgroundColor: colors.secondary, padding: 10, borderRadius: 15}}
           onPress={() => {
             Vibration.vibrate(50);
             setWheelHistorySelectModalVisible(true);

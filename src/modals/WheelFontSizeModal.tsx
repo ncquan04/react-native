@@ -2,6 +2,7 @@ import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, Vibratio
 import React, { useState } from 'react'
 import XIcon from '../../assets/icons/XIcon';
 import Slider from '@react-native-community/slider';
+import colors from '../constants/colors';
 
 interface WheelFontSizeModalProps {
     wheelFontSizeModalVisible: boolean;
@@ -57,9 +58,9 @@ const WheelFontSizeModal = ({ wheelFontSizeModalVisible, setWheelFontSizeModalVi
                             step={1}
                             minimumValue={1}
                             maximumValue={40}
-                            minimumTrackTintColor="#f2ae41"
+                            minimumTrackTintColor={colors.secondary}
                             maximumTrackTintColor="#000000"
-                            thumbTintColor="#f2ae41"
+                            thumbTintColor={colors.secondary}
                             value={fontSize}
                             onValueChange={value => setTempFontSize(value)}
                         />
@@ -73,7 +74,7 @@ const WheelFontSizeModal = ({ wheelFontSizeModalVisible, setWheelFontSizeModalVi
                             setWheelFontSizeModalVisible(false);
                         }}
                     >
-                        <Text style={{fontSize: 20, fontWeight: 500, color: '#f2ae41'}}>{t['Apply']}</Text>
+                        <Text style={{fontSize: 20, fontWeight: 500, color: colors.secondary}}>{t['Apply']}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

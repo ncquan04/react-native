@@ -73,6 +73,7 @@ const InitWheels = [
 function App(): React.JSX.Element {
   const [Wheels, setWheels] = useState<any[]>([]);
   const [primaryColor, setPrimaryColor] = useState<string>(colors.primary);
+  const [secondaryColor, setSecondaryColor] = useState<string>(colors.secondary);
 
   // // Function to clear all AsyncStorage data
   // const clearAllData = async () => {
@@ -99,10 +100,14 @@ function App(): React.JSX.Element {
       });
       await remoteConfig().fetchAndActivate();
       const primaryColor = remoteConfig().getValue('primary_color').asString();
+      const secondaryColor = remoteConfig().getValue('secondary_color').asString();
       colors.primary = primaryColor;
+      colors.secondary = secondaryColor;
       setPrimaryColor(primaryColor);
+      setSecondaryColor(secondaryColor);
     } catch (error) {
       console.log(error);
+      crashlytics().recordError(error instanceof Error ? error : new Error(String(error)));
       NativeSplashScreen.hide();
     }
   }
@@ -129,6 +134,7 @@ function App(): React.JSX.Element {
         NativeSplashScreen.hide();
       } catch (error) {
         console.log(error);
+        crashlytics().recordError(error instanceof Error ? error : new Error(String(error)));
       }
     };
     fetchData();
@@ -156,17 +162,17 @@ function App(): React.JSX.Element {
               tabBarInactiveTintColor: '#white',
               tabBarIcon: ({ focused, color, size }) => {
                 if (route.name === "App") {
-                  return <LuckyWheelIcon width={25} height={25} fill={focused ? '#f2ae41' : 'white'} />
+                  return <LuckyWheelIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
                 } else if (route.name === "Lucky Draw") {
-                  return <TouchIcon width={25} height={25} fill={focused ? '#f2ae41' : 'white'} />
+                  return <TouchIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
                 } else if (route.name === "Random Number") {
-                  return <RandomNumberIcon width={25} height={25} fill={focused ? '#f2ae41' : 'white'} />
+                  return <RandomNumberIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
                 } else if (route.name === "Flipping Coin") {
-                  return <CoinIcon width={25} height={25} fill={focused ? '#f2ae41' : 'white'} />
+                  return <CoinIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
                 } else if (route.name === "Rolling Dice") {
-                  return <DiceIcon width={25} height={25} fill={focused ? '#f2ae41' : 'white'} />
+                  return <DiceIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
                 } else if (route.name === "Settings") {
-                  return <SettingsIcon width={25} height={25} fill={focused ? '#f2ae41' : 'white'} />
+                  return <SettingsIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
                 }
               },
             })}

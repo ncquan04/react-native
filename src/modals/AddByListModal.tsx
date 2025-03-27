@@ -81,7 +81,7 @@ const AddByListModal = ({addByListModalVisible, setAddByListModalVisible, items,
                             <Text style={{fontSize: 20, fontWeight: 500, color: 'white', textAlign: 'center'}}>Cancel</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
-                            style={{width: '45%', paddingHorizontal: 10, paddingVertical: 20, backgroundColor: '#f2ae41', borderRadius: 30}}
+                            style={{width: '45%', paddingHorizontal: 10, paddingVertical: 20, backgroundColor: colors.secondary, borderRadius: 30}}
                             onPress={() => {
                                 Vibration.vibrate(50);
                                 handleAddByList();

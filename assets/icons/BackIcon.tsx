@@ -1,5 +1,6 @@
 import * as React from "react"
 import Svg, { Circle, Path, SvgProps } from "react-native-svg"
+import colors from "../../src/constants/colors"
 
 function BackIcon(props: SvgProps) {
     return (
@@ -10,7 +11,7 @@ function BackIcon(props: SvgProps) {
             // xmlns="http://www.w3.org/2000/svg"
             {...props}
         >
-            <Circle cx={50} cy={50} r={45} fill="#f2ae41" />
+            <Circle cx={50} cy={50} r={45} fill={colors.secondary} />
             <Path fill="#fff" d="M55 30L35 50 55 70z" />
         </Svg>
     )

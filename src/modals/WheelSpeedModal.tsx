@@ -2,6 +2,7 @@ import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, Vibratio
 import React, { useState } from 'react'
 import XIcon from '../../assets/icons/XIcon';
 import Slider from '@react-native-community/slider';
+import colors from '../constants/colors';
 
 interface WheelSpeedModalProps {
     wheelSpeedModalVisible: boolean;
@@ -56,9 +57,9 @@ const WheelSpeedModal = ({ wheelSpeedModalVisible, setWheelSpeedModalVisible, sp
                             step={2}
                             minimumValue={1}
                             maximumValue={5}
-                            minimumTrackTintColor="#f2ae41"
+                            minimumTrackTintColor={colors.secondary}
                             maximumTrackTintColor="#000000"
-                            thumbTintColor="#f2ae41"
+                            thumbTintColor={colors.secondary}
                             value={speed}
                             onValueChange={value => setTempSpeed(value)}
                         />
@@ -72,7 +73,7 @@ const WheelSpeedModal = ({ wheelSpeedModalVisible, setWheelSpeedModalVisible, sp
                             setWheelSpeedModalVisible(false);
                         }}
                     >
-                        <Text style={{fontSize: 20, fontWeight: 500, color: '#f2ae41'}}>Apply</Text>
+                        <Text style={{fontSize: 20, fontWeight: 500, color: colors.secondary}}>Apply</Text>
                     </TouchableOpacity>
                 </View>
             </View>

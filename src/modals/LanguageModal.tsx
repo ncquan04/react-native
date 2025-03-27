@@ -60,7 +60,7 @@ const LanguageModal = ({ LanguageModalVisible, setLanguageModalVisible }: Langua
                         Vibration.vibrate(50);
                         handleChangeLanguage();
                     }}>
-                        <CheckIcon width={25} height={25} fill={'#f2ae41'} />
+                        <CheckIcon width={25} height={25} fill={colors.secondary} />
                     </TouchableOpacity>
                 </View>
 
@@ -97,7 +97,7 @@ const LanguageModal = ({ LanguageModalVisible, setLanguageModalVisible }: Langua
                             alignItems: 'center',
                         }}
                     >
-                        {selectedLanguage === 'en' && <CheckIcon width={15} height={15} fill={'#f2ae41'} />}
+                        {selectedLanguage === 'en' && <CheckIcon width={15} height={15} fill={colors.secondary} />}
                     </View>
                 </TouchableOpacity>
 
@@ -135,7 +135,7 @@ const LanguageModal = ({ LanguageModalVisible, setLanguageModalVisible }: Langua
                             alignItems: 'center',
                         }}
                     >
-                        {selectedLanguage === 'vi' && <CheckIcon width={15} height={15} fill={'#f2ae41'} />}
+                        {selectedLanguage === 'vi' && <CheckIcon width={15} height={15} fill={colors.secondary} />}
                     </View>
                 </TouchableOpacity>
             </View>
