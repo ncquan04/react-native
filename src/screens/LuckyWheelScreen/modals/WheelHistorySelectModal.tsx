@@ -1,7 +1,6 @@
 import { View, Text, Modal, TouchableOpacity, Vibration } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import BackIcon from '../../../../assets/icons/BackIcon';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import LuckyWheel from '../../../components/LuckyWheel';
 import WheelHistoryDetailModal from './WheelHistoryDetailModal';
 import colors from '../../../constants/colors';
@@ -9,12 +8,12 @@ import colors from '../../../constants/colors';
 interface LuckyWheelHistoryModalProps {
     wheelHistorySelectModalVisible: boolean;
     setWheelHistorySelectModalVisible: (visible: boolean) => void;
-    wheels: any[];
+    wheels: {id: number, name: string, segments: any[]}[];
     t: any;
 }
 
 const WheelHistorySelectModal = ({ wheelHistorySelectModalVisible, setWheelHistorySelectModalVisible, wheels, t}: LuckyWheelHistoryModalProps) => {
-    const [selectedWheelIndex, setSelectedWheelIndex] = useState<number>(0);
+    const [selectedWheelId, setSelectedWheelId] = useState<number>(0);
     const [wheelHistoryDetailModalVisible, setWheelHistoryDetailModalVisible] = useState<boolean>(false);
 
     return (
@@ -22,7 +21,8 @@ const WheelHistorySelectModal = ({ wheelHistorySelectModalVisible, setWheelHisto
             <Modal 
                 animationType="slide" 
                 transparent={true} 
-                visible={wheelHistorySelectModalVisible} 
+                visible={wheelHistorySelectModalVisible}
+                statusBarTranslucent={true}
                 onRequestClose={() => setWheelHistorySelectModalVisible(!wheelHistorySelectModalVisible)}
             >
                 <View style={{ width: '100%', height: '100%', flexDirection: 'column', backgroundColor: 'white', alignItems: 'center' }}>
@@ -42,7 +42,7 @@ const WheelHistorySelectModal = ({ wheelHistorySelectModalVisible, setWheelHisto
                                 key={index} style={{ width: '90%', flexDirection: 'row', height: 100, marginTop: 20, backgroundColor: colors.primary, borderRadius: 30, alignItems: 'center', paddingHorizontal: 10 }}
                                 onPress={() => {
                                     Vibration.vibrate(50);
-                                    setSelectedWheelIndex(index);
+                                    setSelectedWheelId(wheel.id);
                                     setWheelHistoryDetailModalVisible(true);
                                 }}
                             >
@@ -60,8 +60,8 @@ const WheelHistorySelectModal = ({ wheelHistorySelectModalVisible, setWheelHisto
             {wheelHistoryDetailModalVisible && <WheelHistoryDetailModal
                 wheelHistoryDetailModalVisible={wheelHistoryDetailModalVisible}
                 setWheelHistoryDetailModalVisible={setWheelHistoryDetailModalVisible}
-                wheel={wheels[selectedWheelIndex]}
-                index={selectedWheelIndex}
+                wheel={wheels.find(wheel => wheel.id === selectedWheelId) || { id: 0, name: '', segments: [] }}
+                id={selectedWheelId}
                 t={t}
             />}
         </>

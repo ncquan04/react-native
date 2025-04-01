@@ -7,12 +7,12 @@ import colors from '../../../constants/colors';
 interface WheelHistoryDetailModalProps {
     wheelHistoryDetailModalVisible: boolean;
     setWheelHistoryDetailModalVisible: (visible: boolean) => void;
-    wheel: any;
-    index: number;
+    wheel: { id: number, name: string, segments: {content: string, color: string}[] };
+    id: number;
     t: any;
 }
 
-const WheelHistoryDetailModal = ({ wheelHistoryDetailModalVisible, setWheelHistoryDetailModalVisible, wheel, index, t }: WheelHistoryDetailModalProps) => {
+const WheelHistoryDetailModal = ({ wheelHistoryDetailModalVisible, setWheelHistoryDetailModalVisible, wheel, id, t }: WheelHistoryDetailModalProps) => {
     const [history, setHistory] = useState<any[]>([]);
 
     useEffect(() => {
@@ -53,7 +53,7 @@ const WheelHistoryDetailModal = ({ wheelHistoryDetailModalVisible, setWheelHisto
                     contentContainerStyle={{ alignItems: 'center' }}
                 >
                     {history
-                        .filter(item => item.wheelIndex === index)
+                        .filter(item => item.id === id)
                         .map((item, i) => (
                             <View key={i} style={{ width: '90%', flexDirection: 'column', justifyContent: 'center', height: 100, marginTop: 20, backgroundColor: colors.primary, borderRadius: 30, paddingHorizontal: 10 }}>
                                 <Text style={{ color: 'white', fontSize: 15, fontWeight: '600', marginLeft: 10, fontStyle: 'italic' }}>{t['Time: ']}{formatISODate(item.date)}</Text>

@@ -1,5 +1,5 @@
 import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, Switch, Vibration } from 'react-native'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import XIcon from '../../../../assets/icons/XIcon';
 import { LanguageContext } from '../../../contexts/LanguageContext';
 import HistoryIcon from '../../../../assets/icons/HistoryIcon';
@@ -22,14 +22,15 @@ interface WheelCustomModalProps {
     setFontSize: (fontSize: number) => void;
     removeSelected: boolean;
     setRemoveSelected: (removeSelected: boolean) => void;
+    rerenderTrigger: number;
+    setRerenderTrigger: (rerenderTrigger: number) => void;
 }
 
-const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible, duration, setDuration, speed, setSpeed, fontSize, setFontSize, removeSelected, setRemoveSelected }: WheelCustomModalProps) => {
+const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible, duration, setDuration, speed, setSpeed, fontSize, setFontSize, removeSelected, setRemoveSelected, rerenderTrigger, setRerenderTrigger }: WheelCustomModalProps) => {
     const { t } = useContext(LanguageContext);
     const [wheelDurationModalVisible, setWheelDurationModalVisible] = useState<boolean>(false);
     const [wheelSpeedModalVisible, setWheelSpeedModalVisible] = useState<boolean>(false);
     const [wheelFontSizeModalVisible, setWheelFontSizeModalVisible] = useState<boolean>(false);
-
     return (
         <Modal
             animationType='fade'
@@ -46,7 +47,7 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                 >
                     <View style={{ flex: 0.2, backgroundColor: 'rgba(0,0,0,0)' }} />
                 </TouchableWithoutFeedback>
-                <View style={{ flex: 0.8, height: '100%', backgroundColor: 'white', borderRadius: 30, flexDirection: 'column', paddingTop: 35, overflow: 'hidden' }}>
+                <View style={{ flex: 0.8, height: '100%', backgroundColor: 'white', borderTopLeftRadius: 30, borderBottomLeftRadius: 30, flexDirection: 'column', paddingTop: 35, overflow: 'hidden' }}>
                     <View style={{ width: '100%', height: '100%', flexDirection: 'column' }}>
                         <View style={{ width: '100%', height: '10%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
                             <TouchableOpacity
@@ -112,6 +113,7 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                                 onPress={() => {
                                     Vibration.vibrate(50);
                                     setRemoveSelected(!removeSelected);
+                                    setRerenderTrigger(rerenderTrigger + 1);
                                 }}
                             >
                                 <View style={{ flexDirection: 'row', width: '70%', alignItems: 'center', paddingHorizontal: 10 }}>
@@ -125,6 +127,7 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                                     onValueChange={() => {
                                         Vibration.vibrate(50);
                                         setRemoveSelected(!removeSelected);
+                                        setRerenderTrigger(rerenderTrigger + 1);
                                     }}
                                     value={removeSelected}
                                 />
@@ -140,6 +143,8 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                 duration={duration}
                 setDuration={setDuration}
                 t={t}
+                rerenderTrigger={rerenderTrigger}
+                setRerenderTrigger={setRerenderTrigger}
             />}
             {wheelSpeedModalVisible && <WheelSpeedModal
                 wheelSpeedModalVisible={wheelSpeedModalVisible}
@@ -147,6 +152,8 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                 speed={speed}
                 setSpeed={setSpeed}
                 t={t}
+                rerenderTrigger={rerenderTrigger}
+                setRerenderTrigger={setRerenderTrigger}
             />}
             {wheelFontSizeModalVisible && <WheelFontSizeModal
                 wheelFontSizeModalVisible={wheelFontSizeModalVisible}
@@ -154,6 +161,8 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                 fontSize={fontSize}
                 setFontSize={setFontSize}
                 t={t}
+                rerenderTrigger={rerenderTrigger}
+                setRerenderTrigger={setRerenderTrigger}
             />}
         </Modal>
     )

@@ -61,12 +61,13 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
     const handleSaveWheel = async () => {
         if (items.length >= 2){
             const wheels = await AsyncStorage.getItem('wheels')
-        let newWheels = wheels ? JSON.parse(wheels) : []
-        newWheels.push({name: wheelName, segments: items})
-        await AsyncStorage.setItem('wheels', JSON.stringify(newWheels))
-        setWheels(newWheels)
-        setAddItemsModalVisible(false)
-        setAddWheelModalVisible(false)
+            let newWheels = wheels ? JSON.parse(wheels) : []
+            const maxId = newWheels.length > 0 ? Math.max(...newWheels.map((wheel: any) => wheel.id)) : 0;
+            newWheels.push({id: maxId + 1, name: wheelName, segments: items})
+            await AsyncStorage.setItem('wheels', JSON.stringify(newWheels))
+            setWheels(newWheels)
+            setAddItemsModalVisible(false)
+            setAddWheelModalVisible(false)
         } else {
             setMissingItem(true)
             setAttemptedSubmit(true)

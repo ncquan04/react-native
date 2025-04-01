@@ -10,9 +10,11 @@ interface WheelSpeedModalProps {
     speed: number;
     setSpeed: (speed: number) => void;
     t: any;
+    rerenderTrigger: number;
+    setRerenderTrigger: (value: number) => void;
 }
 
-const WheelSpeedModal = ({ wheelSpeedModalVisible, setWheelSpeedModalVisible, speed, setSpeed, t}: WheelSpeedModalProps) => {
+const WheelSpeedModal = ({ wheelSpeedModalVisible, setWheelSpeedModalVisible, speed, setSpeed, t, rerenderTrigger, setRerenderTrigger}: WheelSpeedModalProps) => {
     const [tempSpeed, setTempSpeed] = useState<number>(speed);
 
     return (
@@ -70,6 +72,7 @@ const WheelSpeedModal = ({ wheelSpeedModalVisible, setWheelSpeedModalVisible, sp
                         onPress={() => {
                             Vibration.vibrate(50);
                             setSpeed(tempSpeed);
+                            setRerenderTrigger(rerenderTrigger + 1);
                             setWheelSpeedModalVisible(false);
                         }}
                     >

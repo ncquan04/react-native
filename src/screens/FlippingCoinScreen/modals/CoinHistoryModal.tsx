@@ -14,7 +14,7 @@ const CoinHistoryModal = ({ coinHistoryModalVisible, setCoinHistoryModalVisible,
     const {t} = useContext(LanguageContext);
 
     return (
-        <Modal animationType="slide" transparent={true} visible={coinHistoryModalVisible} onRequestClose={() => setCoinHistoryModalVisible(!coinHistoryModalVisible)}>
+        <Modal animationType="slide" transparent={true} statusBarTranslucent={true} visible={coinHistoryModalVisible} onRequestClose={() => setCoinHistoryModalVisible(!coinHistoryModalVisible)}>
             <View style={{ width: '100%', height: '100%', flexDirection: 'column', backgroundColor: 'white', alignItems: 'center' }}>
                 <View style={{ width: '100%', height: '10%', paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', paddingRight: '37%', alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => {

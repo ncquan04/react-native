@@ -10,9 +10,11 @@ interface WheelDurationModalProps {
     duration: number;
     setDuration: (Duration: number) => void;
     t: any;
+    rerenderTrigger: number;
+    setRerenderTrigger: (value: number) => void;
 }
 
-const WheelDurationModal = ({ wheelDurationModalVisible, setWheelDurationModalVisible, duration, setDuration, t}: WheelDurationModalProps) => {
+const WheelDurationModal = ({ wheelDurationModalVisible, setWheelDurationModalVisible, duration, setDuration, t, rerenderTrigger, setRerenderTrigger}: WheelDurationModalProps) => {
     const [tempDuration, setTempDuration] = useState<number>(duration/1000);
     
     return (
@@ -71,6 +73,7 @@ const WheelDurationModal = ({ wheelDurationModalVisible, setWheelDurationModalVi
                         onPress={() => {
                             Vibration.vibrate(50);
                             setDuration(tempDuration * 1000);
+                            setRerenderTrigger(rerenderTrigger + 1);
                             setWheelDurationModalVisible(false);
                         }}
                     >

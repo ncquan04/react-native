@@ -96,10 +96,10 @@ const SettingsScreen: React.FC = () => {
           </TouchableOpacity>
       </View>
 
-      <LanguageModal
+      {LanguageModalVisible && <LanguageModal
         LanguageModalVisible={LanguageModalVisible}
         setLanguageModalVisible={setLanguageModalVisible}
-      />
+      />}
     </View>
   )
 }

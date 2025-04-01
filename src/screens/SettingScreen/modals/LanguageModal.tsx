@@ -15,7 +15,6 @@ interface LanguageModalProps {
 
 const LanguageModal = ({ LanguageModalVisible, setLanguageModalVisible }: LanguageModalProps) => {
     const { language, setLanguage, t } = useContext(LanguageContext);
-
     const [selectedLanguage, setSelectedLanguage] = useState<string>(language);
 
     const handleChangeLanguage = async () => {
@@ -27,7 +26,8 @@ const LanguageModal = ({ LanguageModalVisible, setLanguageModalVisible }: Langua
     return (
         <Modal
             animationType="slide"
-            transparent={true}
+            transparent={false}
+            statusBarTranslucent={true}
             visible={LanguageModalVisible}
             onRequestClose={() => setLanguageModalVisible(!LanguageModalVisible)}
         >

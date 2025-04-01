@@ -10,26 +10,72 @@ import LuckyWheelModal from './modals/LuckyWheelModal';
 import AddWheelModal from './modals/AddWheelModal';
 import WheelHistorySelectModal from './modals/WheelHistorySelectModal';
 import colors from '../../constants/colors';
+import { useGetRemoteConfig } from '../../remoteConfig/RemoteConfig';
 
-const AppScreen = ({ Wheels }: { Wheels: any[] }) => {
+const initWheels = [
+  {
+    id: 1,
+    name: 'Yes or No',
+    segments: [
+      { content: 'Yes', color: '#dbdbdb' },
+      { content: 'No', color: '#5e5e5e'},
+      { content: 'Yes', color: '#dbdbdb' },
+      { content: 'No', color: '#5e5e5e'},
+      { content: 'Yes', color: '#dbdbdb' },
+      { content: 'No', color: '#5e5e5e'},
+      { content: 'Yes', color: '#dbdbdb' },
+      { content: 'No', color: '#5e5e5e'},
+      { content: 'Yes', color: '#dbdbdb' },
+      { content: 'No', color: '#5e5e5e'},
+      { content: 'Yes', color: '#dbdbdb' },
+      { content: 'No', color: '#5e5e5e'},
+      { content: 'Yes', color: '#dbdbdb' },
+      { content: 'No', color: '#5e5e5e'},
+      { content: 'Yes', color: '#dbdbdb' },
+      { content: 'No', color: '#5e5e5e'},
+    ]
+  },
+  {
+    id: 2,
+    name: 'What to Eat',
+    segments: [
+      { content: 'Pizza', color: '#FF6B6B' },
+      { content: 'Burger', color: '#4ECDC4'},
+      { content: 'Pasta', color: '#FFE66D' },
+      { content: 'Sushi', color: '#1A535C' },
+      { content: 'Salad', color: '#7FB069' },
+      { content: 'Tacos', color: '#F7B267' },
+      { content: 'Sandwich', color: '#D8A47F' },
+      { content: 'Curry', color: '#FFA69E' },
+      { content: 'Ramen', color: '#6D6875' },
+      { content: 'BBQ', color: '#E63946' },
+      { content: 'Steak', color: '#457B9D' },
+      { content: 'Seafood', color: '#1D3557' }
+    ]
+  }
+]
+
+const AppScreen = () => {
   const {t} = useContext(LanguageContext);
   const [LuckyWheelModalVisible, setLuckyWheelModalVisible] = useState<boolean>(false);
-  const [wheelIndex, setWheelIndex] = useState<number>(0);
   const [addWheelModalVisible, setAddWheelModalVisible] = useState<boolean>(false);
   const [WheelHistorySelectModalVisible, setWheelHistorySelectModalVisible] = useState<boolean>(false);
-  const [wheels, setWheels] = useState<any[]>(Wheels);
-  const selectedWheel = useMemo(() => wheels[wheelIndex], [wheelIndex, wheels]);
+  const [wheels, setWheels] = useState<any[]>(initWheels);
+  const [selectedWheel, setSelectedWheel] = useState<{id: number, name: string, segments: []}>(wheels[0])
   
   useEffect(() => {
     const fetchWheels = async () => {
-      const wheels = await AsyncStorage.getItem('wheels');
-      if (wheels) {
-        setWheels(JSON.parse(wheels));
+      try {
+        const wheels = await AsyncStorage.getItem('wheels');
+        if (wheels) {
+          setWheels(JSON.parse(wheels));
+        }
+      } catch (error) {
+        console.error('Error fetching wheels from AsyncStorage:', error);
       }
     }
     fetchWheels();
   }, [])
-
 
   const handleDeleteWheel = async (index: number) => {
     let newWheels = [...wheels]
@@ -71,7 +117,7 @@ const AppScreen = ({ Wheels }: { Wheels: any[] }) => {
               style={{flexDirection: 'column', justifyContent: 'space-between', width: '78%', padding: 15, height: 150, backgroundColor: colors.primary, borderRadius: 30, marginLeft: 20, marginTop: 20, position: 'relative'}}
               onPress={() => {
                 Vibration.vibrate(50);
-                setWheelIndex(index);
+                setSelectedWheel(wheel);
                 setLuckyWheelModalVisible(true);
               }}
             >
@@ -102,7 +148,6 @@ const AppScreen = ({ Wheels }: { Wheels: any[] }) => {
         LuckyWheelModalVisible={LuckyWheelModalVisible}
         setLuckyWheelModalVisible={setLuckyWheelModalVisible}
         luckyWheel={selectedWheel}
-        wheelIndex={wheelIndex}
       />}
 
       {addWheelModalVisible && <AddWheelModal

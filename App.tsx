@@ -26,62 +26,21 @@ import notifee from '@notifee/react-native';
 import colors from './src/constants/colors';
 import RollDiceScreen from './src/screens/RollDiceScreen/RollDiceScreen';
 import DiceIcon from './assets/icons/DiceIcon';
+import { RemoteConfigProvider, useGetRemoteConfig } from './src/remoteConfig/RemoteConfig';
 
 const Tabs = createBottomTabNavigator();
 
-const InitWheels = [
-  {
-    name: 'Yes or No',
-    segments: [
-      { content: 'Yes', color: '#dbdbdb' },
-      { content: 'No', color: '#5e5e5e'},
-      { content: 'Yes', color: '#dbdbdb' },
-      { content: 'No', color: '#5e5e5e'},
-      { content: 'Yes', color: '#dbdbdb' },
-      { content: 'No', color: '#5e5e5e'},
-      { content: 'Yes', color: '#dbdbdb' },
-      { content: 'No', color: '#5e5e5e'},
-      { content: 'Yes', color: '#dbdbdb' },
-      { content: 'No', color: '#5e5e5e'},
-      { content: 'Yes', color: '#dbdbdb' },
-      { content: 'No', color: '#5e5e5e'},
-      { content: 'Yes', color: '#dbdbdb' },
-      { content: 'No', color: '#5e5e5e'},
-      { content: 'Yes', color: '#dbdbdb' },
-      { content: 'No', color: '#5e5e5e'},
-    ]
-  },
-  {
-    name: 'What to Eat',
-    segments: [
-      { content: 'Pizza', color: '#FF6B6B' },
-      { content: 'Burger', color: '#4ECDC4'},
-      { content: 'Pasta', color: '#FFE66D' },
-      { content: 'Sushi', color: '#1A535C' },
-      { content: 'Salad', color: '#7FB069' },
-      { content: 'Tacos', color: '#F7B267' },
-      { content: 'Sandwich', color: '#D8A47F' },
-      { content: 'Curry', color: '#FFA69E' },
-      { content: 'Ramen', color: '#6D6875' },
-      { content: 'BBQ', color: '#E63946' },
-      { content: 'Steak', color: '#457B9D' },
-      { content: 'Seafood', color: '#1D3557' }
-    ]
-  }
-]
-
 function App(): React.JSX.Element {
-  const [Wheels, setWheels] = useState<any[]>([]);
   const [primaryColor, setPrimaryColor] = useState<string>(colors.primary);
   const [secondaryColor, setSecondaryColor] = useState<string>(colors.secondary);
+  const [rerenderTrigger, setRerenderTrigger] = useState<boolean>(false);
 
-  // // Function to clear all AsyncStorage data
+  // Function to clear all AsyncStorage data
   // const clearAllData = async () => {
   //   try {
   //     await AsyncStorage.clear();
   //     console.log('All AsyncStorage data cleared successfully');
   //     // Reset wheels to initial state after clearing
-  //     setWheels(InitWheels);
   //   } catch (error) {
   //     console.error('Error clearing AsyncStorage data:', error);
   //   }
@@ -93,44 +52,15 @@ function App(): React.JSX.Element {
 
 
   //Fetch Remote Config
-  async function fetchRemoteConfig() {
-    try {
-      await remoteConfig().setDefaults({
-        primary_color: colors.primary,
-      });
-      await remoteConfig().fetchAndActivate();
-      const primaryColor = remoteConfig().getValue('primary_color').asString();
-      const secondaryColor = remoteConfig().getValue('secondary_color').asString();
-      colors.primary = primaryColor;
-      colors.secondary = secondaryColor;
-      setPrimaryColor(primaryColor);
-      setSecondaryColor(secondaryColor);
-    } catch (error) {
-      console.log(error);
-      crashlytics().recordError(error instanceof Error ? error : new Error(String(error)));
-      NativeSplashScreen.hide();
-    }
-  }
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await fetchRemoteConfig();
-
         const isMuteMusic = await AsyncStorage.getItem('isMuteMusic');
         if (isMuteMusic === 'false') {
           NativeMusicPlayer.startMusic();
         }
-        const fetchWheels = async () => {
-          const wheels = await AsyncStorage.getItem('wheels');
-          if (wheels) {
-            setWheels(JSON.parse(wheels));
-          } else {
-            setWheels(InitWheels);
-            await AsyncStorage.setItem('wheels', JSON.stringify(InitWheels));
-          }
-        }
-        await fetchWheels();
         NativeSplashScreen.hide();
       } catch (error) {
         console.log(error);
@@ -138,54 +68,57 @@ function App(): React.JSX.Element {
       }
     };
     fetchData();
+
   }, []);
 
   return (
     <LanguageProvider>
-      <View style={{ backgroundColor: 'white', width: '100%', height: '100%', flex: 1, paddingTop: StatusBar.currentHeight }}>
-        <StatusBar
-          backgroundColor={'white'}
-          barStyle={'dark-content'}
-        />
-        <NavigationContainer>
-          <Tabs.Navigator
-            screenOptions={({ route }) => ({
-              tabBarStyle: {
-                backgroundColor: primaryColor,
-                height: 60,
-                paddingTop: 10,
-                paddingBottom: 10,
-              },
-              headerShown: false,
-              tabBarShowLabel: false,
-              tabBarActiveTintColor: '#ffffff',
-              tabBarInactiveTintColor: '#white',
-              tabBarIcon: ({ focused, color, size }) => {
-                if (route.name === "App") {
-                  return <LuckyWheelIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
-                } else if (route.name === "Lucky Draw") {
-                  return <TouchIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
-                } else if (route.name === "Random Number") {
-                  return <RandomNumberIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
-                } else if (route.name === "Flipping Coin") {
-                  return <CoinIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
-                } else if (route.name === "Rolling Dice") {
-                  return <DiceIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
-                } else if (route.name === "Settings") {
-                  return <SettingsIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
-                }
-              },
-            })}
-          >
-            <Tabs.Screen name="App">{() => <AppScreen Wheels={Wheels} />}</Tabs.Screen>
-            <Tabs.Screen name="Lucky Draw" component={LuckyDrawScreen} />
-            <Tabs.Screen name="Random Number" component={RandomNumberScreen} />
-            <Tabs.Screen name="Flipping Coin" component={FlippingCoinScreen} />
-            <Tabs.Screen name="Rolling Dice" component={RollDiceScreen} />
-            <Tabs.Screen name="Settings" component={SettingsScreen} />
-          </Tabs.Navigator>
-        </NavigationContainer>
-      </View>
+      <RemoteConfigProvider>
+        <View style={{ backgroundColor: 'white', width: '100%', height: '100%', flex: 1, paddingTop: StatusBar.currentHeight }}>
+          <StatusBar
+            backgroundColor={'white'}
+            barStyle={'dark-content'}
+          />
+          <NavigationContainer>
+            <Tabs.Navigator
+              screenOptions={({ route }) => ({
+                tabBarStyle: {
+                  backgroundColor: colors.primary,
+                  height: 60,
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                },
+                headerShown: false,
+                tabBarShowLabel: false,
+                tabBarActiveTintColor: '#ffffff',
+                tabBarInactiveTintColor: '#white',
+                tabBarIcon: ({ focused, color, size }) => {
+                  if (route.name === "App") {
+                    return <LuckyWheelIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
+                  } else if (route.name === "Lucky Draw") {
+                    return <TouchIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
+                  } else if (route.name === "Random Number") {
+                    return <RandomNumberIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
+                  } else if (route.name === "Flipping Coin") {
+                    return <CoinIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
+                  } else if (route.name === "Rolling Dice") {
+                    return <DiceIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
+                  } else if (route.name === "Settings") {
+                    return <SettingsIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
+                  }
+                },
+              })}
+            >
+              <Tabs.Screen name="App" component={AppScreen} />
+              <Tabs.Screen name="Lucky Draw" component={LuckyDrawScreen} />
+              <Tabs.Screen name="Random Number" component={RandomNumberScreen} />
+              <Tabs.Screen name="Flipping Coin" component={FlippingCoinScreen} />
+              <Tabs.Screen name="Rolling Dice" component={RollDiceScreen} />
+              <Tabs.Screen name="Settings" component={SettingsScreen} />
+            </Tabs.Navigator>
+          </NavigationContainer>
+        </View>
+      </RemoteConfigProvider>
     </LanguageProvider>
   );
 }

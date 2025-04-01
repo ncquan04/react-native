@@ -111,7 +111,7 @@ const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, setWheel
             onRequestClose={() => setAddWheelModalVisible(false)}
             statusBarTranslucent={true}
             >
-            <View style={{ flex: 1, flexDirection: 'column', paddingTop: 40, backgroundColor: 'white', position: 'relative' }}>
+            <View style={{ flex: 1, flexDirection: 'column', paddingTop: 25, backgroundColor: 'white', position: 'relative' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
                         <TouchableOpacity onPress={() => {
                             Vibration.vibrate(50);

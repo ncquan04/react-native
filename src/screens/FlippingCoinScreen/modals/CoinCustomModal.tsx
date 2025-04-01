@@ -25,6 +25,7 @@ const CoinCustomModal = ({ coinIndex, setCoinIndex, coinCustomModalVisible, setC
         <Modal
             animationType="slide"
             transparent={true}
+            statusBarTranslucent={true}
             visible={coinCustomModalVisible}
             onRequestClose={() => {
                 setCoinCustomModalVisible(!coinCustomModalVisible);

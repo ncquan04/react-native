@@ -19,23 +19,19 @@ const randomFrames: { [key: number]: number } = {
 }
 
 const RollDiceScreen = () => {
-    const [isShaking, setIsShaking] = useState<boolean>(false);
     const [isDetecting, setIsDetecting] = useState<boolean>(true);
     const [randomResult, setRandomResult] = useState<number>(0);
     const [showConfetti, setShowConfetti] = useState<boolean>(false);
     const {t} = useContext(LanguageContext);
-    const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const appStateRef = useRef(AppState.currentState);
+    const isAnimatingRef = useRef<boolean>(false);
 
     const rollingDiceAnimationProgress = useRef(new Animated.Value(1/5));
-    const animationRef = useRef<Animated.CompositeAnimation | null>(null);
-    const isAnimatingRef = useRef<boolean>(false);
     const diceScale = useRef(new Animated.Value(1)).current;
-    
-    // Add animated value for result text
     const resultTextOpacity = useRef(new Animated.Value(0)).current;
     const resultTextScale = useRef(new Animated.Value(0.5)).current;
 
+    // Bắt đầu phát hiện lắc
     const startDetection = useCallback(async () => {
         try {
             const result = await NativeAccelerometer.startDetection();
@@ -48,6 +44,7 @@ const RollDiceScreen = () => {
         }
     }, []);
 
+    // Dừng phát hiện lắc
     const stopDetection = useCallback(async () => {
         try {
             if (isDetecting) {
@@ -61,11 +58,14 @@ const RollDiceScreen = () => {
         }
     }, [isDetecting]);
 
+    // Khởi động lại phát hiện lắc
     const restartDetection = useCallback(async () => {
         await stopDetection();
         await startDetection();
     }, [stopDetection, startDetection]);
-
+    
+    // Nếu ứng dụng chuyển sang nền hoặc không hoạt động, dừng phát hiện lắc
+    // Nếu ứng dụng trở lại hoạt động, khởi động lại phát hiện lắc
     useEffect(() => {
         const subscription = AppState.addEventListener('change', nextAppState => {
             if (appStateRef.current.match(/inactive|background/) && nextAppState === 'active') {
@@ -83,68 +83,8 @@ const RollDiceScreen = () => {
         };
     }, [restartDetection, stopDetection]);
 
-    useEffect(() => {
-        startDetection();
-
-        const shakeStartSubscription = accelerometerEventEmitter.addListener(
-            'shakeStart',
-            () => {
-                console.log('Bắt đầu lắc');
-                setIsShaking(true);                
-                if (animationTimeoutRef.current) {
-                    clearTimeout(animationTimeoutRef.current);
-                    animationTimeoutRef.current = null;
-                }
-                
-                // Hide result text when starting to shake
-                Animated.parallel([
-                    Animated.timing(resultTextOpacity, {
-                        toValue: 0,
-                        duration: 300,
-                        useNativeDriver: true,  
-                    }),
-                    Animated.timing(resultTextScale, {
-                        toValue: 0.5,
-                        duration: 300,
-                        useNativeDriver: true,
-                    })
-                ]).start();
-                
-                if (!isAnimatingRef.current) {
-                    startRollingDice();
-                }
-            }
-        );
-
-        const shakeEndSubscription = accelerometerEventEmitter.addListener(
-            'shakeEnd',
-            () => {
-                console.log('Kết thúc lắc');
-                
-                animationTimeoutRef.current = setTimeout(() => {
-                    setIsShaking(false);
-                    if (animationRef.current) {
-                        animationRef.current.stop();
-                    }
-                    isAnimatingRef.current = false;
-                }, 1500);
-            }
-        );
-
-        return () => {
-            shakeStartSubscription.remove();
-            shakeEndSubscription.remove();
-            stopDetection();
-            if (animationTimeoutRef.current) {
-                clearTimeout(animationTimeoutRef.current);
-            }
-        };
-    }, [startDetection, stopDetection, resultTextOpacity, resultTextScale]);
-
     const startRollingDice = useCallback(() => {
-        if (animationRef.current) {
-            animationRef.current.stop();
-        }
+        if (isAnimatingRef.current) return; // Không chạy nếu đang có animation
         
         const newRandomResult = Math.floor(Math.random() * 6) + 1;
         
@@ -152,7 +92,7 @@ const RollDiceScreen = () => {
         isAnimatingRef.current = true;
         setRandomResult(newRandomResult);
         
-        // Immediately hide result text when starting to roll
+        // Ẩn text kết quả khi bắt đầu quay
         resultTextOpacity.setValue(0);
         resultTextScale.setValue(0.5);
         
@@ -192,17 +132,14 @@ const RollDiceScreen = () => {
                 })
             ])
         ]).start(({ finished }) => {
-            if (finished && isShaking) {
-                startRollingDice();
-            } else if (finished) {
+            if (finished) {
                 isAnimatingRef.current = false;
-                setIsShaking(false);
                 setShowConfetti(true);
                 setTimeout(() => {
                     Vibration.vibrate(500);
                 }, 400);
-                
-                // Show and animate the result text
+
+                // Hiển thị text kết quả với animation
                 Animated.parallel([
                     Animated.timing(resultTextOpacity, {
                         toValue: 1,
@@ -221,6 +158,42 @@ const RollDiceScreen = () => {
             }
         });
     }, [diceScale, resultTextOpacity, resultTextScale]);
+
+    // Bắt đầu phát hiện lắc khi component được mount
+    // Khi bắt đầu lắc, ẩn text kết quả và bắt đầu quay xúc xắc
+    useEffect(() => {
+        startDetection();
+
+        const shakeStartSubscription = accelerometerEventEmitter.addListener(
+            'shakeStart',
+            () => {
+                console.log('Bắt đầu lắc');
+                
+                // Ẩn text kết quả khi bắt đầu lắc
+                Animated.parallel([
+                    Animated.timing(resultTextOpacity, {
+                        toValue: 0,
+                        duration: 300,
+                        useNativeDriver: true,  
+                    }),
+                    Animated.timing(resultTextScale, {
+                        toValue: 0.5,
+                        duration: 300,
+                        useNativeDriver: true,
+                    })
+                ]).start();
+                
+                if (!isAnimatingRef.current) {
+                    startRollingDice();
+                }
+            }
+        );
+
+        return () => {
+            shakeStartSubscription.remove();
+            stopDetection();
+        };
+    }, [startDetection, stopDetection, resultTextOpacity, resultTextScale, startRollingDice]);
 
     const diceAnimatedStyle = {
         transform: [
@@ -257,7 +230,6 @@ const RollDiceScreen = () => {
                     onAnimationFinish={() => setShowConfetti(false)}
                 />
             )}
-
             <View style={styles.container}>
                 <View style={{height: '20%'}}/>
                 <Animated.View style={[styles.diceContainer, diceAnimatedStyle]}>
@@ -274,7 +246,7 @@ const RollDiceScreen = () => {
                     </Animated.Text>
                 )}
                 
-                <Text style={[styles.instructionText, { opacity: isShaking ? 0 : 1 }]}>
+                <Text style={styles.instructionText}>
                     {t['Shake your phone to roll the dice']}
                 </Text>
             </View>

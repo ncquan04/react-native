@@ -1,14 +1,11 @@
-import { View, TouchableOpacity, Image, Text, Animated, Easing, NativeEventEmitter, NativeModules, Button, StyleSheet, Vibration } from 'react-native'
+import { View, TouchableOpacity, Image, Text, Animated, Easing, Vibration } from 'react-native'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import StartIcon from '../../../assets/icons/StartIcon'
-import HistoryIcon from '../../../assets/icons/HistoryIcon'
-import CustomIcon from '../../../assets/icons/CustomIcon'
 import RestartIcon from '../../../assets/icons/RestartIcon'
 import CoinCustomModal from './modals/CoinCustomModal'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import CoinHistoryModal from './modals/CoinHistoryModal'
 import LottieView from 'lottie-react-native'
-import colors from '../../constants/colors'
+import StartGameBar from '../../components/StartGameBar'
 
 const AnimatedLottieView = Animated.createAnimatedComponent(LottieView);
 const AnimatedCoin = Animated.createAnimatedComponent(LottieView);
@@ -17,11 +14,8 @@ const FlippingCoinScreen = () => {
   const [coinIndex, setCoinIndex] = useState<number>(1);
   const [coinCustomModalVisible, setCoinCustomModalVisible] = useState<boolean>(false);
   const [coinHistoryModalVisible, setCoinHistoryModalVisible] = useState<boolean>(false);
-  const [coinSide, setCoinSide] = useState<number>(1);
-  const [tempCoinSide, setTempCoinSide] = useState<number>(coinSide);
-  const [history, setHistory] = useState<{ coinSide: number; date: string; time: string }[]>([]);
-  const [headCounter, setHeadCounter] = useState<number>(0);
-  const [tailCounter, setTailCounter] = useState<number>(0);
+  const history = useRef<{ coinSide: number; date: string; time: string }[]>([]);
+  const [counter, setCounter] = useState<{ heads: number; tails: number }>({ heads: 0, tails: 0 });
   const [isRandoming, setIsRandoming] = useState<boolean>(false);
   const [showLottie, setShowLottie] = useState<boolean>(false);
 
@@ -64,9 +58,7 @@ const FlippingCoinScreen = () => {
     setIsRandoming(true);
     setShowLottie(false);
     const randomSide = Math.floor(Math.random() * 2) + 1;
-    
-    const startValue = randomSide === 2 ? (1/12) : (7/12);
-    
+        
     Animated.sequence([
       Animated.timing(flippingCoinAnimationProgress.current, {
         toValue: 1,
@@ -100,7 +92,11 @@ const FlippingCoinScreen = () => {
       setTimeout(() => {
         Vibration.vibrate(500);
       }, 150)
-      setCoinSide(randomSide);
+      if (randomSide === 1) {
+        setCounter(prev => ({ ...prev, heads: prev.heads + 1 }));
+      } else {
+        setCounter(prev => ({ ...prev, tails: prev.tails + 1 }));
+      }
       setIsRandoming(false);
       setShowLottie(true);
       SaveData(randomSide);
@@ -121,12 +117,7 @@ const FlippingCoinScreen = () => {
       existingData.unshift(dataToSave);
       existingData.splice(15);
       await AsyncStorage.setItem('coinSide', JSON.stringify(existingData));
-      setHistory(existingData);
-      if (side === 1) {
-        setHeadCounter(headCounter + 1);
-      } else {
-        setTailCounter(tailCounter + 1);
-      }
+      history.current = existingData;
     } catch (error) {
       console.error('Lỗi khi lưu dữ liệu:', error);
     }
@@ -175,20 +166,19 @@ const FlippingCoinScreen = () => {
               source={heads[coinIndex]}
               style={{ width: 80, height: 80 }}
             />
-            <Text style={{ fontSize: 20, fontWeight: '500' }}>{headCounter}</Text>
+            <Text style={{ fontSize: 20, fontWeight: '500' }}>{counter.heads}</Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Image
               source={tails[coinIndex]}
               style={{ width: 80, height: 80 }}
             />
-            <Text style={{ fontSize: 20, fontWeight: '500' }}>{tailCounter}</Text>
+            <Text style={{ fontSize: 20, fontWeight: '500' }}>{counter.tails}</Text>
           </View>
           <TouchableOpacity
             onPress={() => {
               Vibration.vibrate(50);
-              setHeadCounter(0);
-              setTailCounter(0);
+              setCounter({ heads: 0, tails: 0 });
             }}
           >
             <RestartIcon width={30} height={30} />
@@ -209,44 +199,26 @@ const FlippingCoinScreen = () => {
           resizeMode='cover'
         />
         
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '70%', backgroundColor: colors.primary, paddingVertical: 2, borderRadius: 100 }}>
-        <TouchableOpacity 
-          style={{ width: '30%', justifyContent: 'center', alignItems: 'center' }} 
-          onPress={() => {
-            setCoinHistoryModalVisible(true);
-            Vibration.vibrate(50);
-          }}
-        >
-          <HistoryIcon width={40} height={40} fill={'white'} />
-        </TouchableOpacity>
-        <TouchableOpacity style={{ width: '40%', justifyContent: 'center', alignItems: 'center' }} onPress={!isRandoming ? RandomCoinSide : undefined}>
-          <StartIcon width={80} height={80} />
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={{ width: '30%', justifyContent: 'center', alignItems: 'center' }} 
-          onPress={() => {
-            setCoinCustomModalVisible(true);
-            Vibration.vibrate(50);
-          }}
-        >          
-          <CustomIcon width={40} height={40} fill={'white'} />
-        </TouchableOpacity>
-        </View>
+        <StartGameBar
+          setHistoryModalVisible={setCoinHistoryModalVisible}
+          setCustomModalVisible={setCoinCustomModalVisible}
+          StartRandom={RandomCoinSide}
+        />
 
-        <CoinCustomModal
+        {coinCustomModalVisible && <CoinCustomModal
           coinIndex={coinIndex}
           setCoinIndex={setCoinIndex}
           coinCustomModalVisible={coinCustomModalVisible}
           setCoinCustomModalVisible={setCoinCustomModalVisible}
           heads={heads}
           tails={tails}
-        />
+        />}
 
-        <CoinHistoryModal
+        {coinHistoryModalVisible && <CoinHistoryModal
           coinHistoryModalVisible={coinHistoryModalVisible}
           setCoinHistoryModalVisible={setCoinHistoryModalVisible}
-          history={history}
-        />
+          history={history.current}
+        />}
       </View>
     </>
   )

@@ -10,9 +10,11 @@ interface WheelFontSizeModalProps {
     fontSize: number;
     setFontSize: (FontSize: number) => void;
     t: any;
+    rerenderTrigger: number;
+    setRerenderTrigger: (value: number) => void;
 }
 
-const WheelFontSizeModal = ({ wheelFontSizeModalVisible, setWheelFontSizeModalVisible, fontSize, setFontSize, t}: WheelFontSizeModalProps) => {
+const WheelFontSizeModal = ({ wheelFontSizeModalVisible, setWheelFontSizeModalVisible, fontSize, setFontSize, t, rerenderTrigger, setRerenderTrigger}: WheelFontSizeModalProps) => {
     const [tempFontSize, setTempFontSize] = useState<number>(fontSize);
 
     return (
@@ -71,6 +73,7 @@ const WheelFontSizeModal = ({ wheelFontSizeModalVisible, setWheelFontSizeModalVi
                         onPress={() => {
                             Vibration.vibrate(50);
                             setFontSize(tempFontSize);
+                            setRerenderTrigger(rerenderTrigger + 1);
                             setWheelFontSizeModalVisible(false);
                         }}
                     >

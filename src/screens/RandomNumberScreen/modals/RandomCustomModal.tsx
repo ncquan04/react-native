@@ -8,18 +8,14 @@ import colors from '../../../constants/colors';
 interface RandomCustomModalProps {
     RandomCustomModalVisible: boolean;
     setRandomCustomModalVisible: (visible: boolean) => void;
-    startNumber: number;
-    setStartNumber: (number: number) => void;
-    endNumber: number;
-    setEndNumber: (number: number) => void;
-    duration: number;
-    setDuration: (number: number) => void;
+    setting: {startNumber: number, endNumber: number, duration: number};
+    setSetting: (setting: {startNumber: number, endNumber: number, duration: number}) => void;
 }
 
-const RandomCustomModal = ({ RandomCustomModalVisible, setRandomCustomModalVisible, startNumber, setStartNumber, endNumber, setEndNumber, duration, setDuration }: RandomCustomModalProps) => {
-    const [tempStartNumber, setTempStartNumber] = React.useState<number>(startNumber);
-    const [tempEndNumber, setTempEndNumber] = React.useState<number>(endNumber);
-    const [tempDuration, setTempDuration] = React.useState<number>(duration);
+const RandomCustomModal = ({ RandomCustomModalVisible, setRandomCustomModalVisible, setting, setSetting }: RandomCustomModalProps) => {
+    const [tempStartNumber, setTempStartNumber] = React.useState<number>(setting.startNumber);
+    const [tempEndNumber, setTempEndNumber] = React.useState<number>(setting.endNumber);
+    const [tempDuration, setTempDuration] = React.useState<number>(setting.duration);
     const [alertVisible, setAlertVisible] = React.useState<boolean>(false);
     const { t } = useContext(LanguageContext);
 
@@ -35,9 +31,7 @@ const RandomCustomModal = ({ RandomCustomModalVisible, setRandomCustomModalVisib
             return;
         }
         
-        setStartNumber(tempStartNumber);
-        setEndNumber(tempEndNumber);
-        setDuration(tempDuration);
+        setSetting({startNumber: tempStartNumber, endNumber: tempEndNumber, duration: tempDuration});
         setRandomCustomModalVisible(false);
     }
 
@@ -45,7 +39,8 @@ const RandomCustomModal = ({ RandomCustomModalVisible, setRandomCustomModalVisib
         <>
             <Modal
                 animationType="slide"
-                transparent={true}
+                transparent={false}
+                statusBarTranslucent={true}
                 visible={RandomCustomModalVisible}
                 onRequestClose={() => {
                     setRandomCustomModalVisible(!RandomCustomModalVisible);
