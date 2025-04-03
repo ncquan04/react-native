@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import BackIcon from '../../../../assets/icons/BackIcon';
 import { LanguageContext } from '../../../contexts/LanguageContext';
 import colors from '../../../constants/colors';
+import { REMOTE_KEY, useGetRemoteConfig } from '../../../remoteConfig/RemoteConfig';
 
 interface CoinCustomModalProps {
     coinIndex: number;
@@ -31,7 +32,7 @@ const CoinCustomModal = ({ coinIndex, setCoinIndex, coinCustomModalVisible, setC
                 setCoinCustomModalVisible(!coinCustomModalVisible);
             }}
         >
-            <View style={{width: '100%', height: '100%', flexDirection: 'column', backgroundColor: 'white', alignItems: 'center'}}>
+            <View style={{width: '100%', height: '100%', flexDirection: 'column', backgroundColor: colors.background_color, alignItems: 'center'}}>
                 <View 
                     style={{width: '100%', height: '10%', paddingHorizontal: 20, flexDirection: 'row', 
                     justifyContent: 'space-between', alignItems: 'center', position: 'relative'}}
@@ -46,7 +47,7 @@ const CoinCustomModal = ({ coinIndex, setCoinIndex, coinCustomModalVisible, setC
                         <BackIcon width={40} height={40}/>
                     </TouchableOpacity>
                     <Text 
-                        style={{position: 'absolute', left: 0, right: 0, textAlign: 'center', fontSize: 30, fontWeight: "500"}}
+                        style={{position: 'absolute', left: 0, right: 0, textAlign: 'center', fontSize: 30, fontWeight: "500", color: colors.text_color}}
                     >{
                         t['Coins']}
                     </Text>
@@ -60,7 +61,7 @@ const CoinCustomModal = ({ coinIndex, setCoinIndex, coinCustomModalVisible, setC
                             <TouchableOpacity 
                                 key={index}
                                 style={{width: '100%', height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
-                                marginTop: 30, backgroundColor: colors.primary, borderRadius: 10, paddingHorizontal: '5%'}}
+                                marginTop: 30, backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), borderRadius: 10, paddingHorizontal: '5%'}}
                                 onPress={() => {
                                     Vibration.vibrate(50);
                                     handleChangeCoins(index);

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import BackIcon from '../../../../assets/icons/BackIcon';
 import LuckyWheel from '../../../components/LuckyWheel';
 import WheelHistoryDetailModal from './WheelHistoryDetailModal';
-import colors from '../../../constants/colors';
+import { REMOTE_KEY, useGetRemoteConfig } from '../../../remoteConfig/RemoteConfig';
 
 interface LuckyWheelHistoryModalProps {
     wheelHistorySelectModalVisible: boolean;
@@ -25,7 +25,7 @@ const WheelHistorySelectModal = ({ wheelHistorySelectModalVisible, setWheelHisto
                 statusBarTranslucent={true}
                 onRequestClose={() => setWheelHistorySelectModalVisible(!wheelHistorySelectModalVisible)}
             >
-                <View style={{ width: '100%', height: '100%', flexDirection: 'column', backgroundColor: 'white', alignItems: 'center' }}>
+                <View style={{ width: '100%', height: '100%', flexDirection: 'column', backgroundColor: colors.background_color, alignItems: 'center' }}>
                     <View style={{ width: '100%', height: '10%', paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                         <TouchableOpacity onPress={() => {
                             Vibration.vibrate(50);
@@ -39,7 +39,7 @@ const WheelHistorySelectModal = ({ wheelHistorySelectModalVisible, setWheelHisto
                     {wheels.map((wheel, index) => {
                         return (
                             <TouchableOpacity 
-                                key={index} style={{ width: '90%', flexDirection: 'row', height: 100, marginTop: 20, backgroundColor: colors.primary, borderRadius: 30, alignItems: 'center', paddingHorizontal: 10 }}
+                                key={index} style={{ width: '90%', flexDirection: 'row', height: 100, marginTop: 20, backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), borderRadius: 30, alignItems: 'center', paddingHorizontal: 10 }}
                                 onPress={() => {
                                     Vibration.vibrate(50);
                                     setSelectedWheelId(wheel.id);
@@ -50,7 +50,7 @@ const WheelHistorySelectModal = ({ wheelHistorySelectModalVisible, setWheelHisto
                                     segments={wheel.segments.map((segment: any) => ({ ...segment, content: "" }))}
                                     radius={30}
                                 />
-                                <Text style={{ color: 'white', fontSize: 20, fontWeight: 600, marginLeft: 10 }}>{wheel.name}</Text>
+                                <Text style={{ color: colors.background_color, fontSize: 20, fontWeight: 600, marginLeft: 10 }}>{wheel.name}</Text>
                             </TouchableOpacity>
                         )
                     })}

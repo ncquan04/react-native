@@ -1,6 +1,7 @@
 import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, ScrollView, Vibration } from 'react-native'
 import React from 'react'
 import CheckIcon from '../../../../assets/icons/CheckIcon';
+import { useGetRemoteConfig, REMOTE_KEY } from '../../../remoteConfig/RemoteConfig';
 import colors from '../../../constants/colors';
 
 interface ColorPickerModalProps {
@@ -55,7 +56,7 @@ const ColorPickerModal = ({colorPickerModalVisible, setColorPickerModalVisible, 
                 >
                     <View style={{flex: 1, zIndex: 1}} />
                 </TouchableWithoutFeedback>
-                <View style={{width: '60%', height: '50%', backgroundColor: 'white', position: 'absolute', top: 160, right: 20, borderRadius: 20, flexDirection: 'column', zIndex: 10}}>
+                <View style={{width: '60%', height: '50%', backgroundColor: colors.background_color, position: 'absolute', top: 160, right: 20, borderRadius: 20, flexDirection: 'column', zIndex: 10}}>
                     <View style={{flex: 0.9}}>
                         <ScrollView 
                             contentContainerStyle={{width: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', padding: 10, gap: 8}}
@@ -64,13 +65,13 @@ const ColorPickerModal = ({colorPickerModalVisible, setColorPickerModalVisible, 
                                 return (
                                     <TouchableOpacity
                                         key={index}
-                                        style={{width: 35, height: 35, backgroundColor: color, borderRadius: 20, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: 'black'}}
+                                        style={{width: 35, height: 35, backgroundColor: color, borderRadius: 20, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: colors.text_color}}
                                         onPress={() => {
                                             Vibration.vibrate(50);
                                             setSelectedColorIndex(index)
                                         }}
                                     >
-                                        {selectedColorIndex === index ? <CheckIcon width={20} height={20} fill={'white'}/> : null}
+                                        {selectedColorIndex === index ? <CheckIcon width={20} height={20} fill={colors.text_color}/> : null}
                                     </TouchableOpacity>
                                 )
                             })}
@@ -84,7 +85,7 @@ const ColorPickerModal = ({colorPickerModalVisible, setColorPickerModalVisible, 
                             setColorPickerModalVisible(false)
                         }}
                     >
-                        <Text style={{fontSize: 15, fontWeight: 500, color: colors.secondary}}>DONE</Text>
+                        <Text style={{fontSize: 15, fontWeight: 500, color: useGetRemoteConfig(REMOTE_KEY.secondary_color)}}>DONE</Text>
                     </TouchableOpacity>
                 </View>
             </View>

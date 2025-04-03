@@ -4,6 +4,7 @@ import HistoryIcon from '../../assets/icons/HistoryIcon';
 import StartIcon from '../../assets/icons/StartIcon';
 import CustomIcon from '../../assets/icons/CustomIcon';
 import colors from '../constants/colors';
+import { REMOTE_KEY, useGetRemoteConfig } from '../remoteConfig/RemoteConfig';
 
 interface StartGameBarProps {
     setCustomModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,7 +14,7 @@ interface StartGameBarProps {
 
 const StartGameBar = ({setHistoryModalVisible, setCustomModalVisible, StartRandom}: StartGameBarProps) => {
     return (
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '70%', backgroundColor: colors.primary, paddingVertical: 2, borderRadius: 100 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '70%', backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), paddingVertical: 2, borderRadius: 100 }}>
           <TouchableOpacity
             style={{ width: '30%', justifyContent: 'center', alignItems: 'center' }} 
             onPress={() => {
@@ -21,7 +22,7 @@ const StartGameBar = ({setHistoryModalVisible, setCustomModalVisible, StartRando
                 setHistoryModalVisible(true)
             }}
           >
-            <HistoryIcon width={40} height={40} fill={'white'} />
+            <HistoryIcon width={40} height={40} fill={colors.background_color} />
           </TouchableOpacity>
           <TouchableOpacity style={{ width: '40%', justifyContent: 'center', alignItems: 'center' }} onPress={StartRandom}>
             <StartIcon width={80} height={80} />
@@ -33,7 +34,7 @@ const StartGameBar = ({setHistoryModalVisible, setCustomModalVisible, StartRando
               setCustomModalVisible(true)
             }}
           >
-            <CustomIcon width={40} height={40} fill={'white'} />
+            <CustomIcon width={40} height={40} fill={colors.background_color} />
           </TouchableOpacity>
         </View>
     )

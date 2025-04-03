@@ -2,6 +2,7 @@ import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, TextInpu
 import React, { useState } from 'react'
 import XIcon from '../../../../assets/icons/XIcon';
 import colors from '../../../constants/colors';
+import { REMOTE_KEY, useGetRemoteConfig } from '../../../remoteConfig/RemoteConfig';
 
 interface AddByListModalProps {
     addByListModalVisible: boolean;
@@ -46,10 +47,10 @@ const AddByListModal = ({addByListModalVisible, setAddByListModalVisible, items,
                 >
                     <View style={{flex: 1}}/>
                 </TouchableWithoutFeedback>
-                <View style={{width: '90%', height: '65%', position: 'absolute', top: '18%', left: '5%', right: '5%', backgroundColor: 'white', borderRadius: 50, flexDirection: 'column', zIndex: 10, justifyContent: 'space-between', alignItems: 'center'}}>
+                <View style={{width: '90%', height: '65%', position: 'absolute', top: '18%', left: '5%', right: '5%', backgroundColor: colors.background_color, borderRadius: 50, flexDirection: 'column', zIndex: 10, justifyContent: 'space-between', alignItems: 'center'}}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 20, alignItems: 'center'}}>
                         <View style={{width: 20}}/>
-                        <Text style={{fontSize: 30, fontWeight: 600}}>Item List</Text>
+                        <Text style={{fontSize: 30, fontWeight: 600, color: colors.text_color}}>Item List</Text>
                         <TouchableOpacity
                             onPress={() => {
                                 Vibration.vibrate(50);
@@ -59,15 +60,15 @@ const AddByListModal = ({addByListModalVisible, setAddByListModalVisible, items,
                             <XIcon width={20} height={20}/>
                         </TouchableOpacity>
                     </View>
-                    <View style={{height: '65%', width: '90%', padding: 20, backgroundColor: colors.primary, borderRadius: 30, borderWidth: 2, borderColor: 'black'}}>
+                    <View style={{height: '65%', width: '90%', padding: 20, backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), borderRadius: 30, borderWidth: 2, borderColor: colors.text_color}}>
                         <TextInput
                             multiline={true}
                             numberOfLines={16}
-                            style={{color: 'white', fontSize: 15, width: '100%'}}
+                            style={{color: colors.background_color, fontSize: 15, width: '100%'}}
                             value={itemList}
                             onChangeText={(text) => setItemList(text)}
                             placeholder='Enter your list here...'
-                            placeholderTextColor='white'
+                            placeholderTextColor={colors.background_color}
                         />
                     </View>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, width: '100%', paddingVertical: 20}}>
@@ -78,16 +79,16 @@ const AddByListModal = ({addByListModalVisible, setAddByListModalVisible, items,
                                 setAddByListModalVisible(false);
                             }}
                         >
-                            <Text style={{fontSize: 20, fontWeight: 500, color: 'white', textAlign: 'center'}}>Cancel</Text>
+                            <Text style={{fontSize: 20, fontWeight: 500, color: colors.background_color, textAlign: 'center'}}>Cancel</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
-                            style={{width: '45%', paddingHorizontal: 10, paddingVertical: 20, backgroundColor: colors.secondary, borderRadius: 30}}
+                            style={{width: '45%', paddingHorizontal: 10, paddingVertical: 20, backgroundColor: useGetRemoteConfig(REMOTE_KEY.secondary_color), borderRadius: 30}}
                             onPress={() => {
                                 Vibration.vibrate(50);
                                 handleAddByList();
                             }}
                         >
-                            <Text style={{fontSize: 20, fontWeight: 500, color: 'white', textAlign: 'center'}}>Apply</Text>
+                            <Text style={{fontSize: 20, fontWeight: 500, color: colors.background_color, textAlign: 'center'}}>Apply</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

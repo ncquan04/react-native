@@ -2,10 +2,11 @@ import { View, Text, Modal, TextInput, TouchableOpacity, Vibration } from 'react
 import React, { useState } from 'react'
 import BackIcon from '../../../../assets/icons/BackIcon';
 import Alert from '../../../components/Alert';
-import colors from '../../../constants/colors';
 import LuckyWheel from '../../../components/LuckyWheel';
 import NextIcon from '../../../../assets/icons/NextIcon';
 import AddItemsModal from './AddItemsModal';
+import { REMOTE_KEY, useGetRemoteConfig } from '../../../remoteConfig/RemoteConfig';
+import colors from '../../../constants/colors';
 
 interface AddWheelModalProps {
     addWheelModalVisible: boolean;
@@ -111,7 +112,7 @@ const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, setWheel
             onRequestClose={() => setAddWheelModalVisible(false)}
             statusBarTranslucent={true}
             >
-            <View style={{ flex: 1, flexDirection: 'column', paddingTop: 25, backgroundColor: 'white', position: 'relative' }}>
+            <View style={{ flex: 1, flexDirection: 'column', paddingTop: 25, backgroundColor: colors.background_color, position: 'relative' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
                         <TouchableOpacity onPress={() => {
                             Vibration.vibrate(50);
@@ -119,23 +120,23 @@ const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, setWheel
                         }}>
                             <BackIcon width={40} height={40} />
                         </TouchableOpacity>
-                        <Text style={{ fontSize: 30, fontWeight: 600 }}>Add Wheel</Text>
+                        <Text style={{ fontSize: 30, fontWeight: 600, color: colors.text_color }}>Add Wheel</Text>
                         <View style={{width: 40}}/>
                     </View>
 
                     <View style={{ flexDirection: 'column', alignItems: 'flex-start', marginTop: 20, paddingHorizontal: 20 }}>
-                        <Text style={{ fontSize: 25, fontWeight: 500 }}>{t['Name']}</Text>
+                        <Text style={{ fontSize: 25, fontWeight: 500, color: colors.text_color }}>{t['Name']}</Text>
                         <TextInput
-                            style={{ width: '100%', backgroundColor: colors.primary, color: 'white', borderRadius: 15, paddingHorizontal: 10, paddingVertical: 20, marginTop: 10 }}
+                            style={{ width: '100%', backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), color: colors.background_color, borderRadius: 15, paddingHorizontal: 10, paddingVertical: 20, marginTop: 10 }}
                             placeholder={t["Add wheel's name"]}
-                            placeholderTextColor={'white'}
+                            placeholderTextColor={colors.background_color}
                             value={wheelName}
                             onChangeText={(text) => setWheelName(text)}
                         />
                     </View>
 
                     <View style={{ flexDirection: 'column', alignItems: 'flex-start', marginTop: 20, paddingHorizontal: 20 }}>
-                        <Text style={{ fontSize: 25, fontWeight: 500 }}>{t['Style']}</Text>
+                        <Text style={{ fontSize: 25, fontWeight: 500, color: colors.text_color }}>{t['Style']}</Text>
                         <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', marginTop: 10}}>
                             {SampleStyles.map((style, index) => {
                                 return (
@@ -152,7 +153,7 @@ const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, setWheel
                                                 radius={index === selectedStyle ? 40 : 30}
                                             />
                                             <View style={{width: '100%'}}>
-                                                <Text style={{fontSize: 15, fontWeight: 500, flexWrap: 'wrap', textAlign: 'center'}}>{t[style.name]}</Text>
+                                                <Text style={{fontSize: 15, fontWeight: 500, flexWrap: 'wrap', textAlign: 'center', color: colors.text_color}}>{t[style.name]}</Text>
                                             </View>
                                         </TouchableOpacity>
                                     </View>
@@ -160,12 +161,12 @@ const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, setWheel
                             })}
                         </View>
                         <TouchableOpacity 
-                            style={{width: '80%', flexDirection: 'row', backgroundColor: colors.secondary, borderRadius: 100, justifyContent: 'space-between', alignItems: 'center', marginTop: 80, alignSelf: 'center', paddingHorizontal: 20, paddingVertical: 20}}
+                            style={{width: '80%', flexDirection: 'row', backgroundColor: useGetRemoteConfig(REMOTE_KEY.secondary_color), borderRadius: 100, justifyContent: 'space-between', alignItems: 'center', marginTop: 80, alignSelf: 'center', paddingHorizontal: 20, paddingVertical: 20}}
                             onPress={handleItemsPress}
                         >
                             <View/>
-                            <Text style={{fontSize: 20, fontWeight: 600, color: 'white'}}>{t['Items']}</Text>
-                            <NextIcon width={25} height={25} fill={'white'}/>
+                            <Text style={{fontSize: 20, fontWeight: 600, color: colors.background_color}}>{t['Items']}</Text>
+                            <NextIcon width={25} height={25} fill={colors.background_color}/>
                         </TouchableOpacity>
                     </View>
                 </View>

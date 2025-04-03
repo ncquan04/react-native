@@ -6,6 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import CoinHistoryModal from './modals/CoinHistoryModal'
 import LottieView from 'lottie-react-native'
 import StartGameBar from '../../components/StartGameBar'
+import { useGetRemoteConfig, REMOTE_KEY } from '../../remoteConfig/RemoteConfig'
+import colors from '../../constants/colors'
 
 const AnimatedLottieView = Animated.createAnimatedComponent(LottieView);
 const AnimatedCoin = Animated.createAnimatedComponent(LottieView);
@@ -158,7 +160,7 @@ const FlippingCoinScreen = () => {
         />
       </View>}
 
-      <View style={{ width: '100%', height: '100%', backgroundColor: 'white', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '20%' }}>
+      <View style={{ width: '100%', height: '100%', backgroundColor: colors.background_color, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '20%' }}>
         <View style={{width: '100%', height: '10%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20}}>
           <View style={{width: 30}}/>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -166,14 +168,14 @@ const FlippingCoinScreen = () => {
               source={heads[coinIndex]}
               style={{ width: 80, height: 80 }}
             />
-            <Text style={{ fontSize: 20, fontWeight: '500' }}>{counter.heads}</Text>
+            <Text style={{ fontSize: 20, fontWeight: '500', color: colors.text_color }}>{counter.heads}</Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Image
               source={tails[coinIndex]}
               style={{ width: 80, height: 80 }}
             />
-            <Text style={{ fontSize: 20, fontWeight: '500' }}>{counter.tails}</Text>
+            <Text style={{ fontSize: 20, fontWeight: '500', color: colors.text_color }}>{counter.tails}</Text>
           </View>
           <TouchableOpacity
             onPress={() => {

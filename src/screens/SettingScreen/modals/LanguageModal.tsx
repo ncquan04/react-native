@@ -7,6 +7,7 @@ import VietnamFlag from '../../../../assets/images/VietNamFlag';
 import { LanguageContext } from '../../../contexts/LanguageContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import colors from '../../../constants/colors';
+import { REMOTE_KEY, useGetRemoteConfig } from '../../../remoteConfig/RemoteConfig';
 
 interface LanguageModalProps {
     LanguageModalVisible: boolean;
@@ -37,7 +38,7 @@ const LanguageModal = ({ LanguageModalVisible, setLanguageModalVisible }: Langua
                     height: '100%',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    backgroundColor: 'white',
+                    backgroundColor: colors.background_color,
                 }}
             >
                 <View
@@ -55,12 +56,12 @@ const LanguageModal = ({ LanguageModalVisible, setLanguageModalVisible }: Langua
                     }}>
                         <BackIcon width={40} height={40} />
                     </TouchableOpacity>
-                    <Text style={{ fontSize: 30, fontWeight: '500' }}>{t['Language']}</Text>
+                    <Text style={{ fontSize: 30, fontWeight: '500', color: colors.text_color }}>{t['Language']}</Text>
                     <TouchableOpacity onPress={() => {
                         Vibration.vibrate(50);
                         handleChangeLanguage();
                     }}>
-                        <CheckIcon width={25} height={25} fill={colors.secondary} />
+                        <CheckIcon width={25} height={25} fill={useGetRemoteConfig(REMOTE_KEY.secondary_color)} />
                     </TouchableOpacity>
                 </View>
 
@@ -74,7 +75,7 @@ const LanguageModal = ({ LanguageModalVisible, setLanguageModalVisible }: Langua
                         paddingHorizontal: 10,
                         paddingVertical: 15,
                         flexDirection: 'row',
-                        backgroundColor: colors.primary,
+                        backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color),
                         borderRadius: 20,
                         alignItems: 'center',
                         justifyContent: 'space-between',
@@ -82,7 +83,7 @@ const LanguageModal = ({ LanguageModalVisible, setLanguageModalVisible }: Langua
                 >
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <UKFlag width={40} height={40} />
-                        <Text style={{ fontSize: 20, fontWeight: '500', color: 'white', marginLeft: 20 }}>
+                        <Text style={{ fontSize: 20, fontWeight: '500', color: colors.background_color, marginLeft: 20 }}>
                             English
                         </Text>
                     </View>
@@ -91,13 +92,13 @@ const LanguageModal = ({ LanguageModalVisible, setLanguageModalVisible }: Langua
                             width: 24,
                             height: 24,
                             borderWidth: 2,
-                            borderColor: 'white',
+                            borderColor: colors.background_color,
                             borderRadius: 4,
                             justifyContent: 'center',
                             alignItems: 'center',
                         }}
                     >
-                        {selectedLanguage === 'en' && <CheckIcon width={15} height={15} fill={colors.secondary} />}
+                        {selectedLanguage === 'en' && <CheckIcon width={15} height={15} fill={useGetRemoteConfig(REMOTE_KEY.secondary_color)} />}
                     </View>
                 </TouchableOpacity>
 
@@ -111,7 +112,7 @@ const LanguageModal = ({ LanguageModalVisible, setLanguageModalVisible }: Langua
                         paddingHorizontal: 10,
                         paddingVertical: 15,
                         flexDirection: 'row',
-                        backgroundColor: colors.primary,
+                        backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color),
                         borderRadius: 20,
                         alignItems: 'center',
                         justifyContent: 'space-between',
@@ -120,7 +121,7 @@ const LanguageModal = ({ LanguageModalVisible, setLanguageModalVisible }: Langua
                 >
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <VietnamFlag width={40} height={40} />
-                        <Text style={{ fontSize: 20, fontWeight: '500', color: 'white', marginLeft: 20 }}>
+                        <Text style={{ fontSize: 20, fontWeight: '500', color: colors.background_color, marginLeft: 20 }}>
                             Tiếng Việt
                         </Text>
                     </View>
@@ -129,13 +130,13 @@ const LanguageModal = ({ LanguageModalVisible, setLanguageModalVisible }: Langua
                             width: 24,
                             height: 24,
                             borderWidth: 2,
-                            borderColor: 'white',
+                            borderColor: colors.background_color,
                             borderRadius: 4,
                             justifyContent: 'center',
                             alignItems: 'center',
                         }}
                     >
-                        {selectedLanguage === 'vi' && <CheckIcon width={15} height={15} fill={colors.secondary} />}
+                        {selectedLanguage === 'vi' && <CheckIcon width={15} height={15} fill={useGetRemoteConfig(REMOTE_KEY.secondary_color)} />}
                     </View>
                 </TouchableOpacity>
             </View>

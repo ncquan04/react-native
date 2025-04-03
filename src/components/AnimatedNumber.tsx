@@ -1,23 +1,27 @@
 import { View, Text, Animated, Vibration } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useImperativeHandle, useRef, useState } from 'react'
+import {useGetRemoteConfig, REMOTE_KEY} from '../remoteConfig/RemoteConfig';
+import colors from '../constants/colors';
 
 interface AnimatedNumberProps {
   startNumber?: number;
   endNumber?: number;
   duration?: number;
-  isRandoming?: boolean;
-  SaveData?: (randomNumber: number) => void;
+  saveData?: (randomNumber: number) => void;
+  ref: any;
 }
 
-const AnimatedNumber = ({ startNumber = 1, endNumber = 100, duration = 5, isRandoming, SaveData }: AnimatedNumberProps) => {
+const AnimatedNumber = ({ startNumber = 1, endNumber = 100, duration = 5, saveData, ref }: AnimatedNumberProps) => {
   const numberScale = useRef(new Animated.Value(1));
   const [displayNumber, setDisplayNumber] = useState<number>(startNumber);
 
-  useEffect(() => {
-    if (!isRandoming) {
-      return;
+  useImperativeHandle(ref, () => ({
+    startRandom: () => {
+      startRandom();
     }
-    
+  }))
+
+  const startRandom = () => {
     // Animation cho số khi bắt đầu
     Animated.sequence([
       Animated.timing(numberScale.current, {
@@ -35,12 +39,11 @@ const AnimatedNumber = ({ startNumber = 1, endNumber = 100, duration = 5, isRand
     let intervalId: NodeJS.Timeout;
     let elapsedTime = 0;
     const totalDuration = duration * 1000;
-    const initialInterval = 100; // Thời gian ban đầu giữa các lần cập nhật (ms)
-    const finalInterval = 500; // Thời gian cuối cùng giữa các lần cập nhật (ms)
+    const initialInterval = 100; // Thời gian ban đầu giữa các lần cập nhật
+    const finalInterval = 500; // Thời gian cuối cùng giữa các lần cập nhật
 
     // Hàm tính toán khoảng thời gian giữa các lần cập nhật
     const calculateInterval = (elapsed: number) => {
-      // Sử dụng hàm easeInOutQuad để tạo hiệu ứng nhanh dần rồi chậm dần
       const progress = elapsed / totalDuration;
       if (progress < 0.5) {
         // Nhanh dần trong nửa đầu
@@ -61,11 +64,8 @@ const AnimatedNumber = ({ startNumber = 1, endNumber = 100, duration = 5, isRand
 
       if (elapsedTime >= totalDuration) {
         clearInterval(intervalId);
-        // Đảm bảo endNumber >= startNumber
-        const validStartNumber = Math.min(startNumber, endNumber);
-        const validEndNumber = Math.max(startNumber, endNumber);
-        const finalRandomNumber = Math.floor(Math.random() * (validEndNumber - validStartNumber + 1)) + validStartNumber;
-        setDisplayNumber(finalRandomNumber);
+        const finalNumber = Math.floor(Math.random() * (endNumber - startNumber + 1)) + startNumber;
+        setDisplayNumber(finalNumber);
         
         // Animation cho số khi kết thúc
         Animated.sequence([
@@ -85,17 +85,14 @@ const AnimatedNumber = ({ startNumber = 1, endNumber = 100, duration = 5, isRand
         Vibration.vibrate([0, 100, 50, 100]);
         
         // Gọi callback nếu có
-        if (SaveData) {
-          SaveData(finalRandomNumber);
+        if (saveData) {
+          saveData(finalNumber);
         }
-        
         return;
       }
 
       // Đảm bảo random trong khoảng hợp lệ
-      const validStartNumber = Math.min(startNumber, endNumber);
-      const validEndNumber = Math.max(startNumber, endNumber);
-      setDisplayNumber(Math.floor(Math.random() * (validEndNumber - validStartNumber + 1)) + validStartNumber);
+      setDisplayNumber(Math.floor(Math.random() * (endNumber - startNumber + 1)) + startNumber);
 
       if (elapsedTime < totalDuration / 2) {
         // Trong nửa đầu, tạo rung nhẹ
@@ -115,19 +112,11 @@ const AnimatedNumber = ({ startNumber = 1, endNumber = 100, duration = 5, isRand
     };
 
     intervalId = setInterval(updateNumber, initialInterval);
-
-    // Hàm cleanup để tránh memory leak
-    return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
-    };
-    
-  }, [isRandoming, startNumber, endNumber, duration, SaveData]);
+  }
 
   return (
     <Animated.Text
-      style={{ fontSize: 120, fontWeight: '600', transform: [{ scale: numberScale.current }] }}
+      style={{ fontSize: 120, fontWeight: '600', color: colors.text_color, transform: [{ scale: numberScale.current }] }}
     >
       {displayNumber}
     </Animated.Text>

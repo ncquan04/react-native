@@ -5,6 +5,7 @@ import TouchElement from '../../components/TouchElement';
 import LottieView from 'lottie-react-native';
 import RestartIcon from '../../../assets/icons/RestartIcon';
 import colors from '../../constants/colors';
+import { REMOTE_KEY, useGetRemoteConfig } from '../../remoteConfig/RemoteConfig';
 
 interface Finger {
     identifier: number;
@@ -145,7 +146,7 @@ const LuckyDrawScreen = () => {
 
     return (
         <View 
-            style={{ flex: 1, backgroundColor: 'white'}} 
+            style={{ flex: 1, backgroundColor: colors.background_color}} 
             {...panResponder.panHandlers}
         >
             {gameOver && (
@@ -178,13 +179,13 @@ const LuckyDrawScreen = () => {
             {!playerJoined &&
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     <View style={{ width: '80%', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start' }}>
-                        <Text style={{ fontSize: 14, fontWeight: 400 }}>
+                        <Text style={{ fontSize: 14, fontWeight: 400, color: colors.text_color }}>
                             {t['1. Everyone (2 - 10 people) HOLD one finger on the screen']}
                         </Text>
-                        <Text style={{ fontSize: 14, fontWeight: 400, marginTop: 20 }}>
+                        <Text style={{ fontSize: 14, fontWeight: 400, color: colors.text_color, marginTop: 20 }}>
                             {t['2. Wait 3 seconds then remove your finger from the screen']}
                         </Text>
-                        <Text style={{ fontSize: 14, fontWeight: 400, marginTop: 20 }}>
+                        <Text style={{ fontSize: 14, fontWeight: 400, color: colors.text_color, marginTop: 20 }}>
                             {t['3. The winner will be highlighted on the screen']}
                         </Text>
                         <View style={{ width: 100, height: 100, marginTop: 20, alignSelf: 'center' }}>
@@ -195,7 +196,7 @@ const LuckyDrawScreen = () => {
 
             {gameOver && (
                 <TouchableOpacity style={{ position: 'absolute', bottom: 50, alignSelf: 'center' }} onPress={restartGame}>
-                    <RestartIcon width={40} height={40} fill={colors.primary} />
+                    <RestartIcon width={40} height={40} fill={useGetRemoteConfig(REMOTE_KEY.primary_color)} />
                 </TouchableOpacity>
             )}
         </View>

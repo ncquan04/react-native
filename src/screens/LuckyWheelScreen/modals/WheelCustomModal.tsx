@@ -9,6 +9,7 @@ import ReplaceIcon from '../../../../assets/icons/ReplaceIcon';
 import WheelSpeedModal from './WheelSpeedModal';
 import WheelDurationModal from './WheelDurationModal';
 import WheelFontSizeModal from './WheelFontSizeModal';
+import { REMOTE_KEY, useGetRemoteConfig } from '../../../remoteConfig/RemoteConfig';
 import colors from '../../../constants/colors';
 
 interface WheelCustomModalProps {
@@ -47,7 +48,7 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                 >
                     <View style={{ flex: 0.2, backgroundColor: 'rgba(0,0,0,0)' }} />
                 </TouchableWithoutFeedback>
-                <View style={{ flex: 0.8, height: '100%', backgroundColor: 'white', borderTopLeftRadius: 30, borderBottomLeftRadius: 30, flexDirection: 'column', paddingTop: 35, overflow: 'hidden' }}>
+                <View style={{ flex: 0.8, height: '100%', backgroundColor: colors.background_color, borderTopLeftRadius: 30, borderBottomLeftRadius: 30, flexDirection: 'column', paddingTop: 35, overflow: 'hidden' }}>
                     <View style={{ width: '100%', height: '100%', flexDirection: 'column' }}>
                         <View style={{ width: '100%', height: '10%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
                             <TouchableOpacity
@@ -57,59 +58,59 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                                     setWheelCustomModalVisible(false);
                                 }}
                             >
-                                <XIcon width={25} height={25} fill={'black'} />
+                                <XIcon width={25} height={25} fill={colors.text_color} />
                             </TouchableOpacity>
-                            <Text style={{ fontSize: 30, fontWeight: 600, marginRight: 20 }}>
+                            <Text style={{ fontSize: 30, fontWeight: 600, marginRight: 20, color: colors.text_color }}>
                                 {t['Custom']}
                             </Text>
                         </View>
 
                         <View style={{ flexDirection: 'column', alignItems: 'center' }}>
                             <TouchableOpacity
-                                style={{ width: '90%', height: '15%', backgroundColor: colors.primary, borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
+                                style={{ width: '90%', height: '15%', backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
                                 onPress={() => {
                                     Vibration.vibrate(50);
                                     setWheelDurationModalVisible(true);
                                 }}
                             >
                                 <View style={{ flexDirection: 'row', width: '70%', alignItems: 'center', paddingHorizontal: 10 }}>
-                                    <HistoryIcon width={30} height={30} fill={'white'} />
-                                    <Text style={{ color: 'white', fontSize: 20, fontWeight: 600, marginLeft: 10, flexWrap: 'wrap' }}>{t['Duration']}</Text>
+                                    <HistoryIcon width={30} height={30} fill={colors.text_color} />
+                                    <Text style={{ color: colors.text_color, fontSize: 20, fontWeight: 600, marginLeft: 10, flexWrap: 'wrap' }}>{t['Duration']}</Text>
                                 </View>
-                                <Text style={{ fontSize: 20, fontWeight: 600, color: 'white', marginRight: 10 }}>{duration / 1000}</Text>
+                                <Text style={{ fontSize: 20, fontWeight: 600, color: colors.text_color, marginRight: 10 }}>{duration / 1000}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={{ width: '90%', height: '15%', backgroundColor: colors.primary, borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
+                                style={{ width: '90%', height: '15%', backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
                                 onPress={() => {
                                     Vibration.vibrate(50);
                                     setWheelSpeedModalVisible(true);
                                 }}
                             >
                                 <View style={{ flexDirection: 'row', width: '70%', alignItems: 'center', paddingHorizontal: 10 }}>
-                                    <SpeedIcon width={30} height={30} fill={'white'} />
-                                    <Text style={{ color: 'white', fontSize: 20, fontWeight: 600, marginLeft: 10, flexWrap: 'wrap' }}>{t['Speed']}</Text>
+                                    <SpeedIcon width={30} height={30} fill={colors.text_color} />
+                                    <Text style={{ color: colors.text_color, fontSize: 20, fontWeight: 600, marginLeft: 10, flexWrap: 'wrap' }}>{t['Speed']}</Text>
                                 </View>
                                 <View style={{ width: '30%' }}>
-                                    <Text style={{ fontSize: 20, fontWeight: 600, color: 'white', marginRight: 10, flexWrap: 'wrap' }}>
+                                    <Text style={{ fontSize: 20, fontWeight: 600, color: colors.text_color, marginRight: 10, flexWrap: 'wrap' }}>
                                         {speed === 1 ? t['Slow'] : speed === 3 ? t['Normal'] : t['Fast']}
                                     </Text>
                                 </View>
                             </TouchableOpacity>
                             <TouchableOpacity 
-                                style={{ width: '90%', height: '15%', backgroundColor: colors.primary, borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
+                                style={{ width: '90%', height: '15%', backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
                                 onPress={() => {
                                     Vibration.vibrate(50);
                                     setWheelFontSizeModalVisible(true);
                                 }}    
                             >
                                 <View style={{ flexDirection: 'row', width: '70%', alignItems: 'center', paddingHorizontal: 10 }}>
-                                    <FontSizeIcon width={30} height={30} fill={'white'} />
-                                    <Text style={{ color: 'white', fontSize: 20, fontWeight: 600, marginLeft: 10, flexWrap: 'wrap' }}>{t['Font size']}</Text>
+                                    <FontSizeIcon width={30} height={30} fill={colors.text_color} />
+                                    <Text style={{ color: colors.text_color, fontSize: 20, fontWeight: 600, marginLeft: 10, flexWrap: 'wrap' }}>{t['Font size']}</Text>
                                 </View>
-                                <Text style={{ fontSize: 20, fontWeight: 600, color: 'white', marginRight: 10 }}>{fontSize}</Text>
+                                <Text style={{ fontSize: 20, fontWeight: 600, color: colors.text_color, marginRight: 10 }}>{fontSize}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity 
-                                style={{ width: '90%', height: '15%', backgroundColor: colors.primary, borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
+                                style={{ width: '90%', height: '15%', backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), borderRadius: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
                                 onPress={() => {
                                     Vibration.vibrate(50);
                                     setRemoveSelected(!removeSelected);
@@ -117,13 +118,13 @@ const WheelCustomModal = ({ wheelCustomModalVisible, setWheelCustomModalVisible,
                                 }}
                             >
                                 <View style={{ flexDirection: 'row', width: '70%', alignItems: 'center', paddingHorizontal: 10 }}>
-                                    <ReplaceIcon width={30} height={30} fill={'white'} />
-                                    <Text style={{ color: 'white', fontSize: 20, fontWeight: 600, marginLeft: 10, flexWrap: 'wrap' }}>{t['Remove winning item']}</Text>
+                                    <ReplaceIcon width={30} height={30} fill={colors.text_color} />
+                                    <Text style={{ color: colors.text_color, fontSize: 20, fontWeight: 600, marginLeft: 10, flexWrap: 'wrap' }}>{t['Remove winning item']}</Text>
                                 </View>
                                 <Switch
-                                    trackColor={{ false: 'white', true: colors.secondary }}
-                                    thumbColor={'white'}
-                                    ios_backgroundColor={'white'}
+                                    trackColor={{ false: colors.text_color, true: useGetRemoteConfig(REMOTE_KEY.secondary_color) }}
+                                    thumbColor={colors.text_color}
+                                    ios_backgroundColor={colors.text_color}
                                     onValueChange={() => {
                                         Vibration.vibrate(50);
                                         setRemoveSelected(!removeSelected);

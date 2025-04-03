@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import BackIcon from '../../../../assets/icons/BackIcon';
 import { LanguageContext } from '../../../contexts/LanguageContext';
 import Alert from '../../../components/Alert';
+import { REMOTE_KEY, useGetRemoteConfig } from '../../../remoteConfig/RemoteConfig';
 import colors from '../../../constants/colors';
 
 interface RandomCustomModalProps {
@@ -46,7 +47,7 @@ const RandomCustomModal = ({ RandomCustomModalVisible, setRandomCustomModalVisib
                     setRandomCustomModalVisible(!RandomCustomModalVisible);
                 }}
             >
-                <View style={{width: '100%', height: '100%', flexDirection: 'column', backgroundColor: 'white', alignItems: 'center'}}>
+                <View style={{width: '100%', height: '100%', flexDirection: 'column', backgroundColor: colors.background_color, alignItems: 'center'}}>
                     <View 
                         style={{width: '100%', height: '10%', paddingHorizontal: 20, flexDirection: 'row', 
                         justifyContent: 'space-between', alignItems: 'center'}}
@@ -57,14 +58,14 @@ const RandomCustomModal = ({ RandomCustomModalVisible, setRandomCustomModalVisib
                         }}>
                             <BackIcon width={40} height={40}/>
                         </TouchableOpacity>
-                        <Text style={{fontSize: 30, fontWeight: 500}}>{t['Custom']}</Text>
+                        <Text style={{fontSize: 30, fontWeight: 500, color: colors.text_color}}>{t['Custom']}</Text>
                         <TouchableOpacity
                             onPress={() => {
                                 Vibration.vibrate(50);
                                 handleSave();
                             }}
                         >
-                            <Text style={{fontSize: 20, fontWeight: 400}}>{t['Save']}</Text>
+                            <Text style={{fontSize: 20, fontWeight: 400, color: colors.text_color}}>{t['Save']}</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={{width: '80%', flexDirection: 'column', marginTop: 60}}>
@@ -72,14 +73,14 @@ const RandomCustomModal = ({ RandomCustomModalVisible, setRandomCustomModalVisib
                             style={{flexDirection: 'row', height: 60,
                             justifyContent: 'space-between', alignItems: 'center', marginTop: 20}}
                         >
-                            <View style={{width: '35%', height: '100%', backgroundColor: colors.primary, padding: 5, borderRadius: 10, justifyContent: 'center', alignItems: 'center'}}>
-                                <Text style={{fontSize: 20, fontWeight: 400, color: 'white', textAlign: 'center'}}>
+                            <View style={{width: '35%', height: '100%', backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), padding: 5, borderRadius: 10, justifyContent: 'center', alignItems: 'center'}}>
+                                <Text style={{fontSize: 20, fontWeight: 400, color: colors.background_color, textAlign: 'center'}}>
                                     {t['Start']}
                                 </Text>
                             </View>
-                            <View style={{width: '60%', height: '100%', backgroundColor: colors.primary, padding: 5, borderRadius: 10}}>
+                            <View style={{width: '60%', height: '100%', backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), padding: 5, borderRadius: 10}}>
                                 <TextInput 
-                                    style={{fontSize: 20, fontWeight: 400, color: 'white'}}
+                                    style={{fontSize: 20, fontWeight: 400, color: colors.background_color}}
                                     keyboardType='number-pad'
                                     onChangeText={(text) => setTempStartNumber(parseInt(text))}
                                     value={tempStartNumber ? tempStartNumber.toString() : ''}
@@ -90,14 +91,14 @@ const RandomCustomModal = ({ RandomCustomModalVisible, setRandomCustomModalVisib
                             style={{flexDirection: 'row', height: 60, 
                             justifyContent: 'space-between', alignItems: 'center', marginTop: 20}}
                         >
-                            <View style={{width: '35%', height: '100%', backgroundColor: colors.primary, padding: 5, borderRadius: 10, justifyContent: 'center', alignItems: 'center'}}>
-                                <Text style={{fontSize: 20, fontWeight: 400, color: 'white', textAlign: 'center'}}>
+                            <View style={{width: '35%', height: '100%', backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), padding: 5, borderRadius: 10, justifyContent: 'center', alignItems: 'center'}}>
+                                <Text style={{fontSize: 20, fontWeight: 400, color: colors.background_color, textAlign: 'center'}}>
                                     {t['End']}
                                 </Text>
                             </View>
-                            <View style={{width: '60%', backgroundColor: colors.primary, padding: 5, borderRadius: 10, justifyContent: 'center'}}>
+                            <View style={{width: '60%', backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), padding: 5, borderRadius: 10, justifyContent: 'center'}}>
                                 <TextInput 
-                                    style={{fontSize: 20, fontWeight: 400, color: 'white'}}
+                                    style={{fontSize: 20, fontWeight: 400, color: colors.background_color}}
                                     keyboardType='number-pad'
                                     onChangeText={(text) => setTempEndNumber(parseInt(text))}
                                     value={tempEndNumber ? tempEndNumber.toString() : ''}
@@ -108,14 +109,14 @@ const RandomCustomModal = ({ RandomCustomModalVisible, setRandomCustomModalVisib
                             style={{flexDirection: 'row', height: 60, 
                             justifyContent: 'space-between', alignItems: 'center', marginTop: 80}}
                         >
-                            <View style={{width: '35%', height: '100%',backgroundColor: colors.primary, padding: 5, borderRadius: 10, justifyContent: 'center', alignItems: 'center'}}>
-                                <Text style={{fontSize: 20, fontWeight: 400, color: 'white', textAlign: 'center'}}>
+                            <View style={{width: '35%', height: '100%',backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), padding: 5, borderRadius: 10, justifyContent: 'center', alignItems: 'center'}}>
+                                <Text style={{fontSize: 20, fontWeight: 400, color: colors.background_color, textAlign: 'center'}}>
                                     {t['Duration']}
                                 </Text>
                             </View>
-                            <View style={{width: '60%', backgroundColor: colors.primary, padding: 5, borderRadius: 10}}>
+                            <View style={{width: '60%', backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), padding: 5, borderRadius: 10}}>
                                 <TextInput 
-                                    style={{fontSize: 20, fontWeight: 400, color: 'white'}}
+                                    style={{fontSize: 20, fontWeight: 400, color: colors.background_color}}
                                     keyboardType='number-pad'
                                     onChangeText={(text) => setTempDuration(parseInt(text))}
                                     value={tempDuration ? tempDuration.toString() : ''}

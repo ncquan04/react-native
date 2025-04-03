@@ -1,5 +1,5 @@
-import React, { use, useEffect, useState } from 'react';
-import { Alert, AppRegistry, Button, PermissionsAndroid, StatusBar, Text, View } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { AppRegistry, StatusBar, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import AppScreen from './src/screens/LuckyWheelScreen/AppScreen';
@@ -16,24 +16,18 @@ import SettingsIcon from './assets/icons/SettingsIcon'
 import { LanguageProvider } from './src/contexts/LanguageContext';
 import NativeMusicPlayer from './specs/NativeMusicPlayer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import NativeSplashScreen from './specs/NativeSplashScreen';
-
-import analytics from '@react-native-firebase/analytics';
-import remoteConfig from '@react-native-firebase/remote-config';
-import messaging from '@react-native-firebase/messaging';
 import crashlytics from '@react-native-firebase/crashlytics';
-import notifee from '@notifee/react-native';
-import colors from './src/constants/colors';
 import RollDiceScreen from './src/screens/RollDiceScreen/RollDiceScreen';
 import DiceIcon from './assets/icons/DiceIcon';
-import { RemoteConfigProvider, useGetRemoteConfig } from './src/remoteConfig/RemoteConfig';
+import { REMOTE_KEY, RemoteConfigProvider, useGetRemoteConfig } from './src/remoteConfig/RemoteConfig';
+import colors from './src/constants/colors';
+import { DarkModeContext, DarkModeProvider } from './src/contexts/DarkModeContext';
 
 const Tabs = createBottomTabNavigator();
 
 function App(): React.JSX.Element {
-  const [primaryColor, setPrimaryColor] = useState<string>(colors.primary);
-  const [secondaryColor, setSecondaryColor] = useState<string>(colors.secondary);
   const [rerenderTrigger, setRerenderTrigger] = useState<boolean>(false);
+  const { isDarkMode } = useContext(DarkModeContext);
 
   // Function to clear all AsyncStorage data
   // const clearAllData = async () => {
@@ -61,7 +55,6 @@ function App(): React.JSX.Element {
         if (isMuteMusic === 'false') {
           NativeMusicPlayer.startMusic();
         }
-        NativeSplashScreen.hide();
       } catch (error) {
         console.log(error);
         crashlytics().recordError(error instanceof Error ? error : new Error(String(error)));
@@ -73,52 +66,54 @@ function App(): React.JSX.Element {
 
   return (
     <LanguageProvider>
-      <RemoteConfigProvider>
-        <View style={{ backgroundColor: 'white', width: '100%', height: '100%', flex: 1, paddingTop: StatusBar.currentHeight }}>
-          <StatusBar
-            backgroundColor={'white'}
-            barStyle={'dark-content'}
-          />
-          <NavigationContainer>
-            <Tabs.Navigator
-              screenOptions={({ route }) => ({
-                tabBarStyle: {
-                  backgroundColor: colors.primary,
-                  height: 60,
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                },
-                headerShown: false,
-                tabBarShowLabel: false,
-                tabBarActiveTintColor: '#ffffff',
-                tabBarInactiveTintColor: '#white',
-                tabBarIcon: ({ focused, color, size }) => {
-                  if (route.name === "App") {
-                    return <LuckyWheelIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
-                  } else if (route.name === "Lucky Draw") {
-                    return <TouchIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
-                  } else if (route.name === "Random Number") {
-                    return <RandomNumberIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
-                  } else if (route.name === "Flipping Coin") {
-                    return <CoinIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
-                  } else if (route.name === "Rolling Dice") {
-                    return <DiceIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
-                  } else if (route.name === "Settings") {
-                    return <SettingsIcon width={25} height={25} fill={focused ? secondaryColor : 'white'} />
-                  }
-                },
-              })}
-            >
-              <Tabs.Screen name="App" component={AppScreen} />
-              <Tabs.Screen name="Lucky Draw" component={LuckyDrawScreen} />
-              <Tabs.Screen name="Random Number" component={RandomNumberScreen} />
-              <Tabs.Screen name="Flipping Coin" component={FlippingCoinScreen} />
-              <Tabs.Screen name="Rolling Dice" component={RollDiceScreen} />
-              <Tabs.Screen name="Settings" component={SettingsScreen} />
-            </Tabs.Navigator>
-          </NavigationContainer>
-        </View>
-      </RemoteConfigProvider>
+      <DarkModeProvider>
+        <RemoteConfigProvider>
+          <View style={{ backgroundColor: colors.background_color, width: '100%', height: '100%', flex: 1, paddingTop: ((StatusBar.currentHeight ?? 0) + 10) }}>
+            <StatusBar
+              backgroundColor={colors.background_color}
+              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            />
+            <NavigationContainer>
+              <Tabs.Navigator
+                screenOptions={({ route }) => ({
+                  tabBarStyle: {
+                    backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color),
+                    height: 60,
+                    paddingTop: 10,
+                    paddingBottom: 10,
+                  },
+                  headerShown: false,
+                  tabBarShowLabel: false,
+                  tabBarActiveTintColor: '#ffffff',
+                  tabBarInactiveTintColor: '#white',
+                  tabBarIcon: ({ focused, color, size }) => {
+                    if (route.name === "App") {
+                      return <LuckyWheelIcon width={25} height={25} fill={focused ? useGetRemoteConfig(REMOTE_KEY.secondary_color) : colors.background_color} />
+                    } else if (route.name === "Lucky Draw") {
+                      return <TouchIcon width={25} height={25} fill={focused ? useGetRemoteConfig(REMOTE_KEY.secondary_color) : colors.background_color} />
+                    } else if (route.name === "Random Number") {
+                      return <RandomNumberIcon width={25} height={25} fill={focused ? useGetRemoteConfig(REMOTE_KEY.secondary_color) : colors.background_color} />
+                    } else if (route.name === "Flipping Coin") {
+                      return <CoinIcon width={25} height={25} fill={focused ? useGetRemoteConfig(REMOTE_KEY.secondary_color) : colors.background_color} />
+                    } else if (route.name === "Rolling Dice") {
+                      return <DiceIcon width={25} height={25} fill={focused ? useGetRemoteConfig(REMOTE_KEY.secondary_color) : colors.background_color} />
+                    } else if (route.name === "Settings") {
+                      return <SettingsIcon width={25} height={25} fill={focused ? useGetRemoteConfig(REMOTE_KEY.secondary_color) : colors.background_color} />
+                    }
+                  },
+                })}
+              >
+                <Tabs.Screen name="App" component={AppScreen} />
+                <Tabs.Screen name="Lucky Draw" component={LuckyDrawScreen} />
+                <Tabs.Screen name="Random Number" component={RandomNumberScreen} />
+                <Tabs.Screen name="Flipping Coin" component={FlippingCoinScreen} />
+                <Tabs.Screen name="Rolling Dice" component={RollDiceScreen} />
+                <Tabs.Screen name="Settings" component={SettingsScreen} />
+              </Tabs.Navigator>
+            </NavigationContainer>
+          </View>
+        </RemoteConfigProvider>
+      </DarkModeProvider>
     </LanguageProvider>
   );
 }
@@ -210,7 +205,7 @@ function App(): React.JSX.Element {
 //         }
 //         }
 //       />
-//       <Text style={{marginTop: 10, color: 'white'}}>{awesomeNewFeature}</Text>
+//       <Text style={{marginTop: 10, color: colors.background_color}}>{awesomeNewFeature}</Text>
 //     </View>
 //   )
 // }

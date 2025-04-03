@@ -6,6 +6,8 @@ import RandomHistoryModal from './modals/RandomHistoryModal';
 import LottieView from 'lottie-react-native';
 import AnimatedNumber from '../../components/AnimatedNumber';
 import StartGameBar from '../../components/StartGameBar';
+import { useGetRemoteConfig, REMOTE_KEY } from '../../remoteConfig/RemoteConfig';
+import colors from '../../constants/colors';
 
 const AnimatedLottieView = Animated.createAnimatedComponent(LottieView);
 
@@ -17,14 +19,14 @@ const RandomNumberScreen = () => {
     endNumber: 100,
     duration: 5,
   });
-  const [randomNumber, setRandomNumber] = useState<number>(setting.startNumber);
-  const [isRandoming, setIsRandoming] = useState<boolean>(false); // Chuyển từ useRef sang useState để kích hoạt re-render
+  const isRandoming = useRef<boolean>(false);
   const history = useRef<{ randomNumber: number; date: string; time: string }[]>([]);
   const [showLottie, setShowLottie] = useState<boolean>(false);
   const animationProgress = useRef(new Animated.Value(0));
+  const animatedNumberRef = useRef<any>(null);
 
   useEffect(() => {
-    let animationLoop: Animated.CompositeAnimation | null = null; // Khai báo biến animationLoop ở đây
+    let animationLoop: Animated.CompositeAnimation | null = null;
     if (showLottie) {
       animationLoop = Animated.loop(
         Animated.timing(animationProgress.current, {
@@ -47,15 +49,15 @@ const RandomNumberScreen = () => {
   }, [showLottie]);
 
   const StartRandom = () => {
-    if (isRandoming) return; // Ngăn chặn nhiều lần nhấn
-    
+    if (isRandoming.current) return; // Ngăn chặn nhiều lần nhấn
     Vibration.vibrate(75);
-    setIsRandoming(true); // Sử dụng setState thay vì useRef
+    isRandoming.current = true;
     setShowLottie(false);
     animationProgress.current.setValue(0);
+    animatedNumberRef.current?.startRandom();
   };
 
-  const SaveData = async (number: number) => {
+  const saveData = async (number: number) => {
     try {
       const currentDate = new Date();
       const dataToSave = {
@@ -72,7 +74,7 @@ const RandomNumberScreen = () => {
       history.current = existingData;
       
       // Đặt trạng thái sau khi lưu dữ liệu
-      setIsRandoming(false);
+      isRandoming.current = false;
       setShowLottie(true);
     } catch (error) {
       console.error('Lỗi khi lưu dữ liệu:', error);
@@ -92,13 +94,13 @@ const RandomNumberScreen = () => {
         </View>
       )}
 
-      <View style={{ width: '100%', height: '100%', backgroundColor: 'white', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', paddingTop: '60%', paddingBottom: '20%' }}>
+      <View style={{ width: '100%', height: '100%', backgroundColor: colors.background_color, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', paddingTop: '60%', paddingBottom: '20%' }}>
         <AnimatedNumber
           startNumber={setting.startNumber}
           endNumber={setting.endNumber}
           duration={setting.duration}
-          isRandoming={isRandoming}
-          SaveData={SaveData}
+          saveData={saveData}
+          ref={animatedNumberRef}
         />
         <StartGameBar
           setHistoryModalVisible={setRandomHistoryModalVisible}

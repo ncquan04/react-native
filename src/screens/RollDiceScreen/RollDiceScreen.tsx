@@ -3,6 +3,8 @@ import { View, Text, NativeModules, NativeEventEmitter, Animated, Easing, AppSta
 import LottieView from 'lottie-react-native';
 import { LanguageContext } from '../../contexts/LanguageContext';
 import crashlytics from '@react-native-firebase/crashlytics';
+import { REMOTE_KEY, useGetRemoteConfig } from '../../remoteConfig/RemoteConfig';
+import colors from '../../constants/colors';
 
 const { NativeAccelerometer } = NativeModules;
 const accelerometerEventEmitter = new NativeEventEmitter(NativeAccelerometer);
@@ -261,7 +263,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingVertical: '25%',
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: colors.background_color,
     },
     confetti: {
         width: "100%",
@@ -278,8 +280,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         overflow: 'hidden',
         borderWidth: 2,
-        borderColor: 'black',
-        shadowColor: '#000',
+        borderColor: colors.text_color,
+        shadowColor: colors.text_color,
         shadowOffset: {
             width: 0,
             height: 4,
@@ -296,13 +298,13 @@ const styles = StyleSheet.create({
         fontSize: 40,
         fontWeight: 'bold',
         marginTop: 80,
-        color: 'black',
+        color: colors.text_color,
         textAlign: 'center',
     },
     instructionText: {
         marginTop: 120,
         fontSize: 16,
-        color: 'black',
+        color: colors.text_color,
         fontWeight: '500',
     }
 });

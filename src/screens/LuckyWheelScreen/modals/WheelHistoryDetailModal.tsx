@@ -2,7 +2,7 @@ import { View, Text, Modal, TouchableOpacity, ScrollView, Vibration } from 'reac
 import React, { useEffect, useState } from 'react'
 import BackIcon from '../../../../assets/icons/BackIcon';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import colors from '../../../constants/colors';
+import { REMOTE_KEY, useGetRemoteConfig } from '../../../remoteConfig/RemoteConfig';
 
 interface WheelHistoryDetailModalProps {
     wheelHistoryDetailModalVisible: boolean;
@@ -37,7 +37,7 @@ const WheelHistoryDetailModal = ({ wheelHistoryDetailModalVisible, setWheelHisto
             visible={wheelHistoryDetailModalVisible}
             onRequestClose={() => setWheelHistoryDetailModalVisible(!wheelHistoryDetailModalVisible)}
         >
-            <View style={{ width: '100%', height: '100%', flexDirection: 'column', backgroundColor: 'white', alignItems: 'center' }}>
+            <View style={{ width: '100%', height: '100%', flexDirection: 'column', backgroundColor: colors.background_color, alignItems: 'center' }}>
                 <View style={{ width: '100%', height: '10%', paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => {
                         Vibration.vibrate(50);
@@ -55,9 +55,9 @@ const WheelHistoryDetailModal = ({ wheelHistoryDetailModalVisible, setWheelHisto
                     {history
                         .filter(item => item.id === id)
                         .map((item, i) => (
-                            <View key={i} style={{ width: '90%', flexDirection: 'column', justifyContent: 'center', height: 100, marginTop: 20, backgroundColor: colors.primary, borderRadius: 30, paddingHorizontal: 10 }}>
-                                <Text style={{ color: 'white', fontSize: 15, fontWeight: '600', marginLeft: 10, fontStyle: 'italic' }}>{t['Time: ']}{formatISODate(item.date)}</Text>
-                                <Text style={{ color: 'white', fontSize: 20, fontWeight: '600', marginLeft: 10, marginTop: 10 }}>{t['Reward: ']}{item.result}</Text>
+                            <View key={i} style={{ width: '90%', flexDirection: 'column', justifyContent: 'center', height: 100, marginTop: 20, backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), borderRadius: 30, paddingHorizontal: 10 }}>
+                                <Text style={{ color: colors.background_color, fontSize: 15, fontWeight: '600', marginLeft: 10, fontStyle: 'italic' }}>{t['Time: ']}{formatISODate(item.date)}</Text>
+                                <Text style={{ color: colors.background_color, fontSize: 20, fontWeight: '600', marginLeft: 10, marginTop: 10 }}>{t['Reward: ']}{item.result}</Text>
                             </View>
                         ))
                     }

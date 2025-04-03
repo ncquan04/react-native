@@ -1,7 +1,7 @@
 import * as React from "react"
 import Svg, { Circle, SvgProps, Text } from "react-native-svg"
 import { LanguageContext } from "../../src/contexts/LanguageContext"
-import colors from "../../src/constants/colors";
+import { useGetRemoteConfig, REMOTE_KEY } from "../../src/remoteConfig/RemoteConfig"
 
 function StartIcon(props: SvgProps) {
     const {t} = React.useContext(LanguageContext);
@@ -18,7 +18,7 @@ function StartIcon(props: SvgProps) {
                 cx={50}
                 cy={50}
                 r={45}
-                fill={colors.secondary}
+                fill={useGetRemoteConfig(REMOTE_KEY.secondary_color)}
                 stroke="silver"
                 strokeWidth={2}
             />
