@@ -4,8 +4,7 @@ import { LanguageContext } from '../../contexts/LanguageContext';
 import TouchElement from '../../components/TouchElement';
 import LottieView from 'lottie-react-native';
 import RestartIcon from '../../../assets/icons/RestartIcon';
-import colors from '../../constants/colors';
-import { REMOTE_KEY, useGetRemoteConfig } from '../../remoteConfig/RemoteConfig';
+import { useDarkMode } from '../../contexts/DarkModeContext';
 
 interface Finger {
     identifier: number;
@@ -21,6 +20,7 @@ const AnimatedLottieView = Animated.createAnimatedComponent(LottieView);
 
 const LuckyDrawScreen = () => {
     const { t } = useContext(LanguageContext);
+    const { theme }  = useDarkMode();
     const [gameOver, setGameOver] = useState<boolean>(false);
     const [joiningGame, setJoiningGame] = useState<boolean>(true);
     const [playerJoined, setPlayerJoined] = useState<boolean>(false);
@@ -146,7 +146,7 @@ const LuckyDrawScreen = () => {
 
     return (
         <View 
-            style={{ flex: 1, backgroundColor: colors.background_color}} 
+            style={{ flex: 1, backgroundColor: theme.background_color}} 
             {...panResponder.panHandlers}
         >
             {gameOver && (
@@ -179,13 +179,13 @@ const LuckyDrawScreen = () => {
             {!playerJoined &&
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     <View style={{ width: '80%', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start' }}>
-                        <Text style={{ fontSize: 14, fontWeight: 400, color: colors.text_color }}>
+                        <Text style={{ fontSize: 14, fontWeight: 400, color: theme.contrast_text_color }}>
                             {t['1. Everyone (2 - 10 people) HOLD one finger on the screen']}
                         </Text>
-                        <Text style={{ fontSize: 14, fontWeight: 400, color: colors.text_color, marginTop: 20 }}>
+                        <Text style={{ fontSize: 14, fontWeight: 400, color: theme.contrast_text_color, marginTop: 20 }}>
                             {t['2. Wait 3 seconds then remove your finger from the screen']}
                         </Text>
-                        <Text style={{ fontSize: 14, fontWeight: 400, color: colors.text_color, marginTop: 20 }}>
+                        <Text style={{ fontSize: 14, fontWeight: 400, color: theme.contrast_text_color, marginTop: 20 }}>
                             {t['3. The winner will be highlighted on the screen']}
                         </Text>
                         <View style={{ width: 100, height: 100, marginTop: 20, alignSelf: 'center' }}>
@@ -196,7 +196,7 @@ const LuckyDrawScreen = () => {
 
             {gameOver && (
                 <TouchableOpacity style={{ position: 'absolute', bottom: 50, alignSelf: 'center' }} onPress={restartGame}>
-                    <RestartIcon width={40} height={40} fill={useGetRemoteConfig(REMOTE_KEY.primary_color)} />
+                    <RestartIcon width={40} height={40} fill={theme.primary_color} />
                 </TouchableOpacity>
             )}
         </View>

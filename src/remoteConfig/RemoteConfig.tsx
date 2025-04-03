@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react"
 import remoteConfig from '@react-native-firebase/remote-config'
-import { NativeModules } from "react-native";
 import NativeSplashScreen from "../../specs/NativeSplashScreen";
-import colors from "../constants/colors";
 
 export const REMOTE_KEY = {
     primary_color: 'primary_color',
@@ -45,7 +43,6 @@ export const RemoteConfigProvider = ({ children }: { children: React.ReactNode }
     }, [])
 
     if (!isConfigLoaded) {
-        // Hiển thị loading screen hoặc splash screen
         return null;
     }
 

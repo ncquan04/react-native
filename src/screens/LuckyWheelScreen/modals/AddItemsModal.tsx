@@ -8,8 +8,7 @@ import WheelDemoModal from './WheelDemoModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddByListModal from '../../LuckyWheelScreen/modals/AddByListModal';
 import Alert from '../../../components/Alert';
-import colors from '../../../constants/colors';
-import { REMOTE_KEY, useGetRemoteConfig } from '../../../remoteConfig/RemoteConfig';
+import { useDarkMode } from '../../../contexts/DarkModeContext';
 
 interface AddItemsModalProps {
     addItemsModalVisible: boolean;
@@ -40,6 +39,7 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
     const [addByListModalVisible, setAddByListModalVisible] = useState<boolean>(false);
     const [attemptedSubmit, setAttemptedSubmit] = useState<boolean>(false);
     const [missingItem, setMissingItem] = useState<boolean>(false);
+    const { theme } = useDarkMode();
 
     const handleAddItem = () => {
         if (itemName) {
@@ -86,7 +86,7 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
                     setAddItemsModalVisible(!addItemsModalVisible)
                 }}
                 >
-                    <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', backgroundColor: colors.background_color, paddingHorizontal: 20, paddingVertical: 40}}>
+                    <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', backgroundColor: theme.background_color, paddingHorizontal: 20, paddingVertical: 40}}>
                         <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                             <TouchableOpacity
                                 onPress={() => {
@@ -96,58 +96,58 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
                             >
                                 <BackIcon width={40} height={40}/>
                             </TouchableOpacity>
-                            <Text style={{fontSize: 30, fontWeight: 600, color: colors.text_color}}>{t['Items']}</Text>
+                            <Text style={{fontSize: 30, fontWeight: 600, color: theme.contrast_text_color}}>{t['Items']}</Text>
                             <View style={{width: 40}}/>
                         </View>
 
                         <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20}}>
-                            <Text style={{fontSize: 25, fontWeight: 500, color: colors.text_color}}>{t['Add Item']}</Text>
+                            <Text style={{fontSize: 25, fontWeight: 500, color: theme.contrast_text_color}}>{t['Add Item']}</Text>
                             <TouchableOpacity
-                                style={{backgroundColor: useGetRemoteConfig(REMOTE_KEY.secondary_color), padding: 10, borderRadius: 15}}
+                                style={{backgroundColor: theme.secondary_color, padding: 10, borderRadius: 15}}
                                 onPress={() => {
                                     Vibration.vibrate(50);
                                     setAddByListModalVisible(true);
                                 }}
                             >
-                                <Text style={{fontSize: 17, fontWeight: 500, color: colors.background_color}}>Add by list</Text>
+                                <Text style={{fontSize: 17, fontWeight: 500, color: theme.text_color}}>Add by list</Text>
                             </TouchableOpacity>
                         </View>
 
                         <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20}}>
                             <View style={{width: '60%', alignItems: 'center'}}>
                                 <TextInput
-                                    style={{width: '100%', backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), color: colors.background_color, borderRadius: 15, paddingHorizontal: 15, paddingVertical: 25}}
+                                    style={{width: '100%', backgroundColor: theme.primary_color, color: theme.text_color, borderRadius: 15, paddingHorizontal: 15, paddingVertical: 25}}
                                     placeholder={t["Item's name"]}
-                                    placeholderTextColor={colors.background_color}
+                                    placeholderTextColor={theme.text_color}
                                     value={itemName}
                                     onChangeText={(text) => setItemName(text)}
                                 />
                             </View>
                             <TouchableOpacity
-                                style={{width: '37%', height: '100%', backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), padding: 10, borderRadius: 15, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}
+                                style={{width: '37%', height: '100%', backgroundColor: theme.primary_color, padding: 10, borderRadius: 15, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}
                                 onPress={() => {
                                     Vibration.vibrate(50);
                                     setColorPickerModalVisible(true);
                                 }}
                             >
-                                <Text style={{fontSize: 15, fontWeight: 500, color: colors.background_color}}>{t['Color']}</Text>
+                                <Text style={{fontSize: 15, fontWeight: 500, color: theme.text_color}}>{t['Color']}</Text>
                                 <View style={{ width: '30%', height: '62%', borderRadius: 100, backgroundColor: selectedColor}}/>
                             </TouchableOpacity>
                         </View>
 
                         <TouchableOpacity 
-                            style={{width: '100%', marginTop: 20, padding: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: useGetRemoteConfig(REMOTE_KEY.secondary_color), borderRadius: 50}}
+                            style={{width: '100%', marginTop: 20, padding: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: theme.secondary_color, borderRadius: 50}}
                             onPress={() => {
                                 Vibration.vibrate(50);
                                 handleAddItem();
                             }}
                         >
-                            <AddIcon width={30} height={30} fill={colors.background_color}/>
-                            <Text style={{fontSize: 20, fontWeight: 500, color: colors.background_color}}>{t['Add']}</Text>
+                            <AddIcon width={30} height={30} fill={theme.text_color}/>
+                            <Text style={{fontSize: 20, fontWeight: 500, color: theme.text_color}}>{t['Add']}</Text>
                             <View style={{width: 30}}/>
                         </TouchableOpacity>
 
-                        <Text style={{fontSize: 25, fontWeight: 500, marginTop: 30, alignSelf: 'flex-start', color: colors.text_color}}>{t['Items']}</Text>
+                        <Text style={{fontSize: 25, fontWeight: 500, marginTop: 30, alignSelf: 'flex-start', color: theme.text_color}}>{t['Items']}</Text>
 
                         <ScrollView
                             contentContainerStyle={{width: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', padding: 10, gap: 8}}
@@ -157,11 +157,11 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
                                 return (
                                     <View 
                                         key={index}
-                                        style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), borderRadius: 15, marginTop: 10, borderWidth: 2, borderColor: colors.text_color, overflow: 'hidden'}}
+                                        style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: theme.primary_color, borderRadius: 15, marginTop: 10, borderWidth: 2, borderColor: theme.text_color, overflow: 'hidden'}}
                                     >
                                         <View style={{width: '70%', flexDirection: 'row', alignItems: 'center'}}>
                                             <View style={{width: '30%', height: 50, backgroundColor: `${item.color}`}}/>
-                                            <Text style={{fontSize: 20, fontWeight: 500, color: colors.background_color, marginLeft: 20}}>{item.content}</Text>
+                                            <Text style={{fontSize: 20, fontWeight: 500, color: theme.text_color, marginLeft: 20}}>{item.content}</Text>
                                         </View>
                                         <TouchableOpacity
                                             style={{marginRight: 20}}
@@ -170,7 +170,7 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
                                                 handleDeleteItem(index);
                                             }}
                                         >
-                                            <TrashIcon width={20} height={20} fill={colors.background_color}/>
+                                            <TrashIcon width={20} height={20} fill={theme.text_color}/>
                                         </TouchableOpacity>
                                     </View>
                                 )
@@ -179,22 +179,22 @@ const AddItemsModal = ({ addItemsModalVisible, setAddItemsModalVisible, setAddWh
 
                         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20, width: '100%'}}>
                             <TouchableOpacity 
-                                style={{width: '47%', backgroundColor: useGetRemoteConfig(REMOTE_KEY.secondary_color), paddingHorizontal: 10, paddingVertical: 20, borderRadius: 20}} 
+                                style={{width: '47%', backgroundColor: theme.secondary_color, paddingHorizontal: 10, paddingVertical: 20, borderRadius: 20}} 
                                 onPress={() => {
                                     Vibration.vibrate(50);
                                     setWheelDemoModalVisible(true);
                                 }}
                             >
-                                <Text style={{fontSize: 20, fontWeight: 500, color: colors.background_color, textAlign: 'center'}}>{t['Demo']}</Text>
+                                <Text style={{fontSize: 20, fontWeight: 500, color: theme.text_color, textAlign: 'center'}}>{t['Demo']}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity 
-                                style={{width: '47%', backgroundColor: useGetRemoteConfig(REMOTE_KEY.secondary_color), paddingHorizontal: 10, paddingVertical: 20, borderRadius: 20}}
+                                style={{width: '47%', backgroundColor: theme.secondary_color, paddingHorizontal: 10, paddingVertical: 20, borderRadius: 20}}
                                 onPress={() => {
                                     Vibration.vibrate(50);
                                     handleSaveWheel();
                                 }}
                             >
-                                <Text style={{fontSize: 20, fontWeight: 500, color: colors.background_color, textAlign: 'center'}}>{t['Save Wheel']}</Text>
+                                <Text style={{fontSize: 20, fontWeight: 500, color: theme.text_color, textAlign: 'center'}}>{t['Save Wheel']}</Text>
                             </TouchableOpacity>
 
                         </View>

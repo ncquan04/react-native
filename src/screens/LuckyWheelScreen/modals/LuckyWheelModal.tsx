@@ -6,8 +6,7 @@ import LuckyWheel from '../../../components/LuckyWheel';
 import WheelCustomModal from './WheelCustomModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LottieView from 'lottie-react-native';
-import { REMOTE_KEY, useGetRemoteConfig } from '../../../remoteConfig/RemoteConfig';
-import colors from '../../../constants/colors';
+import { useDarkMode } from '../../../contexts/DarkModeContext';
 
 interface LuckyWheelModalProps {
     LuckyWheelModalVisible: boolean;
@@ -18,6 +17,7 @@ interface LuckyWheelModalProps {
 const AnimatedLottieView = Animated.createAnimatedComponent(LottieView);
 
 const LuckyWheelModal = ({ LuckyWheelModalVisible, setLuckyWheelModalVisible, luckyWheel }: LuckyWheelModalProps) => {
+    const { theme } = useDarkMode();
     const settingsRef = useRef({
         duration: 3000,
         speed: 3,
@@ -245,7 +245,7 @@ const LuckyWheelModal = ({ LuckyWheelModalVisible, setLuckyWheelModalVisible, lu
                     setLuckyWheelModalVisible(false);
                 }}
             >
-                <View style={{ width: '100%', height: '100%', flexDirection: 'column', backgroundColor: colors.background_color, alignItems: 'center' }}>
+                <View style={{ width: '100%', height: '100%', flexDirection: 'column', backgroundColor: theme.background_color, alignItems: 'center' }}>
                     {showLottie && (
                         <View 
                             pointerEvents='none' 
@@ -277,21 +277,21 @@ const LuckyWheelModal = ({ LuckyWheelModalVisible, setLuckyWheelModalVisible, lu
                                 setWheelCustomModalVisible(true);
                             }}
                         >
-                            <EqualizerIcon width={30} height={30} fill={useGetRemoteConfig(REMOTE_KEY.secondary_color)} />
+                            <EqualizerIcon width={30} height={30} fill={theme.secondary_color} />
                         </TouchableOpacity>
                     </View>
 
-                    <View style={{ width: '80%', height: '5%', marginTop: 40, backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), borderRadius: 30, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10, elevation: 3, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.2, shadowRadius: 3 }}>
-                        <Text numberOfLines={1} ellipsizeMode='tail' style={{ color: colors.text_color, fontSize: 20, fontWeight: '600' }}>
+                    <View style={{ width: '80%', height: '5%', marginTop: 40, backgroundColor: theme.primary_color, borderRadius: 30, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10, elevation: 3, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.2, shadowRadius: 3 }}>
+                        <Text numberOfLines={1} ellipsizeMode='tail' style={{ color: theme.text_color, fontSize: 20, fontWeight: '600' }}>
                             {luckyWheel.name}
                         </Text>
                     </View>
 
                     {(
                         <Animated.View
-                            style={[{ marginTop: 20, padding: 15, backgroundColor: useGetRemoteConfig(REMOTE_KEY.secondary_color), borderRadius: 15, minWidth: '60%', alignItems: 'center', elevation: 5, shadowColor: '#000', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.3, shadowRadius: 4 },{ opacity: resultOpacity, transform: [{ scale: resultScale }] }]}
+                            style={[{ marginTop: 20, padding: 15, backgroundColor: theme.secondary_color, borderRadius: 15, minWidth: '60%', alignItems: 'center', elevation: 5, shadowColor: '#000', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.3, shadowRadius: 4 },{ opacity: resultOpacity, transform: [{ scale: resultScale }] }]}
                         >
-                            <Text style={{ color: colors.text_color, fontSize: 18, fontWeight: '600', textAlign: 'center' }}>{resultText}</Text>
+                            <Text style={{ color: theme.text_color, fontSize: 18, fontWeight: '600', textAlign: 'center' }}>{resultText}</Text>
                         </Animated.View>
                     )}
 
@@ -310,7 +310,7 @@ const LuckyWheelModal = ({ LuckyWheelModalVisible, setLuckyWheelModalVisible, lu
                             />
                         </Animated.View>
                         <TouchableOpacity
-                            style={{ width: 63, height: 63, opacity: 0.1, borderRadius: 100, backgroundColor: colors.text_color, position: 'absolute', top: '41%' }}
+                            style={{ width: 63, height: 63, opacity: 0.1, borderRadius: 100, backgroundColor: theme.text_color, position: 'absolute', top: '41%' }}
                             onPress={() => {
                                 if (isSpinningRef.current) return;
                                 Vibration.vibrate(50);

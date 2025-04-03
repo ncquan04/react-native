@@ -9,8 +9,7 @@ import LuckyWheel from '../../components/LuckyWheel';
 import LuckyWheelModal from './modals/LuckyWheelModal';
 import AddWheelModal from './modals/AddWheelModal';
 import WheelHistorySelectModal from './modals/WheelHistorySelectModal';
-import colors from '../../constants/colors';
-import { REMOTE_KEY, useGetRemoteConfig } from '../../remoteConfig/RemoteConfig';
+import { useDarkMode } from '../../contexts/DarkModeContext';
 
 const initWheels = [
   {
@@ -62,6 +61,7 @@ const AppScreen = () => {
   const [WheelHistorySelectModalVisible, setWheelHistorySelectModalVisible] = useState<boolean>(false);
   const [wheels, setWheels] = useState<any[]>(initWheels);
   const [selectedWheel, setSelectedWheel] = useState<{id: number, name: string, segments: []}>(wheels[0])
+  const { theme } = useDarkMode();
   
   useEffect(() => {
     const fetchWheels = async () => {
@@ -85,28 +85,28 @@ const AppScreen = () => {
   }
 
   return (
-    <View style={{flex: 1, backgroundColor: colors.background_color, alignItems: 'center'}}>
-      <Text style={{fontSize: 30, fontWeight: 500, marginTop: 10, color: colors.text_color}}>{t['Wheels']}</Text>
+    <View style={{flex: 1, backgroundColor: theme.background_color, alignItems: 'center'}}>
+      <Text style={{fontSize: 30, fontWeight: 500, marginTop: 10, color: theme.contrast_text_color}}>{t['Wheels']}</Text>
       <View style={{flexDirection: 'row', marginTop: 20, width: '90%', justifyContent: 'space-between'}}>
         <TouchableOpacity 
-          style={{flexDirection: 'row', alignItems: 'center', backgroundColor: useGetRemoteConfig(REMOTE_KEY.secondary_color), padding: 10, borderRadius: 15}}
+          style={{flexDirection: 'row', alignItems: 'center', backgroundColor: theme.secondary_color, padding: 10, borderRadius: 15}}
           onPress={() => {
             Vibration.vibrate(50);
             setAddWheelModalVisible(true);
           }}  
         >
-          <AddIcon width={30} height={30} fill={colors.background_color} />
-          <Text style={{fontSize: 17, fontWeight: 500, color: colors.background_color, marginLeft: 10}}>{t['Wheel']}</Text>
+          <AddIcon width={30} height={30} fill={theme.text_color} />
+          <Text style={{fontSize: 17, fontWeight: 500, color: theme.text_color, marginLeft: 10}}>{t['Wheel']}</Text>
         </TouchableOpacity>
         <TouchableOpacity 
-          style={{flexDirection: 'row', alignItems: 'center', backgroundColor: useGetRemoteConfig(REMOTE_KEY.secondary_color), padding: 10, borderRadius: 15}}
+          style={{flexDirection: 'row', alignItems: 'center', backgroundColor: theme.secondary_color, padding: 10, borderRadius: 15}}
           onPress={() => {
             Vibration.vibrate(50);
             setWheelHistorySelectModalVisible(true);
           }}
         >
-          <HistoryIcon width={30} height={30} fill={colors.background_color} />
-          <Text style={{fontSize: 17, fontWeight: 500, color: colors.background_color, marginLeft: 10}}>{t['History']}</Text>
+          <HistoryIcon width={30} height={30} fill={theme.text_color} />
+          <Text style={{fontSize: 17, fontWeight: 500, color: theme.text_color, marginLeft: 10}}>{t['History']}</Text>
         </TouchableOpacity>
       </View>
       <ScrollView style={{width: '100%', marginTop: 20}}>
@@ -114,7 +114,7 @@ const AppScreen = () => {
           return (
             <TouchableOpacity 
               key={index}
-              style={{flexDirection: 'column', justifyContent: 'space-between', width: '78%', padding: 15, height: 150, backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), borderRadius: 30, marginLeft: 20, marginTop: 20, position: 'relative'}}
+              style={{flexDirection: 'column', justifyContent: 'space-between', width: '78%', padding: 15, height: 150, backgroundColor: theme.primary_color, borderRadius: 30, marginLeft: 20, marginTop: 20, position: 'relative'}}
               onPress={() => {
                 Vibration.vibrate(50);
                 setSelectedWheel(wheel);
@@ -122,7 +122,7 @@ const AppScreen = () => {
               }}
             >
               <View style={{width: '95%'}}>
-                <Text numberOfLines={1} ellipsizeMode='tail' style={{color: colors.background_color, fontSize: 20, fontWeight: 600, width: '70%'}}>{wheel.name}</Text>
+                <Text numberOfLines={1} ellipsizeMode='tail' style={{color: theme.text_color, fontSize: 20, fontWeight: 600, width: '70%'}}>{wheel.name}</Text>
               </View>
               <TouchableOpacity 
                 style={{ width: '11%'}}
@@ -131,7 +131,7 @@ const AppScreen = () => {
                   handleDeleteWheel(index);
                 }}
               >
-                <TrashIcon width={30} height={30} fill={colors.background_color} />
+                <TrashIcon width={30} height={30} fill={theme.text_color} />
               </TouchableOpacity>
               <View style={{position: 'absolute', top: -5, right: -50}}>
                 <LuckyWheel 

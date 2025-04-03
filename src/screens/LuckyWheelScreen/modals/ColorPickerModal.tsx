@@ -1,8 +1,8 @@
 import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, ScrollView, Vibration } from 'react-native'
 import React from 'react'
 import CheckIcon from '../../../../assets/icons/CheckIcon';
-import { useGetRemoteConfig, REMOTE_KEY } from '../../../remoteConfig/RemoteConfig';
 import colors from '../../../constants/colors';
+import { useDarkMode } from '../../../contexts/DarkModeContext';
 
 interface ColorPickerModalProps {
     colorPickerModalVisible: boolean;
@@ -38,7 +38,8 @@ const sampleColors = [
 ]
 
 const ColorPickerModal = ({colorPickerModalVisible, setColorPickerModalVisible, selectedColor, setSelectedColor, t}: ColorPickerModalProps) => {
-    const [selectedColorIndex, setSelectedColorIndex] = React.useState<number>(0)
+    const [selectedColorIndex, setSelectedColorIndex] = React.useState<number>(0);
+    const { theme } = useDarkMode();
     
     return (
         <Modal
@@ -56,7 +57,7 @@ const ColorPickerModal = ({colorPickerModalVisible, setColorPickerModalVisible, 
                 >
                     <View style={{flex: 1, zIndex: 1}} />
                 </TouchableWithoutFeedback>
-                <View style={{width: '60%', height: '50%', backgroundColor: colors.background_color, position: 'absolute', top: 160, right: 20, borderRadius: 20, flexDirection: 'column', zIndex: 10}}>
+                <View style={{width: '60%', height: '50%', backgroundColor: theme.background_color, position: 'absolute', top: 160, right: 20, borderRadius: 20, flexDirection: 'column', zIndex: 10}}>
                     <View style={{flex: 0.9}}>
                         <ScrollView 
                             contentContainerStyle={{width: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', padding: 10, gap: 8}}
@@ -85,7 +86,7 @@ const ColorPickerModal = ({colorPickerModalVisible, setColorPickerModalVisible, 
                             setColorPickerModalVisible(false)
                         }}
                     >
-                        <Text style={{fontSize: 15, fontWeight: 500, color: useGetRemoteConfig(REMOTE_KEY.secondary_color)}}>DONE</Text>
+                        <Text style={{fontSize: 15, fontWeight: 500, color: theme.secondary_color}}>DONE</Text>
                     </TouchableOpacity>
                 </View>
             </View>

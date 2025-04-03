@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import BackIcon from '../../../../assets/icons/BackIcon';
 import LuckyWheel from '../../../components/LuckyWheel';
 import WheelHistoryDetailModal from './WheelHistoryDetailModal';
-import { REMOTE_KEY, useGetRemoteConfig } from '../../../remoteConfig/RemoteConfig';
+import { useDarkMode } from '../../../contexts/DarkModeContext';
 
 interface LuckyWheelHistoryModalProps {
     wheelHistorySelectModalVisible: boolean;
@@ -15,17 +15,18 @@ interface LuckyWheelHistoryModalProps {
 const WheelHistorySelectModal = ({ wheelHistorySelectModalVisible, setWheelHistorySelectModalVisible, wheels, t}: LuckyWheelHistoryModalProps) => {
     const [selectedWheelId, setSelectedWheelId] = useState<number>(0);
     const [wheelHistoryDetailModalVisible, setWheelHistoryDetailModalVisible] = useState<boolean>(false);
+    const { theme } = useDarkMode();
 
     return (
         <>
             <Modal 
                 animationType="slide" 
-                transparent={true} 
+                transparent={false} 
                 visible={wheelHistorySelectModalVisible}
                 statusBarTranslucent={true}
                 onRequestClose={() => setWheelHistorySelectModalVisible(!wheelHistorySelectModalVisible)}
             >
-                <View style={{ width: '100%', height: '100%', flexDirection: 'column', backgroundColor: colors.background_color, alignItems: 'center' }}>
+                <View style={{ width: '100%', height: '100%', flexDirection: 'column', backgroundColor: theme.background_color, alignItems: 'center' }}>
                     <View style={{ width: '100%', height: '10%', paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                         <TouchableOpacity onPress={() => {
                             Vibration.vibrate(50);
@@ -33,13 +34,13 @@ const WheelHistorySelectModal = ({ wheelHistorySelectModalVisible, setWheelHisto
                         }}>
                             <BackIcon width={40} height={40} />
                         </TouchableOpacity>
-                        <Text style={{ fontSize: 30, fontWeight: '500' }}>{t['History']}</Text>
+                        <Text style={{ fontSize: 30, fontWeight: '500', color: theme.contrast_text_color }}>{t['History']}</Text>
                         <View style={{width: 40}}/>
                     </View>
                     {wheels.map((wheel, index) => {
                         return (
                             <TouchableOpacity 
-                                key={index} style={{ width: '90%', flexDirection: 'row', height: 100, marginTop: 20, backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), borderRadius: 30, alignItems: 'center', paddingHorizontal: 10 }}
+                                key={index} style={{ width: '90%', flexDirection: 'row', height: 100, marginTop: 20, backgroundColor: theme.primary_color, borderRadius: 30, alignItems: 'center', paddingHorizontal: 10 }}
                                 onPress={() => {
                                     Vibration.vibrate(50);
                                     setSelectedWheelId(wheel.id);
@@ -50,7 +51,7 @@ const WheelHistorySelectModal = ({ wheelHistorySelectModalVisible, setWheelHisto
                                     segments={wheel.segments.map((segment: any) => ({ ...segment, content: "" }))}
                                     radius={30}
                                 />
-                                <Text style={{ color: colors.background_color, fontSize: 20, fontWeight: 600, marginLeft: 10 }}>{wheel.name}</Text>
+                                <Text style={{ color: theme.text_color, fontSize: 20, fontWeight: 600, marginLeft: 10 }}>{wheel.name}</Text>
                             </TouchableOpacity>
                         )
                     })}

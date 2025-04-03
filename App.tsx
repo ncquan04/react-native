@@ -19,15 +19,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import crashlytics from '@react-native-firebase/crashlytics';
 import RollDiceScreen from './src/screens/RollDiceScreen/RollDiceScreen';
 import DiceIcon from './assets/icons/DiceIcon';
-import { REMOTE_KEY, RemoteConfigProvider, useGetRemoteConfig } from './src/remoteConfig/RemoteConfig';
-import colors from './src/constants/colors';
-import { DarkModeContext, DarkModeProvider } from './src/contexts/DarkModeContext';
+import {  RemoteConfigProvider } from './src/remoteConfig/RemoteConfig';
+import { DarkModeProvider, useDarkMode } from './src/contexts/DarkModeContext';
 
 const Tabs = createBottomTabNavigator();
 
 function App(): React.JSX.Element {
   const [rerenderTrigger, setRerenderTrigger] = useState<boolean>(false);
-  const { isDarkMode } = useContext(DarkModeContext);
+  const { isDarkMode, theme } = useDarkMode();
 
   // Function to clear all AsyncStorage data
   // const clearAllData = async () => {
@@ -68,16 +67,16 @@ function App(): React.JSX.Element {
     <LanguageProvider>
       <DarkModeProvider>
         <RemoteConfigProvider>
-          <View style={{ backgroundColor: colors.background_color, width: '100%', height: '100%', flex: 1, paddingTop: ((StatusBar.currentHeight ?? 0) + 10) }}>
+          <View style={{ backgroundColor: theme.background_color, width: '100%', height: '100%', flex: 1, paddingTop: StatusBar.currentHeight }}>
             <StatusBar
-              backgroundColor={colors.background_color}
+              backgroundColor={theme.background_color}
               barStyle={isDarkMode ? 'light-content' : 'dark-content'}
             />
             <NavigationContainer>
               <Tabs.Navigator
                 screenOptions={({ route }) => ({
                   tabBarStyle: {
-                    backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color),
+                    backgroundColor: theme.primary_color,
                     height: 60,
                     paddingTop: 10,
                     paddingBottom: 10,
@@ -88,17 +87,17 @@ function App(): React.JSX.Element {
                   tabBarInactiveTintColor: '#white',
                   tabBarIcon: ({ focused, color, size }) => {
                     if (route.name === "App") {
-                      return <LuckyWheelIcon width={25} height={25} fill={focused ? useGetRemoteConfig(REMOTE_KEY.secondary_color) : colors.background_color} />
+                      return <LuckyWheelIcon width={25} height={25} fill={focused ? theme.secondary_color : theme.background_color} />
                     } else if (route.name === "Lucky Draw") {
-                      return <TouchIcon width={25} height={25} fill={focused ? useGetRemoteConfig(REMOTE_KEY.secondary_color) : colors.background_color} />
+                      return <TouchIcon width={25} height={25} fill={focused ? theme.secondary_color : theme.background_color} />
                     } else if (route.name === "Random Number") {
-                      return <RandomNumberIcon width={25} height={25} fill={focused ? useGetRemoteConfig(REMOTE_KEY.secondary_color) : colors.background_color} />
+                      return <RandomNumberIcon width={25} height={25} fill={focused ? theme.secondary_color : theme.background_color} />
                     } else if (route.name === "Flipping Coin") {
-                      return <CoinIcon width={25} height={25} fill={focused ? useGetRemoteConfig(REMOTE_KEY.secondary_color) : colors.background_color} />
+                      return <CoinIcon width={25} height={25} fill={focused ? theme.secondary_color : theme.background_color} />
                     } else if (route.name === "Rolling Dice") {
-                      return <DiceIcon width={25} height={25} fill={focused ? useGetRemoteConfig(REMOTE_KEY.secondary_color) : colors.background_color} />
+                      return <DiceIcon width={25} height={25} fill={focused ? theme.secondary_color : theme.background_color} />
                     } else if (route.name === "Settings") {
-                      return <SettingsIcon width={25} height={25} fill={focused ? useGetRemoteConfig(REMOTE_KEY.secondary_color) : colors.background_color} />
+                      return <SettingsIcon width={25} height={25} fill={focused ? theme.secondary_color : theme.background_color} />
                     }
                   },
                 })}
@@ -205,7 +204,7 @@ function App(): React.JSX.Element {
 //         }
 //         }
 //       />
-//       <Text style={{marginTop: 10, color: colors.background_color}}>{awesomeNewFeature}</Text>
+//       <Text style={{marginTop: 10, color: theme.background_color}}>{awesomeNewFeature}</Text>
 //     </View>
 //   )
 // }

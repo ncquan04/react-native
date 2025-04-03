@@ -2,7 +2,7 @@ import { View, Text, Modal, TouchableOpacity, ScrollView, Vibration } from 'reac
 import React, { useEffect, useState } from 'react'
 import BackIcon from '../../../../assets/icons/BackIcon';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { REMOTE_KEY, useGetRemoteConfig } from '../../../remoteConfig/RemoteConfig';
+import { useDarkMode } from '../../../contexts/DarkModeContext';
 
 interface WheelHistoryDetailModalProps {
     wheelHistoryDetailModalVisible: boolean;
@@ -14,6 +14,7 @@ interface WheelHistoryDetailModalProps {
 
 const WheelHistoryDetailModal = ({ wheelHistoryDetailModalVisible, setWheelHistoryDetailModalVisible, wheel, id, t }: WheelHistoryDetailModalProps) => {
     const [history, setHistory] = useState<any[]>([]);
+    const { theme } = useDarkMode();
 
     useEffect(() => {
         const fetchHistory = async () => {
@@ -33,11 +34,12 @@ const WheelHistoryDetailModal = ({ wheelHistoryDetailModalVisible, setWheelHisto
     return (
         <Modal
             animationType="slide"
-            transparent={true}
+            transparent={false}
+            statusBarTranslucent={true}
             visible={wheelHistoryDetailModalVisible}
             onRequestClose={() => setWheelHistoryDetailModalVisible(!wheelHistoryDetailModalVisible)}
         >
-            <View style={{ width: '100%', height: '100%', flexDirection: 'column', backgroundColor: colors.background_color, alignItems: 'center' }}>
+            <View style={{ width: '100%', height: '100%', flexDirection: 'column', backgroundColor: theme.background_color, alignItems: 'center' }}>
                 <View style={{ width: '100%', height: '10%', paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => {
                         Vibration.vibrate(50);
@@ -45,7 +47,7 @@ const WheelHistoryDetailModal = ({ wheelHistoryDetailModalVisible, setWheelHisto
                     }}>
                         <BackIcon width={40} height={40} />
                     </TouchableOpacity>
-                    <Text style={{ fontSize: 30, fontWeight: '500' }}>{wheel.name}</Text>
+                    <Text style={{ fontSize: 30, fontWeight: '500', color: theme.contrast_text_color }}>{wheel.name}</Text>
                     <View style={{ width: 40 }} />
                 </View>
                 <ScrollView 
@@ -55,9 +57,9 @@ const WheelHistoryDetailModal = ({ wheelHistoryDetailModalVisible, setWheelHisto
                     {history
                         .filter(item => item.id === id)
                         .map((item, i) => (
-                            <View key={i} style={{ width: '90%', flexDirection: 'column', justifyContent: 'center', height: 100, marginTop: 20, backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), borderRadius: 30, paddingHorizontal: 10 }}>
-                                <Text style={{ color: colors.background_color, fontSize: 15, fontWeight: '600', marginLeft: 10, fontStyle: 'italic' }}>{t['Time: ']}{formatISODate(item.date)}</Text>
-                                <Text style={{ color: colors.background_color, fontSize: 20, fontWeight: '600', marginLeft: 10, marginTop: 10 }}>{t['Reward: ']}{item.result}</Text>
+                            <View key={i} style={{ width: '90%', flexDirection: 'column', justifyContent: 'center', height: 100, marginTop: 20, backgroundColor: theme.primary_color, borderRadius: 30, paddingHorizontal: 10 }}>
+                                <Text style={{ color: theme.text_color, fontSize: 15, fontWeight: '600', marginLeft: 10, fontStyle: 'italic' }}>{t['Time: ']}{formatISODate(item.date)}</Text>
+                                <Text style={{ color: theme.text_color, fontSize: 20, fontWeight: '600', marginLeft: 10, marginTop: 10 }}>{t['Reward: ']}{item.result}</Text>
                             </View>
                         ))
                     }

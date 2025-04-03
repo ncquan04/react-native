@@ -2,8 +2,7 @@ import { View, Text, TouchableOpacity, Modal, ScrollView, Image, Vibration } fro
 import React, { useContext } from 'react'
 import BackIcon from '../../../../assets/icons/BackIcon';
 import { LanguageContext } from '../../../contexts/LanguageContext';
-import colors from '../../../constants/colors';
-import { REMOTE_KEY, useGetRemoteConfig } from '../../../remoteConfig/RemoteConfig';
+import { useDarkMode } from '../../../contexts/DarkModeContext';
 
 interface CoinCustomModalProps {
     coinIndex: number;
@@ -16,6 +15,7 @@ interface CoinCustomModalProps {
 
 const CoinCustomModal = ({ coinIndex, setCoinIndex, coinCustomModalVisible, setCoinCustomModalVisible, heads, tails }: CoinCustomModalProps) => {
     const {t} = useContext(LanguageContext);
+    const { theme } = useDarkMode();
 
     const handleChangeCoins = (index: number) => {
         setCoinIndex(index + 1);
@@ -32,7 +32,7 @@ const CoinCustomModal = ({ coinIndex, setCoinIndex, coinCustomModalVisible, setC
                 setCoinCustomModalVisible(!coinCustomModalVisible);
             }}
         >
-            <View style={{width: '100%', height: '100%', flexDirection: 'column', backgroundColor: colors.background_color, alignItems: 'center'}}>
+            <View style={{width: '100%', height: '100%', flexDirection: 'column', backgroundColor: theme.background_color, alignItems: 'center'}}>
                 <View 
                     style={{width: '100%', height: '10%', paddingHorizontal: 20, flexDirection: 'row', 
                     justifyContent: 'space-between', alignItems: 'center', position: 'relative'}}
@@ -47,7 +47,7 @@ const CoinCustomModal = ({ coinIndex, setCoinIndex, coinCustomModalVisible, setC
                         <BackIcon width={40} height={40}/>
                     </TouchableOpacity>
                     <Text 
-                        style={{position: 'absolute', left: 0, right: 0, textAlign: 'center', fontSize: 30, fontWeight: "500", color: colors.text_color}}
+                        style={{position: 'absolute', left: 0, right: 0, textAlign: 'center', fontSize: 30, fontWeight: "500", color: theme.contrast_text_color}}
                     >{
                         t['Coins']}
                     </Text>
@@ -61,7 +61,7 @@ const CoinCustomModal = ({ coinIndex, setCoinIndex, coinCustomModalVisible, setC
                             <TouchableOpacity 
                                 key={index}
                                 style={{width: '100%', height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
-                                marginTop: 30, backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), borderRadius: 10, paddingHorizontal: '5%'}}
+                                marginTop: 30, backgroundColor: theme.primary_color, borderRadius: 10, paddingHorizontal: '5%'}}
                                 onPress={() => {
                                     Vibration.vibrate(50);
                                     handleChangeCoins(index);

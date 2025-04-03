@@ -6,12 +6,12 @@ import RandomHistoryModal from './modals/RandomHistoryModal';
 import LottieView from 'lottie-react-native';
 import AnimatedNumber from '../../components/AnimatedNumber';
 import StartGameBar from '../../components/StartGameBar';
-import { useGetRemoteConfig, REMOTE_KEY } from '../../remoteConfig/RemoteConfig';
-import colors from '../../constants/colors';
+import { useDarkMode } from '../../contexts/DarkModeContext';
 
 const AnimatedLottieView = Animated.createAnimatedComponent(LottieView);
 
 const RandomNumberScreen = () => {
+  const { theme } = useDarkMode();
   const [RandomCustomModalVisible, setRandomCustomModalVisible] = useState<boolean>(false);
   const [RandomHistoryModalVisible, setRandomHistoryModalVisible] = useState<boolean>(false);
   const [setting, setSetting] = useState<{ startNumber: number; endNumber: number; duration: number }>({
@@ -94,7 +94,7 @@ const RandomNumberScreen = () => {
         </View>
       )}
 
-      <View style={{ width: '100%', height: '100%', backgroundColor: colors.background_color, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', paddingTop: '60%', paddingBottom: '20%' }}>
+      <View style={{ width: '100%', height: '100%', backgroundColor: theme.background_color, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', paddingTop: '60%', paddingBottom: '20%' }}>
         <AnimatedNumber
           startNumber={setting.startNumber}
           endNumber={setting.endNumber}

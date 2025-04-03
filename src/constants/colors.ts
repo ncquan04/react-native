@@ -5,7 +5,7 @@ export const useColors = () => {
     const { isDarkMode } = useContext(DarkModeContext);
     
     return {
-        primary: '#305b69',
+        primary: '#344955',
         secondary: '#f2ae41',
         background_color: isDarkMode ? '#222222' : '#ffffff',
         text_color: isDarkMode ? '#ffffff' : '#000000',
@@ -13,7 +13,7 @@ export const useColors = () => {
 }
 
 export default {
-    primary: '#305b69',
+    primary: '#344955',
     secondary: '#f2ae41',
     background_color: '#ffffff',
     text_color: '#000000',

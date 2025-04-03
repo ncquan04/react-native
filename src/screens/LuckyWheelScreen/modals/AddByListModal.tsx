@@ -2,7 +2,7 @@ import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity, TextInpu
 import React, { useState } from 'react'
 import XIcon from '../../../../assets/icons/XIcon';
 import colors from '../../../constants/colors';
-import { REMOTE_KEY, useGetRemoteConfig } from '../../../remoteConfig/RemoteConfig';
+import { useDarkMode } from '../../../contexts/DarkModeContext';
 
 interface AddByListModalProps {
     addByListModalVisible: boolean;
@@ -14,6 +14,7 @@ interface AddByListModalProps {
 
 const AddByListModal = ({addByListModalVisible, setAddByListModalVisible, items, setItems, t}: AddByListModalProps) => {
     const [itemList, setItemList] = useState('');
+    const { theme } = useDarkMode();
 
     const handleAddByList = () => {
         const itemsArray = itemList.split('\n');
@@ -60,7 +61,7 @@ const AddByListModal = ({addByListModalVisible, setAddByListModalVisible, items,
                             <XIcon width={20} height={20}/>
                         </TouchableOpacity>
                     </View>
-                    <View style={{height: '65%', width: '90%', padding: 20, backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), borderRadius: 30, borderWidth: 2, borderColor: colors.text_color}}>
+                    <View style={{height: '65%', width: '90%', padding: 20, backgroundColor: theme.primary_color, borderRadius: 30, borderWidth: 2, borderColor: colors.text_color}}>
                         <TextInput
                             multiline={true}
                             numberOfLines={16}
@@ -82,7 +83,7 @@ const AddByListModal = ({addByListModalVisible, setAddByListModalVisible, items,
                             <Text style={{fontSize: 20, fontWeight: 500, color: colors.background_color, textAlign: 'center'}}>Cancel</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
-                            style={{width: '45%', paddingHorizontal: 10, paddingVertical: 20, backgroundColor: useGetRemoteConfig(REMOTE_KEY.secondary_color), borderRadius: 30}}
+                            style={{width: '45%', paddingHorizontal: 10, paddingVertical: 20, backgroundColor: theme.secondary_color, borderRadius: 30}}
                             onPress={() => {
                                 Vibration.vibrate(50);
                                 handleAddByList();

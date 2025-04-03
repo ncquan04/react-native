@@ -3,8 +3,7 @@ import { View, Text, NativeModules, NativeEventEmitter, Animated, Easing, AppSta
 import LottieView from 'lottie-react-native';
 import { LanguageContext } from '../../contexts/LanguageContext';
 import crashlytics from '@react-native-firebase/crashlytics';
-import { REMOTE_KEY, useGetRemoteConfig } from '../../remoteConfig/RemoteConfig';
-import colors from '../../constants/colors';
+import { useDarkMode } from '../../contexts/DarkModeContext';
 
 const { NativeAccelerometer } = NativeModules;
 const accelerometerEventEmitter = new NativeEventEmitter(NativeAccelerometer);
@@ -21,10 +20,11 @@ const randomFrames: { [key: number]: number } = {
 }
 
 const RollDiceScreen = () => {
+    const {t} = useContext(LanguageContext);
+    const { theme } = useDarkMode();
     const [isDetecting, setIsDetecting] = useState<boolean>(true);
     const [randomResult, setRandomResult] = useState<number>(0);
     const [showConfetti, setShowConfetti] = useState<boolean>(false);
-    const {t} = useContext(LanguageContext);
     const appStateRef = useRef(AppState.currentState);
     const isAnimatingRef = useRef<boolean>(false);
 
@@ -197,6 +197,11 @@ const RollDiceScreen = () => {
         };
     }, [startDetection, stopDetection, resultTextOpacity, resultTextScale, startRollingDice]);
 
+    const diceContainerStyle = {
+        borderColor: theme.contrast_text_color,
+        shadowColor: theme.text_color,
+    }
+
     const diceAnimatedStyle = {
         transform: [
             { scale: diceScale },
@@ -217,7 +222,16 @@ const RollDiceScreen = () => {
     
     const resultTextStyle = {
         opacity: resultTextOpacity,
-        transform: [{ scale: resultTextScale }]
+        transform: [{ scale: resultTextScale }],
+        color: theme.contrast_text_color,
+    };
+
+    const containerStyle = {
+        backgroundColor: theme.background_color,
+    }
+
+    const instructionTextStyle = {
+        color: theme.contrast_text_color,
     };
 
     return (
@@ -232,9 +246,9 @@ const RollDiceScreen = () => {
                     onAnimationFinish={() => setShowConfetti(false)}
                 />
             )}
-            <View style={styles.container}>
+            <View style={[styles.container, containerStyle]}>
                 <View style={{height: '20%'}}/>
-                <Animated.View style={[styles.diceContainer, diceAnimatedStyle]}>
+                <Animated.View style={[styles.diceContainer, diceAnimatedStyle, diceContainerStyle]}>
                     <AnimatedLottieView
                         source={require('../../../assets/lotties/rollingDice.json')}
                         progress={rollingDiceAnimationProgress.current}
@@ -248,7 +262,7 @@ const RollDiceScreen = () => {
                     </Animated.Text>
                 )}
                 
-                <Text style={styles.instructionText}>
+                <Text style={[styles.instructionText, instructionTextStyle]}>
                     {t['Shake your phone to roll the dice']}
                 </Text>
             </View>
@@ -263,7 +277,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingVertical: '25%',
         alignItems: 'center',
-        backgroundColor: colors.background_color,
     },
     confetti: {
         width: "100%",
@@ -280,8 +293,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         overflow: 'hidden',
         borderWidth: 2,
-        borderColor: colors.text_color,
-        shadowColor: colors.text_color,
         shadowOffset: {
             width: 0,
             height: 4,
@@ -298,13 +309,11 @@ const styles = StyleSheet.create({
         fontSize: 40,
         fontWeight: 'bold',
         marginTop: 80,
-        color: colors.text_color,
         textAlign: 'center',
     },
     instructionText: {
         marginTop: 120,
         fontSize: 16,
-        color: colors.text_color,
         fontWeight: '500',
     }
 });

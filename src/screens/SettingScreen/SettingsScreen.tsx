@@ -8,13 +8,12 @@ import MuteMusicIcon from '../../../assets/icons/MuteMusicIcon'
 import MuteSoundIcon from '../../../assets/icons/MuteSoundIcon'
 import NativeMusicPlayer from '../../../specs/NativeMusicPlayer'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { REMOTE_KEY, useGetRemoteConfig } from '../../remoteConfig/RemoteConfig'
 import DarkModeIcon from '../../../assets/icons/DarkModeIcon'
-import colors, { useColors } from '../../constants/colors'
-import { DarkModeContext } from '../../contexts/DarkModeContext'
+import { DarkModeContext, useDarkMode } from '../../contexts/DarkModeContext'
 
 const SettingsScreen: React.FC = () => {
   const { t } = useContext(LanguageContext);
+  const { theme } = useDarkMode();
   const { isDarkMode, toggleDarkMode } = useContext(DarkModeContext);
   const [isMuteMusic, setIsMuteMusic] = useState<boolean>(false);
   const [isMuteSound, setIsMuteSound] = useState<boolean>(false);
@@ -53,62 +52,62 @@ const SettingsScreen: React.FC = () => {
   return (
     <View 
       style={{width: '100%', height: '100%', paddingVertical: 20, flexDirection: 'column', 
-      justifyContent: 'flex-start', alignItems: 'center', backgroundColor: useColors().background_color}}
+      justifyContent: 'flex-start', alignItems: 'center', backgroundColor: theme.background_color}}
     >
-      <Text style={{fontSize: 35, fontWeight: 700, color: colors.text_color}}>{t['SETTING']}</Text>
+      <Text style={{fontSize: 35, fontWeight: 700, color: theme.contrast_text_color}}>{t['SETTING']}</Text>
       <View style={{width: '90%', flexDirection: 'column', marginTop: 20}}>
-          <Text style={{fontSize: 25, fontWeight: 600, color: colors.text_color}}>{t['General']}</Text>
+          <Text style={{fontSize: 25, fontWeight: 600, color: theme.contrast_text_color}}>{t['General']}</Text>
 
           <TouchableOpacity
-            style={{flexDirection: 'row', alignItems: 'center', backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), 
+            style={{flexDirection: 'row', alignItems: 'center', backgroundColor: theme.primary_color, 
             padding: 10, borderRadius: 20, marginTop: 20, paddingHorizontal: 10, paddingVertical: 20}}
             onPress={() => {
               Vibration.vibrate(50);
               setLanguageModalVisible(true);
             }}
           >
-            <EarthIcon width={30} height={30} fill={colors.background_color}/>
-            <Text style={{fontSize: 20, fontWeight: 500, color: colors.background_color, marginLeft: 20}}>{t['Language']}</Text>
-            <NextIcon width={20} height={20} fill={colors.background_color} style={{marginLeft: 'auto'}}/>
+            <EarthIcon width={30} height={30} fill={theme.text_color}/>
+            <Text style={{fontSize: 20, fontWeight: 500, color: theme.text_color, marginLeft: 20}}>{t['Language']}</Text>
+            <NextIcon width={20} height={20} fill={theme.text_color} style={{marginLeft: 'auto'}}/>
           </TouchableOpacity>
           <TouchableOpacity
-            style={{flexDirection: 'row', alignItems: 'center', backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), 
+            style={{flexDirection: 'row', alignItems: 'center', backgroundColor: theme.primary_color, 
             padding: 10, borderRadius: 20, marginTop: 10, paddingHorizontal: 10, paddingVertical: 20}}
             onPress={() => {
               Vibration.vibrate(50);
               toggleMuteMusic();
             }}
           >
-            <MuteMusicIcon width={30} height={30} fill={colors.background_color}/>
-            <Text style={{fontSize: 20, fontWeight: 500, color: colors.background_color, marginLeft: 20}}>{t['Mute music']}</Text>
+            <MuteMusicIcon width={30} height={30} fill={theme.text_color}/>
+            <Text style={{fontSize: 20, fontWeight: 500, color: theme.text_color, marginLeft: 20}}>{t['Mute music']}</Text>
             <Switch
-              trackColor={{false: colors.background_color, true: useGetRemoteConfig(REMOTE_KEY.secondary_color)}}
-              thumbColor={colors.background_color}
+              trackColor={{false: theme.text_color, true: theme.secondary_color}}
+              thumbColor={theme.text_color}
               onValueChange={toggleMuteMusic}
               value={isMuteMusic}
               style={{marginLeft: 'auto'}}
             />
           </TouchableOpacity>
           <TouchableOpacity
-            style={{flexDirection: 'row', alignItems: 'center', backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), 
+            style={{flexDirection: 'row', alignItems: 'center', backgroundColor: theme.primary_color, 
             padding: 10, borderRadius: 20, marginTop: 10, paddingHorizontal: 10, paddingVertical: 20}}
             onPress={() => {
               Vibration.vibrate(50);
               toggleMuteSound();
             }}
           >
-            <MuteSoundIcon width={30} height={30} fill={colors.background_color}/>
-            <Text style={{fontSize: 20, fontWeight: 500, color: colors.background_color, marginLeft: 20}}>{t['Mute sound']}</Text>
+            <MuteSoundIcon width={30} height={30} fill={theme.text_color}/>
+            <Text style={{fontSize: 20, fontWeight: 500, color: theme.text_color, marginLeft: 20}}>{t['Mute sound']}</Text>
             <Switch
-              trackColor={{false: colors.background_color, true: useGetRemoteConfig(REMOTE_KEY.secondary_color)}}
-              thumbColor={colors.background_color}
+              trackColor={{false: theme.text_color, true: theme.secondary_color}}
+              thumbColor={theme.text_color}
               onValueChange={toggleMuteSound}
               value={isMuteSound}
               style={{marginLeft: 'auto'}}
             />
           </TouchableOpacity>
           <TouchableOpacity
-            style={{flexDirection: 'row', alignItems: 'center', backgroundColor: useGetRemoteConfig(REMOTE_KEY.primary_color), 
+            style={{flexDirection: 'row', alignItems: 'center', backgroundColor: theme.primary_color, 
             padding: 10, borderRadius: 20, marginTop: 10, paddingHorizontal: 10, paddingVertical: 20}}
             onPress={() => {
               Vibration.vibrate(50);
@@ -116,11 +115,11 @@ const SettingsScreen: React.FC = () => {
               saveDarkMode(!isDarkMode);
             }}
           >
-            <DarkModeIcon width={30} height={30} fill={colors.background_color}/>
-            <Text style={{fontSize: 20, fontWeight: 500, color: colors.background_color, marginLeft: 20}}>{t['Dark mode']}</Text>
+            <DarkModeIcon width={30} height={30} fill={theme.text_color}/>
+            <Text style={{fontSize: 20, fontWeight: 500, color: theme.text_color, marginLeft: 20}}>{t['Dark mode']}</Text>
             <Switch
-              trackColor={{false: colors.background_color, true: useGetRemoteConfig(REMOTE_KEY.secondary_color)}}
-              thumbColor={colors.background_color}
+              trackColor={{false: theme.text_color, true: theme.secondary_color}}
+              thumbColor={theme.text_color}
               onValueChange={() => {
                 toggleDarkMode();
                 saveDarkMode(!isDarkMode);

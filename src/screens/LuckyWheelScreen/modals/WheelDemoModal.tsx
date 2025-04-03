@@ -1,8 +1,7 @@
 import { View, Text, Modal, TouchableWithoutFeedback, Vibration } from 'react-native'
 import React from 'react'
 import LuckyWheel from '../../../components/LuckyWheel';
-import { useGetRemoteConfig, REMOTE_KEY } from '../../../remoteConfig/RemoteConfig';
-import colors from '../../../constants/colors';
+import { useDarkMode } from '../../../contexts/DarkModeContext';
 
 interface WheelDemoModalProps {
     wheelDemoModalVisible: boolean;
@@ -12,6 +11,8 @@ interface WheelDemoModalProps {
 }
 
 const WheelDemoModal = ({wheelDemoModalVisible, setWheelDemoModalVisible, items, t} : WheelDemoModalProps) => {
+    const { theme } = useDarkMode();
+
     return (
         <Modal
             animationType='fade'
@@ -32,8 +33,8 @@ const WheelDemoModal = ({wheelDemoModalVisible, setWheelDemoModalVisible, items,
                 >
                     <View style={{flex: 0.5}}/>
                 </TouchableWithoutFeedback>
-                <View style={{flex: 0.5, flexDirection: 'column', alignItems: 'center', backgroundColor: colors.background_color, padding: 20, borderRadius: 20}}>
-                    <Text style={{fontSize: 20, fontWeight: 600, marginBottom: 20, color: colors.text_color}}>{t['Demo']}</Text>
+                <View style={{flex: 0.5, flexDirection: 'column', alignItems: 'center', backgroundColor: theme.background_color, padding: 20, borderRadius: 20}}>
+                    <Text style={{fontSize: 20, fontWeight: 600, marginBottom: 20, color: theme.contrast_text_color}}>{t['Demo']}</Text>
                     <LuckyWheel 
                         segments={items}
                         radius={150}

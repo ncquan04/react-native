@@ -1,7 +1,6 @@
 import { View, Text, Animated, Vibration } from 'react-native'
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react'
-import {useGetRemoteConfig, REMOTE_KEY} from '../remoteConfig/RemoteConfig';
-import colors from '../constants/colors';
+import { useDarkMode } from '../contexts/DarkModeContext';
 
 interface AnimatedNumberProps {
   startNumber?: number;
@@ -12,6 +11,7 @@ interface AnimatedNumberProps {
 }
 
 const AnimatedNumber = ({ startNumber = 1, endNumber = 100, duration = 5, saveData, ref }: AnimatedNumberProps) => {
+  const { theme } = useDarkMode();
   const numberScale = useRef(new Animated.Value(1));
   const [displayNumber, setDisplayNumber] = useState<number>(startNumber);
 
@@ -116,7 +116,7 @@ const AnimatedNumber = ({ startNumber = 1, endNumber = 100, duration = 5, saveDa
 
   return (
     <Animated.Text
-      style={{ fontSize: 120, fontWeight: '600', color: colors.text_color, transform: [{ scale: numberScale.current }] }}
+      style={{ fontSize: 120, fontWeight: '600', color: theme.contrast_text_color, transform: [{ scale: numberScale.current }] }}
     >
       {displayNumber}
     </Animated.Text>
