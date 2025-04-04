@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import switchTheme from "react-native-theme-switch-animation";
 
 interface Theme {
     primary_color: string,
@@ -40,8 +41,14 @@ export const DarkModeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
     const toggleDarkMode = () => {
-        setIsDarkMode((prev) => !prev);
-    };
+        switchTheme({
+          switchThemeFunction: () => setIsDarkMode((prev) => !prev),
+          animationConfig: {
+            type: "fade",
+            duration: 1000,
+          },
+        });
+      };
 
     return (
         <DarkModeContext.Provider value={{ isDarkMode, toggleDarkMode, theme: isDarkMode ? darkTheme : lightTheme }}>
