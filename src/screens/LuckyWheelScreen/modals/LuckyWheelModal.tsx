@@ -65,7 +65,7 @@ const LuckyWheelModal = ({ LuckyWheelModalVisible, setLuckyWheelModalVisible, lu
     }, [showLottie]);
 
     // Lưu cấu hình người dùng
-    const saveSettings = useCallback(async () => {
+    const saveSettings = async () => {
         try {
             await AsyncStorage.setItem('wheelSettings', JSON.stringify(settingsRef.current));
             console.log('Settings saved successfully!');
@@ -73,10 +73,10 @@ const LuckyWheelModal = ({ LuckyWheelModalVisible, setLuckyWheelModalVisible, lu
         } catch (error) {
             console.error('Failed to save settings:', error);
         }
-    }, []);
+    };
 
     // Tải cấu hình người dùng
-    const loadSettings = useCallback(async () => {
+    const loadSettings = async () => {
         try {
             const savedSettings = await AsyncStorage.getItem('wheelSettings');
             if (savedSettings) {
@@ -91,10 +91,10 @@ const LuckyWheelModal = ({ LuckyWheelModalVisible, setLuckyWheelModalVisible, lu
         } catch (error) {
             console.error('Failed to load settings:', error);
         }
-    }, []);
+    };
 
     // Xóa phân khúc đã chọn
-    const removeSelectedSegments = useCallback(() => {
+    const removeSelectedSegments = () => {
         if (wheelRef.current.segments.length > 2) {
             const newSegments = [...wheelRef.current.segments];
             const indexToRemove = randomResultRef.current === 0 ?
@@ -107,15 +107,15 @@ const LuckyWheelModal = ({ LuckyWheelModalVisible, setLuckyWheelModalVisible, lu
             };
             setSegmentsCount(newSegments.length);
         }
-    }, []);
+    };
 
     // Tạo số ngẫu nhiên từ 0 đến segmentsCount - 1
-    const random = useCallback(() => {
+    const random = () => {
         randomResultRef.current = Math.floor(Math.random() * segmentsCount);
-    }, [segmentsCount]);
+    };
 
     // Lưu lịch sử quay
-    const saveToHistory = useCallback(async () => {
+    const saveToHistory = async () => {
         const index = randomResultRef.current === 0 ?
             wheelRef.current.segments.length - 1 :
             randomResultRef.current - 1;
@@ -138,7 +138,7 @@ const LuckyWheelModal = ({ LuckyWheelModalVisible, setLuckyWheelModalVisible, lu
         } catch (error) {
             console.error('Failed to save to history:', error);
         }
-    }, [luckyWheel.id, luckyWheel.name]);
+    };
 
     // Animation cho bánh xe quay
     const rotate = spinValue.interpolate({
@@ -232,7 +232,7 @@ const LuckyWheelModal = ({ LuckyWheelModalVisible, setLuckyWheelModalVisible, lu
                 setTimeout(() => removeSelectedSegments(), 1000);
             }
         }, settingsRef.current.duration);
-    }, [degreePerSegment, removeSelectedSegments, saveToHistory]);
+    }, [degreePerSegment]);
 
     return (
         <>

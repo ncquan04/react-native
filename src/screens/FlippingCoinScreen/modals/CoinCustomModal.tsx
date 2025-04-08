@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Modal, ScrollView, Image, Vibration } from 'react-native'
+import { View, Text, TouchableOpacity, Modal, ScrollView, Image, Vibration, ImageSourcePropType } from 'react-native'
 import React, { useContext } from 'react'
 import BackIcon from '../../../../assets/icons/BackIcon';
 import { LanguageContext } from '../../../contexts/LanguageContext';
@@ -9,8 +9,8 @@ interface CoinCustomModalProps {
     setCoinIndex: (index: number) => void;
     coinCustomModalVisible: boolean;
     setCoinCustomModalVisible: (visible: boolean) => void;
-    heads: { [key: number]: any };
-    tails: { [key: number]: any };
+    heads: { [key: number]: ImageSourcePropType };
+    tails: { [key: number]: ImageSourcePropType };
 }
 
 const CoinCustomModal = ({ coinIndex, setCoinIndex, coinCustomModalVisible, setCoinCustomModalVisible, heads, tails }: CoinCustomModalProps) => {

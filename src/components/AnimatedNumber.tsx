@@ -2,12 +2,16 @@ import { View, Text, Animated, Vibration } from 'react-native'
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { useDarkMode } from '../contexts/DarkModeContext';
 
+interface AnimatedNumberRef {
+  startRandom: () => void;
+}
+
 interface AnimatedNumberProps {
   startNumber?: number;
   endNumber?: number;
   duration?: number;
   saveData?: (randomNumber: number) => void;
-  ref: any;
+  ref: React.Ref<AnimatedNumberRef>;
 }
 
 const AnimatedNumber = ({ startNumber = 1, endNumber = 100, duration = 5, saveData, ref }: AnimatedNumberProps) => {

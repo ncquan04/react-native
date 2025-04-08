@@ -1,4 +1,6 @@
-import { createContext, useContext, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createContext, useContext, useEffect, useState } from "react";
+import { StatusBar } from "react-native";
 import switchTheme from "react-native-theme-switch-animation";
 
 interface Theme {
@@ -40,6 +42,30 @@ export const DarkModeContext = createContext<DarkModeContextType>({
 export const DarkModeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
+    const saveSetting = async () => {
+        await AsyncStorage.setItem('isDarkMode', JSON.stringify(isDarkMode));
+    }
+
+    useEffect(() => {
+        const fetchDarkModeSetting = async () => {
+            try {
+                const value = await AsyncStorage.getItem('isDarkMode');
+                if (value !== null) {
+                    setIsDarkMode(JSON.parse(value));
+                }
+            } catch (error) {
+                console.error("Error fetching dark mode setting:", error);
+            }
+        }
+        fetchDarkModeSetting();
+    }, []);
+
+    useEffect(() => {
+        const theme = isDarkMode ? darkTheme : lightTheme;
+        StatusBar.setBarStyle(isDarkMode ? 'light-content' : 'dark-content');
+        StatusBar.setBackgroundColor(theme.background_color);
+    }, [isDarkMode])
+
     const toggleDarkMode = () => {
         switchTheme({
           switchThemeFunction: () => setIsDarkMode((prev) => !prev),
@@ -48,6 +74,7 @@ export const DarkModeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             duration: 1000,
           },
         });
+        saveSetting();
       };
 
     return (

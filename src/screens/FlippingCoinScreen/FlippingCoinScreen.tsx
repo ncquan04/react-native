@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, Image, Text, Animated, Easing, Vibration } from 'react-native'
+import { View, TouchableOpacity, Image, Text, Animated, Easing, Vibration, ImageSourcePropType } from 'react-native'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import RestartIcon from '../../../assets/icons/RestartIcon'
 import CoinCustomModal from './modals/CoinCustomModal'
@@ -101,11 +101,11 @@ const FlippingCoinScreen = () => {
       }
       setIsRandoming(false);
       setShowLottie(true);
-      SaveData(randomSide);
+      saveData(randomSide);
     });
-  }, []);
+  }, [isRandoming]);
 
-  const SaveData = useCallback(async (side: number) => {
+  const saveData = async (side: number) => {
     try {
       const currentDate = new Date();
       const dataToSave = {
@@ -123,7 +123,7 @@ const FlippingCoinScreen = () => {
     } catch (error) {
       console.error('Lỗi khi lưu dữ liệu:', error);
     }
-  }, []);
+  }
 
   const heads = useMemo(() => ({
     1: require('../../../assets/coins/heads_1.png'),
@@ -131,7 +131,7 @@ const FlippingCoinScreen = () => {
     3: require('../../../assets/coins/heads_3.png'),
     4: require('../../../assets/coins/heads_4.png'),
     5: require('../../../assets/coins/heads_5.png')
-  } as Record<number, any>), []);
+  } as Record<number, ImageSourcePropType>), []);
 
   const tails = useMemo(() => ({
     1: require('../../../assets/coins/tails_1.png'),
@@ -139,7 +139,7 @@ const FlippingCoinScreen = () => {
     3: require('../../../assets/coins/tails_3.png'),
     4: require('../../../assets/coins/tails_4.png'),
     5: require('../../../assets/coins/tails_5.png')
-  } as Record<number, any>), []);
+  } as Record<number, ImageSourcePropType>), []);
 
   const animations = useMemo(() => ({
     1: require('../../../assets/lotties/flippingCoin1.json'),
@@ -147,7 +147,7 @@ const FlippingCoinScreen = () => {
     3: require('../../../assets/lotties/flippingCoin3.json'),
     4: require('../../../assets/lotties/flippingCoin4.json'),
     5: require('../../../assets/lotties/flippingCoin5.json')
-  } as Record<number, any>), []);
+  } as Record<number, string>), []);
 
   return (
     <>
@@ -204,7 +204,7 @@ const FlippingCoinScreen = () => {
         <StartGameBar
           setHistoryModalVisible={setCoinHistoryModalVisible}
           setCustomModalVisible={setCoinCustomModalVisible}
-          StartRandom={RandomCoinSide}
+          startRandom={RandomCoinSide}
         />
 
         {coinCustomModalVisible && <CoinCustomModal

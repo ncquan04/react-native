@@ -1,5 +1,5 @@
 import { View, Animated, Easing, Vibration } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { RefObject, useEffect, useRef, useState } from 'react';
 import RandomCustomModal from './modals/RandomCustomModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RandomHistoryModal from './modals/RandomHistoryModal';
@@ -23,7 +23,7 @@ const RandomNumberScreen = () => {
   const history = useRef<{ randomNumber: number; date: string; time: string }[]>([]);
   const [showLottie, setShowLottie] = useState<boolean>(false);
   const animationProgress = useRef(new Animated.Value(0));
-  const animatedNumberRef = useRef<any>(null);
+  const animatedNumberRef = useRef<{startRandom: () => void}>(null);
 
   useEffect(() => {
     let animationLoop: Animated.CompositeAnimation | null = null;
@@ -48,7 +48,7 @@ const RandomNumberScreen = () => {
     };
   }, [showLottie]);
 
-  const StartRandom = () => {
+  const startRandom = () => {
     if (isRandoming.current) return; // Ngăn chặn nhiều lần nhấn
     Vibration.vibrate(75);
     isRandoming.current = true;
@@ -105,7 +105,7 @@ const RandomNumberScreen = () => {
         <StartGameBar
           setHistoryModalVisible={setRandomHistoryModalVisible}
           setCustomModalVisible={setRandomCustomModalVisible}
-          StartRandom={StartRandom}
+          startRandom={startRandom}
         />
       </View>
 

@@ -4,6 +4,7 @@ import LottieView from 'lottie-react-native';
 import { LanguageContext } from '../../contexts/LanguageContext';
 import crashlytics from '@react-native-firebase/crashlytics';
 import { useDarkMode } from '../../contexts/DarkModeContext';
+import { useIsFocused } from '@react-navigation/native';
 
 const { NativeAccelerometer } = NativeModules;
 const accelerometerEventEmitter = new NativeEventEmitter(NativeAccelerometer);
@@ -25,7 +26,6 @@ const RollDiceScreen = () => {
     const [isDetecting, setIsDetecting] = useState<boolean>(true);
     const [randomResult, setRandomResult] = useState<number>(0);
     const [showConfetti, setShowConfetti] = useState<boolean>(false);
-    const appStateRef = useRef(AppState.currentState);
     const isAnimatingRef = useRef<boolean>(false);
 
     const rollingDiceAnimationProgress = useRef(new Animated.Value(1/5));
@@ -33,8 +33,10 @@ const RollDiceScreen = () => {
     const resultTextOpacity = useRef(new Animated.Value(0)).current;
     const resultTextScale = useRef(new Animated.Value(0.5)).current;
 
+    const isFocused = useIsFocused();
+
     // Bắt đầu phát hiện lắc
-    const startDetection = useCallback(async () => {
+    const startDetection = async () => {
         try {
             const result = await NativeAccelerometer.startDetection();
             console.log('Bắt đầu phát hiện lắc:', result);
@@ -44,10 +46,10 @@ const RollDiceScreen = () => {
             crashlytics().recordError(error instanceof Error ? error : new Error(String(error)));
             setIsDetecting(false);
         }
-    }, []);
+    }
 
     // Dừng phát hiện lắc
-    const stopDetection = useCallback(async () => {
+    const stopDetection = async () => {
         try {
             if (isDetecting) {
                 await NativeAccelerometer.stopDetection();
@@ -58,32 +60,40 @@ const RollDiceScreen = () => {
             console.error('Lỗi khi dừng phát hiện:', error);
             crashlytics().recordError(error instanceof Error ? error : new Error(String(error)));
         }
-    }, [isDetecting]);
+    };
 
     // Khởi động lại phát hiện lắc
-    const restartDetection = useCallback(async () => {
+    const restartDetection = async () => {
         await stopDetection();
         await startDetection();
-    }, [stopDetection, startDetection]);
+    }
     
     // Nếu ứng dụng chuyển sang nền hoặc không hoạt động, dừng phát hiện lắc
     // Nếu ứng dụng trở lại hoạt động, khởi động lại phát hiện lắc
-    useEffect(() => {
-        const subscription = AppState.addEventListener('change', nextAppState => {
-            if (appStateRef.current.match(/inactive|background/) && nextAppState === 'active') {
-                console.log('App has come to the foreground!');
-                restartDetection();
-            } else if (nextAppState.match(/inactive|background/) && appStateRef.current === 'active') {
-                console.log('App has gone to the background!');
-                stopDetection();
-            }
-            appStateRef.current = nextAppState;
-        });
+    // useEffect(() => {
+    //     const subscription = AppState.addEventListener('change', nextAppState => {
+    //         if (appStateRef.current.match(/inactive|background/) && nextAppState === 'active') {
+    //             console.log('App has come to the foreground!');
+    //             restartDetection();
+    //         } else if (nextAppState.match(/inactive|background/) && appStateRef.current === 'active') {
+    //             console.log('App has gone to the background!');
+    //             stopDetection();
+    //         }
+    //         appStateRef.current = nextAppState;
+    //     });
 
-        return () => {
-            subscription.remove();
-        };
-    }, [restartDetection, stopDetection]);
+    //     return () => {
+    //         subscription.remove();
+    //     };
+    // }, [restartDetection, stopDetection]);
+
+    useEffect(() => {
+        if (isFocused) {
+            restartDetection();
+        } else {
+            stopDetection();
+        }
+    }, [isFocused])
 
     const startRollingDice = useCallback(() => {
         if (isAnimatingRef.current) return; // Không chạy nếu đang có animation
@@ -159,7 +169,7 @@ const RollDiceScreen = () => {
                 ]).start();
             }
         });
-    }, [diceScale, resultTextOpacity, resultTextScale]);
+    }, []);
 
     // Bắt đầu phát hiện lắc khi component được mount
     // Khi bắt đầu lắc, ẩn text kết quả và bắt đầu quay xúc xắc
@@ -195,7 +205,7 @@ const RollDiceScreen = () => {
             shakeStartSubscription.remove();
             stopDetection();
         };
-    }, [startDetection, stopDetection, resultTextOpacity, resultTextScale, startRollingDice]);
+    }, []);
 
     const diceContainerStyle = {
         borderColor: theme.contrast_text_color,

@@ -8,10 +8,10 @@ import { useDarkMode } from '../contexts/DarkModeContext';
 interface StartGameBarProps {
     setCustomModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
     setHistoryModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
-    StartRandom: () => void;
+    startRandom: () => void;
 }
 
-const StartGameBar = ({setHistoryModalVisible, setCustomModalVisible, StartRandom}: StartGameBarProps) => {
+const StartGameBar = ({setHistoryModalVisible, setCustomModalVisible, startRandom}: StartGameBarProps) => {
   const { theme } = useDarkMode();
 
     return (
@@ -25,7 +25,7 @@ const StartGameBar = ({setHistoryModalVisible, setCustomModalVisible, StartRando
           >
             <HistoryIcon width={40} height={40} fill={theme.text_color} />
           </TouchableOpacity>
-          <TouchableOpacity style={{ width: '40%', justifyContent: 'center', alignItems: 'center' }} onPress={StartRandom}>
+          <TouchableOpacity style={{ width: '40%', justifyContent: 'center', alignItems: 'center' }} onPress={startRandom}>
             <StartIcon width={80} height={80} />
           </TouchableOpacity>
           <TouchableOpacity 

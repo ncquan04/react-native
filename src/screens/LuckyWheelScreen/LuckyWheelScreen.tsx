@@ -54,7 +54,7 @@ const initWheels = [
   }
 ]
 
-const AppScreen = () => {
+const LuckyWheelScreen = () => {
   const {t} = useContext(LanguageContext);
   const [LuckyWheelModalVisible, setLuckyWheelModalVisible] = useState<boolean>(false);
   const [addWheelModalVisible, setAddWheelModalVisible] = useState<boolean>(false);
@@ -167,4 +167,4 @@ const AppScreen = () => {
   )  
 }
 
-export default AppScreen
+export default LuckyWheelScreen

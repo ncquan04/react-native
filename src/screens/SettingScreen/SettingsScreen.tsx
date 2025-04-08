@@ -51,10 +51,10 @@ const SettingsScreen: React.FC = () => {
 
   return (
     <View 
-      style={{width: '100%', height: '100%', paddingVertical: 20, flexDirection: 'column', 
+      style={{width: '100%', height: '100%', paddingTop: 10, flexDirection: 'column', 
       justifyContent: 'flex-start', alignItems: 'center', backgroundColor: theme.background_color}}
     >
-      <Text style={{fontSize: 35, fontWeight: 700, color: theme.contrast_text_color}}>{t['SETTING']}</Text>
+      <Text style={{fontSize: 30, fontWeight: 500, color: theme.contrast_text_color}}>{t['SETTING']}</Text>
       <View style={{width: '90%', flexDirection: 'column', marginTop: 20}}>
           <Text style={{fontSize: 25, fontWeight: 600, color: theme.contrast_text_color}}>{t['General']}</Text>
 

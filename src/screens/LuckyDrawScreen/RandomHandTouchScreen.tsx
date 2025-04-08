@@ -1,4 +1,4 @@
-import { View, Text, Image, PanResponder, Animated, Easing, TouchableOpacity } from 'react-native';
+import { View, Text, Image, PanResponder, Animated, Easing, TouchableOpacity, GestureResponderEvent } from 'react-native';
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { LanguageContext } from '../../contexts/LanguageContext';
 import TouchElement from '../../components/TouchElement';
@@ -7,7 +7,7 @@ import RestartIcon from '../../../assets/icons/RestartIcon';
 import { useDarkMode } from '../../contexts/DarkModeContext';
 
 interface Finger {
-    identifier: number;
+    identifier: string | number;
     x: Animated.Value;
     y: Animated.Value;
 }
@@ -18,7 +18,7 @@ const COLORS: string[] = [
 
 const AnimatedLottieView = Animated.createAnimatedComponent(LottieView);
 
-const LuckyDrawScreen = () => {
+const RandomHandTouchScreen = () => {
     const { t } = useContext(LanguageContext);
     const { theme }  = useDarkMode();
     const [gameOver, setGameOver] = useState<boolean>(false);
@@ -47,7 +47,7 @@ const LuckyDrawScreen = () => {
     }, [gameOver]);
 
     //Begin timer handling
-    const startTimer = useCallback(() => {
+    const startTimer = () => {
         timerRef.current.stopAnimation();
         timerRef.current.setValue(0);
         Animated.timing(timerRef.current, {
@@ -58,11 +58,11 @@ const LuckyDrawScreen = () => {
             if (finished)
                 startRandom();
         });
-    }, [])
+    }
 
-    const stopTimer = useCallback(() => {
+    const stopTimer = () => {
         timerRef.current.setValue(0);
-    }, [])
+    }
 
     useEffect(() => {
         if (fingersRef.current.length >= 2) {
@@ -80,7 +80,7 @@ const LuckyDrawScreen = () => {
     //End timer handling
 
     //Begin touch handling
-    const handleTouchEvents = useCallback((e: any) => {
+    const handleTouchEvents = useCallback((e: GestureResponderEvent) => {
         if (joiningGame) {
             const newFingers = e.nativeEvent.touches.map((touch: any) => {
                 let existingFinger = fingersRef.current.find(f => f.identifier === touch.identifier);
@@ -107,7 +107,7 @@ const LuckyDrawScreen = () => {
                 setPlayerJoined(true);
             }
         }
-    }, [joiningGame, playerJoined, fingerCount, startTimer]);
+    }, [joiningGame, playerJoined, fingerCount]);
 
     const panResponder = useMemo(() => PanResponder.create({
         onStartShouldSetPanResponder: () => true,
@@ -203,4 +203,4 @@ const LuckyDrawScreen = () => {
     );
 };
 
-export default LuckyDrawScreen;
+export default RandomHandTouchScreen;

@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AppRegistry, StatusBar, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import AppScreen from './src/screens/LuckyWheelScreen/AppScreen';
-import LuckyDrawScreen from './src/screens/LuckyDrawScreen/LuckyDrawScreen';
+
+import LuckyWheelScreen from './src/screens/LuckyWheelScreen/LuckyWheelScreen';
+import RandomHandTouchScreen from './src/screens/LuckyDrawScreen/RandomHandTouchScreen';
 import FlippingCoinScreen from './src/screens/FlippingCoinScreen/FlippingCoinScreen';
 import RandomNumberScreen from './src/screens/RandomNumberScreen/RandomNumberScreen';
 import SettingsScreen from './src/screens/SettingScreen/SettingsScreen';
@@ -13,12 +14,13 @@ import TouchIcon from './assets/icons/TouchIcon'
 import RandomNumberIcon from './assets/icons/RandomNumberIcon'
 import CoinIcon from './assets/icons/CoinIcon'
 import SettingsIcon from './assets/icons/SettingsIcon'
-import { LanguageProvider } from './src/contexts/LanguageContext';
 import NativeMusicPlayer from './specs/NativeMusicPlayer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import crashlytics from '@react-native-firebase/crashlytics';
 import RollDiceScreen from './src/screens/RollDiceScreen/RollDiceScreen';
 import DiceIcon from './assets/icons/DiceIcon';
+
+import { LanguageProvider } from './src/contexts/LanguageContext';
 import {  RemoteConfigProvider } from './src/remoteConfig/RemoteConfig';
 import { DarkModeProvider, useDarkMode } from './src/contexts/DarkModeContext';
 
@@ -27,6 +29,8 @@ const Tabs = createBottomTabNavigator();
 function App(): React.JSX.Element {
   const [rerenderTrigger, setRerenderTrigger] = useState<boolean>(false);
   const { isDarkMode, theme } = useDarkMode();
+
+  console.log(isDarkMode)
 
   // Function to clear all AsyncStorage data
   // const clearAllData = async () => {
@@ -68,10 +72,6 @@ function App(): React.JSX.Element {
       <DarkModeProvider>
         <RemoteConfigProvider>
           <View style={{ backgroundColor: theme.background_color, width: '100%', height: '100%', flex: 1, paddingTop: StatusBar.currentHeight }}>
-            <StatusBar
-              backgroundColor={theme.background_color}
-              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            />
             <NavigationContainer>
               <Tabs.Navigator
                 screenOptions={({ route }) => ({
@@ -102,8 +102,8 @@ function App(): React.JSX.Element {
                   },
                 })}
               >
-                <Tabs.Screen name="App" component={AppScreen} />
-                <Tabs.Screen name="Lucky Draw" component={LuckyDrawScreen} />
+                <Tabs.Screen name="App" component={LuckyWheelScreen} />
+                <Tabs.Screen name="Lucky Draw" component={RandomHandTouchScreen} />
                 <Tabs.Screen name="Random Number" component={RandomNumberScreen} />
                 <Tabs.Screen name="Flipping Coin" component={FlippingCoinScreen} />
                 <Tabs.Screen name="Rolling Dice" component={RollDiceScreen} />

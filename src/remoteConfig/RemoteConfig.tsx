@@ -37,6 +37,7 @@ export const RemoteConfigProvider = ({ children }: { children: React.ReactNode }
             catch (error) {
                 console.log(error);
                 setIsConfigLoaded(true);
+                NativeSplashScreen.hide();
             }
         }
         fetchRemoteConfig();
