@@ -9,24 +9,33 @@ interface AddByListModalProps {
     setAddByListModalVisible: (value: boolean) => void;
     items: any[];
     setItems: (value: any[]) => void;
+    selectedColors: string[];
     t: any;
 }
 
-const AddByListModal = ({addByListModalVisible, setAddByListModalVisible, items, setItems, t}: AddByListModalProps) => {
+const AddByListModal = ({addByListModalVisible, setAddByListModalVisible, items, setItems, t, selectedColors}: AddByListModalProps) => {
     const [itemList, setItemList] = useState('');
     const { theme } = useDarkMode();
 
     const handleAddByList = () => {
         const itemsArray = itemList.split('\n');
         const newItems = itemsArray.map((item, index) => {
+            const getRandomColor = () => {
+                let color;
+                do {
+                    color = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+                } while (selectedColors.includes(color));
+                return color;
+            };
+            
             return {
                 id: items.length + index,
                 content: item,
-                color: '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0'),
+                color: getRandomColor(),
                 checked: false
             }
         });
-        setItems([...items, ...newItems]);
+        setItems([...newItems, ...items]);
         setItemList('');
         setAddByListModalVisible(false);
     }

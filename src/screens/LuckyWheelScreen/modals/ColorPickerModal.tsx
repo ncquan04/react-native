@@ -57,7 +57,7 @@ const ColorPickerModal = ({colorPickerModalVisible, setColorPickerModalVisible, 
                 >
                     <View style={{flex: 1, zIndex: 1}} />
                 </TouchableWithoutFeedback>
-                <View style={{width: '60%', height: '50%', backgroundColor: theme.background_color, position: 'absolute', top: 160, right: 20, borderRadius: 20, flexDirection: 'column', zIndex: 10}}>
+                <View style={{width: '60%', height: '50%', backgroundColor: theme.background_color, position: 'absolute', top: 160, left: 20, borderRadius: 20, flexDirection: 'column', zIndex: 10}}>
                     <View style={{flex: 0.9}}>
                         <ScrollView 
                             contentContainerStyle={{width: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', padding: 10, gap: 8}}

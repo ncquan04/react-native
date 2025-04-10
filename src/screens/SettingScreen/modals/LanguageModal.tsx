@@ -39,6 +39,7 @@ const LanguageModal = ({ LanguageModalVisible, setLanguageModalVisible }: Langua
                     flexDirection: 'column',
                     alignItems: 'center',
                     backgroundColor: theme.background_color,
+                    paddingTop: 20
                 }}
             >
                 <View

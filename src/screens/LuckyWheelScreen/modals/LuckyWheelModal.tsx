@@ -245,7 +245,7 @@ const LuckyWheelModal = ({ LuckyWheelModalVisible, setLuckyWheelModalVisible, lu
                     setLuckyWheelModalVisible(false);
                 }}
             >
-                <View style={{ width: '100%', height: '100%', flexDirection: 'column', backgroundColor: theme.background_color, alignItems: 'center' }}>
+                <View style={{ width: '100%', height: '100%', flexDirection: 'column', backgroundColor: theme.background_color, alignItems: 'center', paddingTop: 20 }}>
                     {showLottie && (
                         <View 
                             pointerEvents='none' 

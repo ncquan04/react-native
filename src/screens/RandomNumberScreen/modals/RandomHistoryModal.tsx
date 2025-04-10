@@ -16,7 +16,7 @@ const RandomHistoryModal = ({ RandomHistoryModalVisible, setRandomHistoryModalVi
 
     return (
         <Modal animationType="slide" transparent={false} statusBarTranslucent={true} visible={RandomHistoryModalVisible} onRequestClose={() => setRandomHistoryModalVisible(!RandomHistoryModalVisible)}>
-            <View style={{ width: '100%', height: '100%', flexDirection: 'column', backgroundColor: theme.background_color, alignItems: 'center' }}>
+            <View style={{ width: '100%', height: '100%', flexDirection: 'column', backgroundColor: theme.background_color, alignItems: 'center', paddingTop: 20 }}>
                 <View style={{ width: '100%', height: '10%', paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', paddingRight: '37%', alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => {
                         Vibration.vibrate(50);

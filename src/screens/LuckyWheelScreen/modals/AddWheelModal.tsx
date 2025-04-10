@@ -1,4 +1,4 @@
-import { View, Text, Modal, TextInput, TouchableOpacity, Vibration } from 'react-native'
+import { View, Text, Modal, TextInput, TouchableOpacity, Vibration, StatusBar } from 'react-native'
 import React, { useState } from 'react'
 import BackIcon from '../../../../assets/icons/BackIcon';
 import Alert from '../../../components/Alert';
@@ -88,19 +88,18 @@ const SampleStyles = [
 
 const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, setWheels, t }: AddWheelModalProps) => {
     const [selectedStyle, setSelectedStyle] = useState<number>(0);
-    const [wheelName, setWheelName] = useState<string>('');
+    // const [wheelName, setWheelName] = useState<string>('');
     const [addItemsModalVisible, setAddItemsModalVisible] = useState<boolean>(false);
-    const [attemptedSubmit, setAttemptedSubmit] = useState<boolean>(false);
     const { theme } = useDarkMode();
     
     const handleItemsPress = () => {
         Vibration.vibrate(50);
-        if (wheelName) {
+        // if (wheelName) {
             setAddItemsModalVisible(true);
-            setAttemptedSubmit(false);
-        } else {
-            setAttemptedSubmit(true);
-        }
+        //     setAttemptedSubmit(false);
+        // } else {
+        //     setAttemptedSubmit(true);
+        // }
     }
 
     return (
@@ -112,7 +111,7 @@ const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, setWheel
             onRequestClose={() => setAddWheelModalVisible(false)}
             statusBarTranslucent={true}
             >
-            <View style={{ flex: 1, flexDirection: 'column', paddingTop: 25, backgroundColor: theme.background_color, position: 'relative' }}>
+            <View style={{ flex: 1, flexDirection: 'column', paddingTop: 45, backgroundColor: theme.background_color, position: 'relative' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 }}>
                         <TouchableOpacity onPress={() => {
                             Vibration.vibrate(50);
@@ -122,17 +121,6 @@ const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, setWheel
                         </TouchableOpacity>
                         <Text style={{ fontSize: 30, fontWeight: 600, color: theme.contrast_text_color }}>Add Wheel</Text>
                         <View style={{width: 40}}/>
-                    </View>
-
-                    <View style={{ flexDirection: 'column', alignItems: 'flex-start', marginTop: 20, paddingHorizontal: 20 }}>
-                        <Text style={{ fontSize: 25, fontWeight: 500, color: theme.contrast_text_color }}>{t['Name']}</Text>
-                        <TextInput
-                            style={{ width: '100%', backgroundColor: theme.primary_color, color: theme.text_color, borderRadius: 15, paddingHorizontal: 10, paddingVertical: 20, marginTop: 10 }}
-                            placeholder={t["Add wheel's name"]}
-                            placeholderTextColor={theme.text_color}
-                            value={wheelName}
-                            onChangeText={(text) => setWheelName(text)}
-                        />
                     </View>
 
                     <View style={{ flexDirection: 'column', alignItems: 'flex-start', marginTop: 20, paddingHorizontal: 20 }}>
@@ -149,8 +137,8 @@ const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, setWheel
                                             style={{flexDirection: 'column', alignItems: 'center'}}
                                         >
                                             <LuckyWheel
-                                                segments={style.segments}
-                                                radius={index === selectedStyle ? 40 : 30}
+                                                segments={style.segments.map(segment => ({ color: segment.color, content: '' }))}
+                                                radius={index === selectedStyle ? 45 : 35}
                                             />
                                             <View style={{width: '100%'}}>
                                                 <Text style={{fontSize: 15, fontWeight: 500, flexWrap: 'wrap', textAlign: 'center', color: theme.contrast_text_color}}>{t[style.name]}</Text>
@@ -177,12 +165,10 @@ const AddWheelModal = ({ addWheelModalVisible, setAddWheelModalVisible, setWheel
                 setAddItemsModalVisible={setAddItemsModalVisible}
                 setAddWheelModalVisible={setAddWheelModalVisible}
                 setWheels={setWheels}
-                wheelName={wheelName}
                 sampleStyle={SampleStyles[selectedStyle]}
-                t={t}
             />}
 
-            {!wheelName && attemptedSubmit ? <Alert alertVisible={attemptedSubmit} setAlertVisible={() => {}} setAttemptedSubmit={setAttemptedSubmit} message={"Please fill wheel's name!"} /> : null}
+            {/* {!wheelName && attemptedSubmit ? <Alert alertVisible={attemptedSubmit} setAlertVisible={() => {}} setAttemptedSubmit={setAttemptedSubmit} message={"Please fill wheel's name!"} /> : null} */}
         </>
     )
 }

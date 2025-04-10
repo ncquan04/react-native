@@ -28,9 +28,7 @@ const Tabs = createBottomTabNavigator();
 
 function App(): React.JSX.Element {
   const [rerenderTrigger, setRerenderTrigger] = useState<boolean>(false);
-  const { isDarkMode, theme } = useDarkMode();
-
-  console.log(isDarkMode)
+  const { theme } = useDarkMode();
 
   // Function to clear all AsyncStorage data
   // const clearAllData = async () => {

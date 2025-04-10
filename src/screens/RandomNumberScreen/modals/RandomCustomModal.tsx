@@ -47,7 +47,7 @@ const RandomCustomModal = ({ RandomCustomModalVisible, setRandomCustomModalVisib
                     setRandomCustomModalVisible(!RandomCustomModalVisible);
                 }}
             >
-                <View style={{width: '100%', height: '100%', flexDirection: 'column', backgroundColor: theme.background_color, alignItems: 'center'}}>
+                <View style={{width: '100%', height: '100%', flexDirection: 'column', backgroundColor: theme.background_color, alignItems: 'center', paddingTop: 20}}>
                     <View 
                         style={{width: '100%', height: '10%', paddingHorizontal: 20, flexDirection: 'row', 
                         justifyContent: 'space-between', alignItems: 'center'}}
